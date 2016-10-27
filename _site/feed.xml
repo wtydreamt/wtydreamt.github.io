@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Your awesome title</title>
+    <description>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+</description>
+    <link>http://localhost:4000/</link>
+    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Thu, 27 Oct 2016 18:12:47 +0800</pubDate>
+    <lastBuildDate>Thu, 27 Oct 2016 18:12:47 +0800</lastBuildDate>
+    <generator>Jekyll v3.0.0</generator>
+    
+      <item>
+        <title>jekyll github 个人博客搭建!</title>
+        <description>&lt;p&gt;搭建一个jekyll github&lt;/p&gt;
+
+&lt;h4 id=&quot;jekyll-github-githubusernamegithubiogithubhttpspagesgithubcomusernamegithubiohttpwwwliaoxuefengcomwiki0013739516305929606dd18361248578c67b8067c8c017b000jekyllwindows&quot;&gt;搭建一个jekyll github 博客首先在github上创建一个&lt;code&gt;username.github.io&lt;/code&gt;的仓库熟悉github的程序猿可以直接参考&lt;code&gt;https://pages.github.com/&lt;/code&gt;这个地址来搭建&lt;code&gt;username.github.io&lt;/code&gt;仓库如果不熟悉的可以先看&lt;code&gt;http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/&lt;/code&gt;这个教程在开始上面的步骤。基本准备工作做完后就开始安装jekyll这里我是在windows下安装的安装中我们需要注意的是版本&lt;/h4&gt;
+&lt;hr /&gt;
+&lt;h3&gt;安装Ruby&lt;/h3&gt;
+&lt;p&gt;Jekyll是一款静态网站生成工具，允许用户使用HTML、Markdown或Textile通过模块的方式建立所需网站，然后通过模板引擎Liquid（Liquid Templating Engine）来运行或者生成对应的静态网站文件.
+在GitHub上使用较多，通过GitHub搭建自己的博客一般来说就是使用Jekyll；因为GitHub的渲染引擎默认为Jekyll。&lt;br /&gt;
+Jekyll是一款基于Ruby的插件，安装Ruby是必须的
+&lt;br /&gt;
+下载ruby：&lt;a href=&quot;https://www.ruby-lang.org/zh_cn/downloads/&quot;&gt;点击下载&lt;/a&gt;
+&lt;br /&gt;安装时选中“Add Ruby executables to your PATH”这样将自动完成环境变量的配置。打开cmd&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+#=&amp;gt;在cmd中输入 
+ruby -v
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;如果显示ruby的版本号则安装成功&lt;/p&gt;
+
+&lt;hr /&gt;
+&lt;h3&gt;安装 jekyll&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;
+#=&amp;gt;在cmd中输入 
+gem install jekyll
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&quot;section&quot;&gt;在这里可能会出现这样的错误&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;ERROR: Could not find a valid gem ‘jekyll’ (&amp;gt;= 0), here is why:
+Unable to download data from https://rubygems.org/ - SSL_connect returned=1 errno=0 state=SSLv3 read server certificate B: certificate verify failed (https://api.rubygems.org/latest_spece.4.8.gz)&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&quot;section-1&quot;&gt;解决办法&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+$ gem --remove https://rubygems.org/ #移除原有镜像
+$ gem sources --add http://gems.ruby-china.org/ #添加新镜像 
+$ gem sources -l #查看镜像
+https://gems.ruby-china.org
+# 确保只有 gems.ruby-china.org
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&quot;section-2&quot;&gt;接着执行&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+gem install jekyll -v &#39;3.0&#39;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&quot;jekylljekyll&quot;&gt;jekyll版本过高可能会出错，如果已经安装了jekyll过高的版本可以用下面的命令删除后重新安装&lt;/h5&gt;
+&lt;pre&gt;&lt;code&gt;
+gem uninstall jekyll -a
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;blog&quot;&gt;上面准备工作做完后就可以开始做我们的博客了首先创建一个blog&lt;/h4&gt;
+&lt;p&gt;打开命令行在任意位置&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+jekyll new blog
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;这个时候就会生成一个blog的文件夹命令行进入到blog文件夹中然后执行命令&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+jekyll serve
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;br /&gt;
+最后输出Now browse to http://localhost:4000访问&lt;code&gt;http://localhost:4000&lt;/code&gt;这样就ok了。如果在本地运行后没问题那你就可以把它推到git上了就是上面第一步骤中的仓库里。接着就可以根据自己的爱好来搭建博客了如果还有什么疑问可以点击这里来看看:&lt;a href=&quot;http://wiki.jikexueyuan.com/project/jekyll/&quot;&gt;点我&lt;/a&gt;&lt;/p&gt;
+</description>
+        <pubDate>Wed, 29 Jun 2016 00:09:47 +0800</pubDate>
+        <link>http://localhost:4000/posts/welcome-to-jekyll/</link>
+        <guid isPermaLink="true">http://localhost:4000/posts/welcome-to-jekyll/</guid>
+        
+        <category>jekyll</category>
+        
+        
+        <category>posts</category>
+        
+      </item>
+    
+  </channel>
+</rss>
