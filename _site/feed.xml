@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Your awesome title</title>
+    <description>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+</description>
+    <link>http://yourdomain.com/</link>
+    <atom:link href="http://yourdomain.com/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Thu, 27 Oct 2016 11:43:28 +0800</pubDate>
+    <lastBuildDate>Thu, 27 Oct 2016 11:43:28 +0800</lastBuildDate>
+    <generator>Jekyll v3.0.0</generator>
+    
+      <item>
+        <title>jekyll + github 搭建个人博客!</title>
+        <description>&lt;h4 id=&quot;jekyll-github-githubusernamegithubiogithubhttpspagesgithubcomusernamegithubiohttpwwwliaoxuefengcomwiki0013739516305929606dd18361248578c67b8067c8c017b000jekyllwindows&quot;&gt;搭建一个jekyll github 博客首先在github上创建一个&lt;code&gt;username.github.io&lt;/code&gt;的仓库熟悉github的程序猿可以直接参考&lt;code&gt;https://pages.github.com/&lt;/code&gt;这个地址来搭建&lt;code&gt;username.github.io&lt;/code&gt;仓库如果不熟悉的可以先看&lt;code&gt;http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/&lt;/code&gt;这个教程在开始上面的步骤。基本准备工作做完后就开始安装jekyll这里我是在windows下安装的安装中我们需要注意的是版本&lt;/h4&gt;
+&lt;hr /&gt;
+&lt;h3&gt;安装Ruby&lt;/h3&gt;
+&lt;p&gt;Jekyll是一款静态网站生成工具，允许用户使用HTML、Markdown或Textile通过模块的方式建立所需网站，然后通过模板引擎Liquid（Liquid Templating Engine）来运行或者生成对应的静态网站文件.
+在GitHub上使用较多，通过GitHub搭建自己的博客一般来说就是使用Jekyll；因为GitHub的渲染引擎默认为Jekyll。&lt;br /&gt;
+Jekyll是一款基于Ruby的插件，安装Ruby是必须的
+&lt;br /&gt;
+下载ruby：&lt;a href=&quot;https://www.ruby-lang.org/zh_cn/downloads/&quot;&gt;点击下载&lt;/a&gt;
+&lt;br /&gt;安装时选中“Add Ruby executables to your PATH”这样将自动完成环境变量的配置。打开cmd&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+#=&amp;gt;在cmd中输入 
+ruby -v
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;如果显示ruby的版本号则安装成功&lt;/p&gt;
+
+&lt;hr /&gt;
+&lt;h3&gt;安装 jekyll&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;
+#=&amp;gt;在cmd中输入 
+gem install jekyll
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&quot;section&quot;&gt;在这里可能会出现这样的错误&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;ERROR: Could not find a valid gem ‘jekyll’ (&amp;gt;= 0), here is why:
+Unable to download data from https://rubygems.org/ - SSL_connect returned=1 errno=0 state=SSLv3 read server certificate B: certificate verify failed (https://api.rubygems.org/latest_spece.4.8.gz)&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&quot;section-1&quot;&gt;解决办法&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+$ gem --remove https://rubygems.org/ #移除原有镜像
+$ gem sources --add http://gems.ruby-china.org/ #添加新镜像 
+$ gem sources -l #查看镜像
+https://gems.ruby-china.org
+# 确保只有 gems.ruby-china.org
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&quot;section-2&quot;&gt;接着执行&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+gem install jekyll -v &#39;3.0&#39;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&quot;jekylljekyll&quot;&gt;jekyll版本过高可能会出错，如果已经安装了jekyll过高的版本可以用下面的命令删除后重新安装&lt;/h5&gt;
+&lt;pre&gt;&lt;code&gt;
+gem uninstall jekyll -a
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;blog&quot;&gt;上面准备工作做完后就可以开始做我们的博客了首先创建一个blog&lt;/h4&gt;
+&lt;p&gt;打开命令行在任意位置&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+jekyll new blog
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;这个时候就会生成一个blog的文件夹命令行进入到blog文件夹中然后执行命令&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+jekyll serve
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;br /&gt;
+最后输出Now browse to http://localhost:4000访问&lt;code&gt;http://localhost:4000&lt;/code&gt;这样就ok了。如果在本地运行后没问题那你就可以把它推到git上了就是上面第一步骤中的仓库里。接着就可以根据自己的爱好来搭建博客了如果还有什么疑问可以点击这里来看看:&lt;a href=&quot;http://wiki.jikexueyuan.com/project/jekyll/&quot;&gt;点我&lt;/a&gt;&lt;/p&gt;
+
+</description>
+        <pubDate>Thu, 27 Oct 2016 10:29:00 +0800</pubDate>
+        <link>http://yourdomain.com/jekyll/update/2016/10/27/wty212.html</link>
+        <guid isPermaLink="true">http://yourdomain.com/jekyll/update/2016/10/27/wty212.html</guid>
+        
+        
+        <category>jekyll</category>
+        
+        <category>update</category>
+        
+      </item>
+    
+      <item>
+        <title>我的博客1!</title>
+        <description>&lt;h1 id=&quot;section&quot;&gt;文章1&lt;/h1&gt;
+</description>
+        <pubDate>Wed, 26 Oct 2016 18:59:57 +0800</pubDate>
+        <link>http://yourdomain.com/jekyll/update/2016/10/26/welcome123.html</link>
+        <guid isPermaLink="true">http://yourdomain.com/jekyll/update/2016/10/26/welcome123.html</guid>
+        
+        
+        <category>jekyll</category>
+        
+        <category>update</category>
+        
+      </item>
+    
+      <item>
+        <title>博客!</title>
+        <description>&lt;p&gt;You’ll find this post in your &lt;code&gt;_posts&lt;/code&gt; directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run &lt;code&gt;jekyll serve&lt;/code&gt;, which launches a web server and auto-regenerates your site when a file is updated.&lt;/p&gt;
+
+&lt;p&gt;To add new posts, simply add a file in the &lt;code&gt;_posts&lt;/code&gt; directory that follows the convention &lt;code&gt;YYYY-MM-DD-name-of-post.ext&lt;/code&gt; and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.&lt;/p&gt;
+
+&lt;p&gt;Jekyll also offers powerful support for code snippets:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Hi, &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;Tom&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;#=&amp;gt; prints &#39;Hi, Tom&#39; to STDOUT.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Check out the &lt;a href=&quot;http://jekyllrb.com/docs/home&quot;&gt;Jekyll docs&lt;/a&gt; for more info on how to get the most out of Jekyll. File all bugs/feature requests at &lt;a href=&quot;https://github.com/jekyll/jekyll&quot;&gt;Jekyll’s GitHub repo&lt;/a&gt;. If you have questions, you can ask them on &lt;a href=&quot;https://talk.jekyllrb.com/&quot;&gt;Jekyll Talk&lt;/a&gt;.&lt;/p&gt;
+
+</description>
+        <pubDate>Wed, 26 Oct 2016 18:59:57 +0800</pubDate>
+        <link>http://yourdomain.com/jekyll/update/2016/10/26/welcome-to-jekyll.html</link>
+        <guid isPermaLink="true">http://yourdomain.com/jekyll/update/2016/10/26/welcome-to-jekyll.html</guid>
+        
+        
+        <category>jekyll</category>
+        
+        <category>update</category>
+        
+      </item>
+    
+      <item>
+        <title>我的博客!</title>
+        <description>&lt;p&gt;You’ll find this post in your &lt;code&gt;_posts&lt;/code&gt; directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run &lt;code&gt;jekyll serve&lt;/code&gt;, which launches a web server and auto-regenerates your site when a file is updated.&lt;/p&gt;
+
+&lt;p&gt;To add new posts, simply add a file in the &lt;code&gt;_posts&lt;/code&gt; directory that follows the convention &lt;code&gt;YYYY-MM-DD-name-of-post.ext&lt;/code&gt; and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.&lt;/p&gt;
+
+&lt;p&gt;Jekyll also offers powerful support for code snippets:
+&lt;code&gt;zhe&lt;/code&gt;&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Hi, &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;Tom&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;#=&amp;gt; prints &#39;Hi, Tom&#39; to STDOUT.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h2 id=&quot;h321132&quot;&gt;这是 H321132&lt;/h2&gt;
+
+&lt;p&gt;&lt;code&gt;There is a literal backtick (`) here.&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Check out the &lt;a href=&quot;http://jekyllrb.com/docs/home&quot;&gt;Jekyll docs&lt;/a&gt; for more info on how to get the most out of Jekyll. File all bugs/feature requests at &lt;a href=&quot;https://github.com/jekyll/jekyll&quot;&gt;Jekyll’s GitHub repo&lt;/a&gt;. If you have questions, you can ask them on &lt;a href=&quot;https://talk.jekyllrb.com/&quot;&gt;Jekyll Talk&lt;/a&gt;.&lt;/p&gt;
+
+</description>
+        <pubDate>Wed, 26 Oct 2016 18:59:57 +0800</pubDate>
+        <link>http://yourdomain.com/jekyll/update/2016/10/26/wangdingyu.html</link>
+        <guid isPermaLink="true">http://yourdomain.com/jekyll/update/2016/10/26/wangdingyu.html</guid>
+        
+        
+        <category>jekyll</category>
+        
+        <category>update</category>
+        
+      </item>
+    
+  </channel>
+</rss>
