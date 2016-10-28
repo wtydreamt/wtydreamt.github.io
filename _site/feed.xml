@@ -6,8 +6,8 @@
 </description>
     <link>https://wtydreamt.github.io/</link>
     <atom:link href="https://wtydreamt.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 28 Oct 2016 11:24:42 +0800</pubDate>
-    <lastBuildDate>Fri, 28 Oct 2016 11:24:42 +0800</lastBuildDate>
+    <pubDate>Fri, 28 Oct 2016 14:11:01 +0800</pubDate>
+    <lastBuildDate>Fri, 28 Oct 2016 14:11:01 +0800</lastBuildDate>
     <generator>Jekyll v3.0.0</generator>
     
       <item>
@@ -78,21 +78,6 @@ jekyll serve
         <guid isPermaLink="true">https://wtydreamt.github.io/posts/welcome-to-jekyll/</guid>
         
         <category>jekyll</category>
-        
-        
-        <category>posts</category>
-        
-      </item>
-    
-      <item>
-        <title>骨龄测试微信 项目分析!</title>
-        <description>
-</description>
-        <pubDate>Wed, 29 Jun 2016 00:09:47 +0800</pubDate>
-        <link>https://wtydreamt.github.io/posts/welcome-to-jekyll/</link>
-        <guid isPermaLink="true">https://wtydreamt.github.io/posts/welcome-to-jekyll/</guid>
-        
-        <category>项目</category>
         
         
         <category>posts</category>
