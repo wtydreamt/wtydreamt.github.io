@@ -3,15 +3,21 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
+  <link rel="shortcut icon" href="/assets/images/log.ico" type="image/x-icon">
+  <link rel="icon" href="your_ico.ico" type="image/x-icon">
   <title>
     {% if page.crawlertitle %}
-      {{ page.crawlertitle | escape }}
+      {{ page.title | escape }}
     {% elsif page.title %}
       {{ page.title | escape }}
     {% else %}
       {{ site.title | escape }}
     {% endif %}
   </title>
+
+
+ 
+
 
   <meta name="description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
 

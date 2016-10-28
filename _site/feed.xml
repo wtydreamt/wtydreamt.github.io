@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Your awesome title</title>
+    <title>TingTu Wang</title>
     <description>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 </description>
-    <link>http://localhost:4000/</link>
-    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 27 Oct 2016 18:12:47 +0800</pubDate>
-    <lastBuildDate>Thu, 27 Oct 2016 18:12:47 +0800</lastBuildDate>
+    <link>https://wtydreamt.github.io/</link>
+    <atom:link href="https://wtydreamt.github.io/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Fri, 28 Oct 2016 11:24:42 +0800</pubDate>
+    <lastBuildDate>Fri, 28 Oct 2016 11:24:42 +0800</lastBuildDate>
     <generator>Jekyll v3.0.0</generator>
     
       <item>
@@ -74,10 +74,25 @@ jekyll serve
 最后输出Now browse to http://localhost:4000访问&lt;code&gt;http://localhost:4000&lt;/code&gt;这样就ok了。如果在本地运行后没问题那你就可以把它推到git上了就是上面第一步骤中的仓库里。接着就可以根据自己的爱好来搭建博客了如果还有什么疑问可以点击这里来看看:&lt;a href=&quot;http://wiki.jikexueyuan.com/project/jekyll/&quot;&gt;点我&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Wed, 29 Jun 2016 00:09:47 +0800</pubDate>
-        <link>http://localhost:4000/posts/welcome-to-jekyll/</link>
-        <guid isPermaLink="true">http://localhost:4000/posts/welcome-to-jekyll/</guid>
+        <link>https://wtydreamt.github.io/posts/welcome-to-jekyll/</link>
+        <guid isPermaLink="true">https://wtydreamt.github.io/posts/welcome-to-jekyll/</guid>
         
         <category>jekyll</category>
+        
+        
+        <category>posts</category>
+        
+      </item>
+    
+      <item>
+        <title>骨龄测试微信 项目分析!</title>
+        <description>
+</description>
+        <pubDate>Wed, 29 Jun 2016 00:09:47 +0800</pubDate>
+        <link>https://wtydreamt.github.io/posts/welcome-to-jekyll/</link>
+        <guid isPermaLink="true">https://wtydreamt.github.io/posts/welcome-to-jekyll/</guid>
+        
+        <category>项目</category>
         
         
         <category>posts</category>
