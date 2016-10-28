@@ -6,8 +6,8 @@
 </description>
     <link>https://wtydreamt.github.io/</link>
     <atom:link href="https://wtydreamt.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 28 Oct 2016 14:11:01 +0800</pubDate>
-    <lastBuildDate>Fri, 28 Oct 2016 14:11:01 +0800</lastBuildDate>
+    <pubDate>Fri, 28 Oct 2016 14:59:26 +0800</pubDate>
+    <lastBuildDate>Fri, 28 Oct 2016 14:59:26 +0800</lastBuildDate>
     <generator>Jekyll v3.0.0</generator>
     
       <item>
@@ -78,6 +78,26 @@ jekyll serve
         <guid isPermaLink="true">https://wtydreamt.github.io/posts/welcome-to-jekyll/</guid>
         
         <category>jekyll</category>
+        
+        
+        <category>posts</category>
+        
+      </item>
+    
+      <item>
+        <title>程序猿的一天!</title>
+        <description>&lt;h5 id=&quot;section&quot;&gt;只是这有霾的都市&lt;/h5&gt;
+
+&lt;p&gt;天本已经大亮了，只是在这有霾的都市，阳光还没撒到地面就被细微的颗粒收了去，迷雾中泛着点光的色彩，透露出徒有虚表的美感。路上的车辆在雾大时还会开启双闪，以防不测，一闪一灭，好似生命的呼吸，向人们告示，雾霾并没有夺走这个城市的生命。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/beijin.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+</description>
+        <pubDate>Mon, 11 Jan 2016 09:09:47 +0800</pubDate>
+        <link>https://wtydreamt.github.io/posts/welcome-to-wty/</link>
+        <guid isPermaLink="true">https://wtydreamt.github.io/posts/welcome-to-wty/</guid>
+        
+        <category>随记</category>
         
         
         <category>posts</category>
