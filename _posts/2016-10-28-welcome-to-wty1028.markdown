@@ -1,0 +1,134 @@
+---
+bg: "railss.jpg"
+layout: post
+title:  "如何预防sql注入!"
+crawlertitle: "How to use jekyll"
+summary: "小白谈sql注入！"
+date:   2016-10-28 16:00:47 +0700
+categories: posts
+tags: 'msyql'
+author: redVi
+---
+##### 关于mysql sql注入简单预防
+
+`msyql_real_escape_string()`函数转义 SQL 语句中使用的字符串的特殊字符。<br>
+提示：可使用本函数来预防数据库攻击。<br>
+受影响的字符：<br>
+<pre><code>
+   \x00
+    \n
+    \r
+    \ 
+    ' 
+    " 
+    \x1a
+</code></pre>
+addslashes() 函数返回在预定义字符之前添加反斜杠的字符串。<br>
+预定义字符是：<br>
+<pre><code>
+    单引号（'）
+    双引号（"）
+    反斜杠（\）
+    NULL
+</code></pre>
+提示：该函数可用于为存储在数据库中的字符串以及数据库查询语句准备字符串。    
+默认地，PHP 对所有的 GET、POST 和 COOKIE 数据自动运行 addslashes()。所以您不应对已转义过的字符串使用 addslashes()，因为这样会导致双层转义。遇到这种情况时可以使用函数 get_magic_quotes_gpc() 进行检测。<br>
+get_magic_quotes_gpc()函数用法介绍: <br>
+
+当magic_quotes_gpc=On的时候，函数get_magic_quotes_gpc()就会返回1
+
+当magic_quotes_gpc=Off的时候，函数get_magic_quotes_gpc()就会返回0
+
+举例说明1：
+<pre><code>
+$con = mysql_connect("localhost", "hello", "321");
+if (!$con)
+  {
+  die('Could not connect: ' . mysql_error());
+  }
+
+// 获得用户名和密码的代码
+
+// 转义用户名和密码，以便在 SQL 中使用
+$user = mysql_real_escape_string($user);
+$pwd = mysql_real_escape_string($pwd);
+
+$sql = "SELECT * FROM users WHERE
+user='" . $user . "' AND password='" . $pwd . "'"
+
+// 更多代码
+
+mysql_close($con);	
+</code></pre>
+
+举例2：
+数据库攻击。本例演示如果我们不对用户名和密码应用 mysql_real_escape_string() 函数会发生什么：
+<pre><code>
+	$con = mysql_connect("localhost", "hello", "321");
+if (!$con)
+  {
+  die('Could not connect: ' . mysql_error());
+  }
+
+$sql = "SELECT * FROM users
+WHERE user='{$_POST['user']}'
+AND password='{$_POST['pwd']}'";
+mysql_query($sql);
+
+// 不检查用户名和密码
+// 可以是用户输入的任何内容，比如：
+$_POST['user'] = 'john';
+$_POST['pwd'] = "' OR ''='";
+
+// 一些代码...
+
+mysql_close($con);
+</code></pre>
+那么 SQL 查询会成为这样:
+<pre><code>
+SELECT * FROM users
+WHERE user='john' AND password='' OR ''=''
+</code></pre>
+这意味着任何用户无需输入合法的密码即可登陆。<br>
+预防数据库攻击的正确做法：
+<pre><code>
+function check_input($value)
+{
+// 去除斜杠
+if (get_magic_quotes_gpc())
+  {
+  $value = stripslashes($value);
+  }
+// 如果不是数字则加引号
+if (!is_numeric($value))
+  {
+  $value = "'" . mysql_real_escape_string($value) . "'";
+  }
+return $value;
+}
+
+$con = mysql_connect("localhost", "hello", "321");
+if (!$con)
+  {
+  die('Could not connect: ' . mysql_error());
+  }
+
+// 进行安全的 SQL
+$user = check_input($_POST['user']);
+$pwd = check_input($_POST['pwd']);
+$sql = "SELECT * FROM users WHERE
+user=$user AND password=$pwd";
+
+mysql_query($sql);
+
+mysql_close($con);
+</code></pre>
+
+* * *
+本文摘自：http://www.w3school.com.cn/php/func_string_addslashes.asp
+
+
+
+
+
+

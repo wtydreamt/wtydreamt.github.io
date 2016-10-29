@@ -1,0 +1,87 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="shortcut icon" href="/assets/images/log.ico" type="image/x-icon"><link rel="icon" href="your_ico.ico" type="image/x-icon"><title> 如何预防sql注入!</title><meta name="description" content="关于mysql sql注入简单预防"><link rel="canonical" href="https://wtydreamt.github.io/posts/welcome-to-wty1028/"><link rel="alternate" type="application/rss+xml" title="TingYu Wang" href="https://wtydreamt.github.io/feed.xml"><link href='https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|Roboto+Condensed:700&subset=latin' rel='stylesheet' type='text/css'><link rel="stylesheet" href="https://wtydreamt.github.io/assets/css/main.css"><meta property="og:url" content="https://wtydreamt.github.io/posts/welcome-to-wty1028/"><meta property="og:type" content="website"><meta property="og:title" content="如何预防sql注入!"><meta property="og:description" content="小白谈sql注入！"><meta property="og:site_name" content="TingYu Wang"><meta name="twitter:card" content="summary"><meta name="twitter:url" content="https://wtydreamt.github.io/posts/welcome-to-wty1028/"><meta name="twitter:title" content="如何预防sql注入!"><meta name="twitter:description" content="小白谈sql注入！"><meta property="og:image" content="https://wtydreamt.github.io/assets/images/railss.jpg"><meta name="twitter:image" content="https://wtydreamt.github.io/assets/images/railss.jpg"><body><div id="shadow"></div><header class="main-header content-wrapper"> <input type="checkbox" id="menu-checkbox" /><nav class="center-wrapper nav-main"> <a class="blog-logo" href="/">首页</a> <a class="blog-logo" href="/posts">博客目录</a> <a class="blog-logo" href="/about">关于我</a> <label for="menu-checkbox" class="toggle-button" data-open="☰" data-close="☰" onclick></label></nav></header><aside class="sidebar" role="note" style="background-image: url(https://wtydreamt.github.io/assets/images/railss.jpg)"><div class="cover"><div class="cover-text"><div class="heading"> <a href="/posts/#msyql">msyql</a></div><p> 小白谈sql注入！</div></div><div id="switcher"></div></aside><main class="content-wrapper"><article class="post"><h1 class="post-title">如何预防sql注入!</h1><p class="post-meta"> <time datetime="2016-10-28">28-10-2016</time> &nbsp;/&nbsp; <span>redVi</span><div class="post-content"><h5 id="mysql-sql">关于mysql sql注入简单预防</h5><p><code>msyql_real_escape_string()</code>函数转义 SQL 语句中使用的字符串的特殊字符。<br /> 提示：可使用本函数来预防数据库攻击。<br /> 受影响的字符：<br /><pre><code>
+   \x00
+    \n
+    \r
+    \ 
+    ' 
+    " 
+    \x1a
+</code></pre><p>addslashes() 函数返回在预定义字符之前添加反斜杠的字符串。<br /> 预定义字符是：<br /><pre><code>
+    单引号（'）
+    双引号（"）
+    反斜杠（\）
+    NULL
+</code></pre><p>提示：该函数可用于为存储在数据库中的字符串以及数据库查询语句准备字符串。 <br /> 默认地，PHP 对所有的 GET、POST 和 COOKIE 数据自动运行 addslashes()。所以您不应对已转义过的字符串使用 addslashes()，因为这样会导致双层转义。遇到这种情况时可以使用函数 get_magic_quotes_gpc() 进行检测。<br /> get_magic_quotes_gpc()函数用法介绍: <br /><p>当magic_quotes_gpc=On的时候，函数get_magic_quotes_gpc()就会返回1<p>当magic_quotes_gpc=Off的时候，函数get_magic_quotes_gpc()就会返回0<p>举例说明1：<pre><code>
+$con = mysql_connect("localhost", "hello", "321");
+if (!$con)
+  {
+  die('Could not connect: ' . mysql_error());
+  }
+
+// 获得用户名和密码的代码
+
+// 转义用户名和密码，以便在 SQL 中使用
+$user = mysql_real_escape_string($user);
+$pwd = mysql_real_escape_string($pwd);
+
+$sql = "SELECT * FROM users WHERE
+user='" . $user . "' AND password='" . $pwd . "'"
+
+// 更多代码
+
+mysql_close($con);	
+</code></pre><p>举例2： 数据库攻击。本例演示如果我们不对用户名和密码应用 mysql_real_escape_string() 函数会发生什么：<pre><code>
+	$con = mysql_connect("localhost", "hello", "321");
+if (!$con)
+  {
+  die('Could not connect: ' . mysql_error());
+  }
+
+$sql = "SELECT * FROM users
+WHERE user='{$_POST['user']}'
+AND password='{$_POST['pwd']}'";
+mysql_query($sql);
+
+// 不检查用户名和密码
+// 可以是用户输入的任何内容，比如：
+$_POST['user'] = 'john';
+$_POST['pwd'] = "' OR ''='";
+
+// 一些代码...
+
+mysql_close($con);
+</code></pre><p>那么 SQL 查询会成为这样:<pre><code>
+SELECT * FROM users
+WHERE user='john' AND password='' OR ''=''
+</code></pre><p>这意味着任何用户无需输入合法的密码即可登陆。<br /> 预防数据库攻击的正确做法：<pre><code>
+function check_input($value)
+{
+// 去除斜杠
+if (get_magic_quotes_gpc())
+  {
+  $value = stripslashes($value);
+  }
+// 如果不是数字则加引号
+if (!is_numeric($value))
+  {
+  $value = "'" . mysql_real_escape_string($value) . "'";
+  }
+return $value;
+}
+
+$con = mysql_connect("localhost", "hello", "321");
+if (!$con)
+  {
+  die('Could not connect: ' . mysql_error());
+  }
+
+// 进行安全的 SQL
+$user = check_input($_POST['user']);
+$pwd = check_input($_POST['pwd']);
+$sql = "SELECT * FROM users WHERE
+user=$user AND password=$pwd";
+
+mysql_query($sql);
+
+mysql_close($con);
+</code></pre><hr /><p>本文摘自：http://www.w3school.com.cn/php/func_string_addslashes.asp <span class="link-to-post" class="link-to-post__next"> &nbsp&nbsp&nbsp<a href="/posts/welcome-to-jekyll/">◣ 上 • jekyll github 个人博客搭建!</a> &nbsp&nbsp&nbsp <a>最后一篇 ◢ </a> </span></div></article></main><footer class="blog-footer content-wrapper"><p>&copy; <span class="full-year"></span> TingYu Wang</footer><script src="/assets/js/scripts.js"></script>

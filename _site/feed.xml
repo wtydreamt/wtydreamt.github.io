@@ -1,14 +1,146 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>TingTu Wang</title>
+    <title>TingYu Wang</title>
     <description>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 </description>
     <link>https://wtydreamt.github.io/</link>
     <atom:link href="https://wtydreamt.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 28 Oct 2016 14:59:26 +0800</pubDate>
-    <lastBuildDate>Fri, 28 Oct 2016 14:59:26 +0800</lastBuildDate>
+    <pubDate>Sat, 29 Oct 2016 10:31:53 +0800</pubDate>
+    <lastBuildDate>Sat, 29 Oct 2016 10:31:53 +0800</lastBuildDate>
     <generator>Jekyll v3.0.0</generator>
+    
+      <item>
+        <title>如何预防sql注入!</title>
+        <description>&lt;h5 id=&quot;mysql-sql&quot;&gt;关于mysql sql注入简单预防&lt;/h5&gt;
+
+&lt;p&gt;&lt;code&gt;msyql_real_escape_string()&lt;/code&gt;函数转义 SQL 语句中使用的字符串的特殊字符。&lt;br /&gt;
+提示：可使用本函数来预防数据库攻击。&lt;br /&gt;
+受影响的字符：&lt;br /&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+   \x00
+    \n
+    \r
+    \ 
+    &#39; 
+    &quot; 
+    \x1a
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;addslashes() 函数返回在预定义字符之前添加反斜杠的字符串。&lt;br /&gt;
+预定义字符是：&lt;br /&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+    单引号（&#39;）
+    双引号（&quot;）
+    反斜杠（\）
+    NULL
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;提示：该函数可用于为存储在数据库中的字符串以及数据库查询语句准备字符串。  &lt;br /&gt;
+默认地，PHP 对所有的 GET、POST 和 COOKIE 数据自动运行 addslashes()。所以您不应对已转义过的字符串使用 addslashes()，因为这样会导致双层转义。遇到这种情况时可以使用函数 get_magic_quotes_gpc() 进行检测。&lt;br /&gt;
+get_magic_quotes_gpc()函数用法介绍: &lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;当magic_quotes_gpc=On的时候，函数get_magic_quotes_gpc()就会返回1&lt;/p&gt;
+
+&lt;p&gt;当magic_quotes_gpc=Off的时候，函数get_magic_quotes_gpc()就会返回0&lt;/p&gt;
+
+&lt;p&gt;举例说明1：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+$con = mysql_connect(&quot;localhost&quot;, &quot;hello&quot;, &quot;321&quot;);
+if (!$con)
+  {
+  die(&#39;Could not connect: &#39; . mysql_error());
+  }
+
+// 获得用户名和密码的代码
+
+// 转义用户名和密码，以便在 SQL 中使用
+$user = mysql_real_escape_string($user);
+$pwd = mysql_real_escape_string($pwd);
+
+$sql = &quot;SELECT * FROM users WHERE
+user=&#39;&quot; . $user . &quot;&#39; AND password=&#39;&quot; . $pwd . &quot;&#39;&quot;
+
+// 更多代码
+
+mysql_close($con);	
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;举例2：
+数据库攻击。本例演示如果我们不对用户名和密码应用 mysql_real_escape_string() 函数会发生什么：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+	$con = mysql_connect(&quot;localhost&quot;, &quot;hello&quot;, &quot;321&quot;);
+if (!$con)
+  {
+  die(&#39;Could not connect: &#39; . mysql_error());
+  }
+
+$sql = &quot;SELECT * FROM users
+WHERE user=&#39;{$_POST[&#39;user&#39;]}&#39;
+AND password=&#39;{$_POST[&#39;pwd&#39;]}&#39;&quot;;
+mysql_query($sql);
+
+// 不检查用户名和密码
+// 可以是用户输入的任何内容，比如：
+$_POST[&#39;user&#39;] = &#39;john&#39;;
+$_POST[&#39;pwd&#39;] = &quot;&#39; OR &#39;&#39;=&#39;&quot;;
+
+// 一些代码...
+
+mysql_close($con);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;那么 SQL 查询会成为这样:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+SELECT * FROM users
+WHERE user=&#39;john&#39; AND password=&#39;&#39; OR &#39;&#39;=&#39;&#39;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;这意味着任何用户无需输入合法的密码即可登陆。&lt;br /&gt;
+预防数据库攻击的正确做法：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+function check_input($value)
+{
+// 去除斜杠
+if (get_magic_quotes_gpc())
+  {
+  $value = stripslashes($value);
+  }
+// 如果不是数字则加引号
+if (!is_numeric($value))
+  {
+  $value = &quot;&#39;&quot; . mysql_real_escape_string($value) . &quot;&#39;&quot;;
+  }
+return $value;
+}
+
+$con = mysql_connect(&quot;localhost&quot;, &quot;hello&quot;, &quot;321&quot;);
+if (!$con)
+  {
+  die(&#39;Could not connect: &#39; . mysql_error());
+  }
+
+// 进行安全的 SQL
+$user = check_input($_POST[&#39;user&#39;]);
+$pwd = check_input($_POST[&#39;pwd&#39;]);
+$sql = &quot;SELECT * FROM users WHERE
+user=$user AND password=$pwd&quot;;
+
+mysql_query($sql);
+
+mysql_close($con);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+&lt;p&gt;本文摘自：http://www.w3school.com.cn/php/func_string_addslashes.asp&lt;/p&gt;
+
+</description>
+        <pubDate>Fri, 28 Oct 2016 17:00:47 +0800</pubDate>
+        <link>https://wtydreamt.github.io/posts/welcome-to-wty1028/</link>
+        <guid isPermaLink="true">https://wtydreamt.github.io/posts/welcome-to-wty1028/</guid>
+        
+        <category>msyql</category>
+        
+        
+        <category>posts</category>
+        
+      </item>
     
       <item>
         <title>jekyll github 个人博客搭建!</title>
