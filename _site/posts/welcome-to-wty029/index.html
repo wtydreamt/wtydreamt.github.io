@@ -1,0 +1,130 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="shortcut icon" href="/assets/images/log.ico" type="image/x-icon"><link rel="icon" href="your_ico.ico" type="image/x-icon"><title> PDO msyqli 操作!</title><meta name="description" content="PHP高级特性八之mysqli函数库的使用"><link rel="canonical" href="https://wtydreamt.github.io/posts/welcome-to-wty029/"><link rel="alternate" type="application/rss+xml" title="TingYu Wang" href="https://wtydreamt.github.io/feed.xml"><link href='https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|Roboto+Condensed:700&subset=latin' rel='stylesheet' type='text/css'><link rel="stylesheet" href="https://wtydreamt.github.io/assets/css/main.css"><meta property="og:url" content="https://wtydreamt.github.io/posts/welcome-to-wty029/"><meta property="og:type" content="website"><meta property="og:title" content="PDO msyqli 操作!"><meta property="og:description" content="初识php！"><meta property="og:site_name" content="TingYu Wang"><meta name="twitter:card" content="summary"><meta name="twitter:url" content="https://wtydreamt.github.io/posts/welcome-to-wty029/"><meta name="twitter:title" content="PDO msyqli 操作!"><meta name="twitter:description" content="初识php！"><meta property="og:image" content="https://wtydreamt.github.io/assets/images/railss.jpg"><meta name="twitter:image" content="https://wtydreamt.github.io/assets/images/railss.jpg"><body><div id="shadow"></div><header class="main-header content-wrapper"> <input type="checkbox" id="menu-checkbox" /><nav class="center-wrapper nav-main"> <a class="blog-logo" href="/">首页</a> <a class="blog-logo" href="/posts">博客目录</a> <a class="blog-logo" href="/about">关于我</a> <label for="menu-checkbox" class="toggle-button" data-open="☰" data-close="☰" onclick></label></nav></header><aside class="sidebar" role="note" style="background-image: url(https://wtydreamt.github.io/assets/images/railss.jpg)"><div class="cover"><div class="cover-text"><div class="heading"> <a href="/posts/#msyql">msyql</a></div><p> 初识php！</div></div><div id="switcher"></div></aside><main class="content-wrapper"><article class="post"><h1 class="post-title">PDO msyqli 操作!</h1><p class="post-meta"> <time datetime="2015-10-29">29-10-2015</time> &nbsp;/&nbsp; <span>redVi</span><div class="post-content"><h5 id="phpmysqli">PHP高级特性八之mysqli函数库的使用</h5><p>1.什么是mysqli<p>PHP-MySQL 函数库是 PHP 操作 MySQL 资料库最原始的扩展库，PHP-MySQLi 的 i 代表 Improvement ，相当于前者的增强版，也包含了相对进阶的功能，另外本身也增加了安全性，比如可以大幅度减少 SQL 注入等问题的发生。<ol><li>mysql与mysqli的概念相关</ol><p>（1）mysql与mysqli都是php方面的函数集，与mysql数据库关联不大。<p>（2）在php5版本之前，一般是用php的mysql函数去驱动mysql数据库的，比如mysql_query()的函数，属于面向过程<p>（3）在php5版本以后，增加了mysqli的函数功能，某种意义上讲，它是mysql系统函数的增强版，更稳定更高效更安全，与mysql_query()对应的有mysqli_query()，属于面向对象，用对象的方式操作驱动mysql数据库<ol><li>mysql与mysqli的主要区别</ol><p>（1）mysql是非持继连接函数，mysql每次链接都会打开一个连接的进程，所以mysqli耗费资源少一些。<p>（2）mysqli是永远连接函数，mysqli多次运行mysqli将使用同一连接进程,从而减少了服务器的开销。mysqli封装了诸如事务等一些高级操作，同时封装了DB操作过程中的很多可用的方法。<h5 id="section">连接数据库并获取相关信息</h5><pre><code>
+	 $mysqli=@new mysqli("localhost", "root", "****", "database");
+    //如果连接错误
+    if(mysqli_connect_errno()){
+        echo "连接数据库失败：".mysqli_connect_error();
+        $mysqli=null;
+        exit;
+    }
+    //获取当前字符集
+    echo $mysqli-&gt;character_set_name()."<br />";
+    //获取客户端信息
+    echo $mysqli-&gt;get_client_info()."<br />";
+    //获取mysql主机信息
+    echo $mysqli-&gt;host_info."<br />";
+    //获取服务器信息
+    echo $mysqli-&gt;server_info."<br />";
+    //获取服务器版本
+    echo $mysqli-&gt;server_version."<br />";
+    //关闭数据库连接
+    $mysqli-&gt;close();
+</code></pre><p>msyqli 查询<pre><code>
+//连接数据库  第一个参数、 主机ip 参数二、用户名 参数三、密码 参数四、数据库名
+$connect = mysqli_connect('localhost','root','root','qq') or die('Unale to connect');
+//设置字符编码
+mysqli_query($connect,'set names utf8');
+$sql = "SELECT * FROM user3
+WHERE username='wty';
+$result = mysqli_query($connect,$sql);
+ while($res=mysqli_fetch_row($result))
+ 	{
+ 		print_r($res);	
+ 	}	
+</code></pre><p>插入数据<pre><code>
+$mysqli=@new mysqli("localhost", "root", "****", "database");
+    //如果连接错误
+    if(mysqli_connect_errno()){
+        echo "连接数据库失败：".mysqli_connect_error();
+        $mysqli=null;
+        exit;
+    }
+    //插入数据
+    $sql="insert into designer(name,phone) values('hello','18352682923')";
+    //执行插入语句
+    $result=$mysqli-&gt;query($sql);
+    //如果执行错误
+    if(!$result){
+        echo "SQL语句有误<br />";
+        echo "ERROR:".$mysqli-&gt;errno."|".$mysqli-&gt;error;
+        exit;    
+    }
+    //如果插入成功，则返回影响的行数
+    echo $mysqli-&gt;affected_rows;
+    //关闭数据库连接
+    $mysqli-&gt;close();		
+</code></pre><p>修改内容<pre><code>
+$mysqli=@new mysqli("localhost", "root", "****", "database");
+    //如果连接错误
+    if(mysqli_connect_errno()){
+        echo "连接数据库失败：".mysqli_connect_error();
+        $mysqli=null;
+        exit;
+    }
+    //插入数据
+    $sql="update designer set name = 'hello' where id = 10062";
+    //执行插入语句
+    $result=$mysqli-&gt;query($sql);
+    //如果执行错误
+    if(!$result){
+        echo "SQL语句有误<br />";
+        echo "ERROR:".$mysqli-&gt;errno."|".$mysqli-&gt;error;
+        exit;    
+    }
+    //如果插入成功，则返回影响的行数
+    echo $mysqli-&gt;affected_rows;
+    //关闭数据库连接
+    $mysqli-&gt;close();	
+</code></pre><p>预处理语句<pre><code>
+$mysqli = @new mysqli("localhost", "root", "", "design");
+    //如果连接错误
+    if(mysqli_connect_errno()){
+        echo "连接数据库失败：".mysqli_connect_error();
+        $mysqli=null;
+        exit;
+    }
+    //准备好一条语句放到服务器中，插入语句
+    $sql = "insert into designer(name, email) values(?, ?)";
+    //生成预处理语句
+    $stmt = $mysqli-&gt;prepare($sql);
+    //给占位符号每个?号传值（绑定参数） i  d  s  b，第一个参数为格式化字符，ss代表两个字符串，d代表数字
+    $stmt-&gt;bind_param("ss", $name, $email);
+    //为变量赋值
+    $name = "Mike";
+    $email = "mike@live.cn";
+    //执行
+    $stmt-&gt;execute();
+    //为变量赋值
+    $name = "Larry";
+    $email = "larry@live.cn";
+    //执行
+    $stmt-&gt;execute();
+    //最后输出
+    echo "最后ID".$stmt-&gt;insert_id."<br />";
+    echo "影响了".$stmt-&gt;affected_rows."行<br />";
+    //关闭数据库连接
+    $mysqli-&gt;close();	
+		
+</code></pre><p><code>上文摘自：http://cuiqingcai.com/1534.html</code><h4 id="pdo">为什么要使用PDO？</h4><p>PDO拥有更好的编程接口，你可以使用它写出更加简洁，高效，安全的代码。PDO还为不同的SQL数据库提供了不同的驱动，方便你使用新的数据库而不用再学习不同的编程接口。与拼接SQL语句构造查询语句不同，绑定参数可以简洁方便的构造出更加安全的查询语句，使用绑定参数的方法在 多次相似语句查询（仅仅某个参数不同）中也可以提高不少性能。PDO在错误处理方面也提供了多种方法。mysql_*函数缺乏一致的处理，与PDO的异常模式相比，或者说没有处理异常，使用PDO，你可以得到一致的错误处理，这将节省您大量的时间来跟踪问题。<p>pdo操作代码来自：http://www.runoob.com/php/php-pdo.html<pre><code>
+	$dbms='mysql';     //数据库类型
+$host='localhost'; //数据库主机名
+$dbName='test';    //使用的数据库
+$user='root';      //数据库连接用户名
+$pass='';          //对应的密码
+$dsn="$dbms:host=$host;dbname=$dbName";
+
+
+try {
+    $dbh = new PDO($dsn, $user, $pass); //初始化一个PDO对象
+    echo "连接成功<br />";
+    /*你还可以进行一次搜索操作
+    foreach ($dbh-&gt;query('SELECT * from FOO') as $row) {
+        print_r($row); //你可以用 echo($GLOBAL); 来看到这些值
+    }
+    */
+    $dbh = null;
+} catch (PDOException $e) {
+    die ("Error!: " . $e-&gt;getMessage() . "<br />");
+}
+//默认这个不是长连接，如果需要数据库长连接，需要最后加一个参数：array(PDO::ATTR_PERSISTENT =&gt; true) 变成这样：
+$db = new PDO($dsn, $user, $pass, array(PDO::ATTR_PERSISTENT =&gt; true));
+</code></pre><p>其他教程可以点击这里查看<a href="http://rmingwang.com/pdo-tutorial-for-mysql-developers.html">点我</a> <span class="link-to-post" class="link-to-post__next"> &nbsp&nbsp&nbsp<a>◣ 第一篇</a> &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp<a href="/posts/welcome-to-wty/">下 • 程序猿的一天! ◢ </a> </span></div></article></main><footer class="blog-footer content-wrapper"><p>&copy; <span class="full-year"></span> TingYu Wang</footer><script src="/assets/js/scripts.js"></script>
