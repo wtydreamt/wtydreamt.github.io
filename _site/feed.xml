@@ -6,8 +6,8 @@
 </description>
     <link>https://wtydreamt.github.io/</link>
     <atom:link href="https://wtydreamt.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 01 Nov 2016 21:21:51 +0800</pubDate>
-    <lastBuildDate>Tue, 01 Nov 2016 21:21:51 +0800</lastBuildDate>
+    <pubDate>Wed, 09 Nov 2016 18:56:38 +0800</pubDate>
+    <lastBuildDate>Wed, 09 Nov 2016 18:56:38 +0800</lastBuildDate>
     <generator>Jekyll v3.0.0</generator>
     
       <item>
@@ -136,6 +136,52 @@ mysql_close($con);
         <guid isPermaLink="true">https://wtydreamt.github.io/posts/welcome-to-wty1028/</guid>
         
         <category>msyql</category>
+        
+        
+        <category>posts</category>
+        
+      </item>
+    
+      <item>
+        <title>js 调用浏览器打印页面!</title>
+        <description>&lt;h5 id=&quot;js-&quot;&gt;简单介绍 js 打印功能,话不多说下面奉上代码。&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt; 
+&amp;lt;!DOCTYPE html&amp;gt;
+&amp;lt;html&amp;gt;
+&amp;lt;head&amp;gt;
+&amp;lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot; /&amp;gt;
+&amp;lt;title&amp;gt;haorooms js局部打印案例&amp;lt;/title&amp;gt;
+&amp;lt;script type=&quot;text/javascript&quot;&amp;gt; 
+    function doPrint() {    
+        bdhtml=window.document.body.innerHTML;    
+        sprnstr=&quot;&amp;lt;!--startprint--&amp;gt;&quot;; //标记开始打印地方    
+        eprnstr=&quot;&amp;lt;!--endprint--&amp;gt;&quot;;   //标记打印结束的地方
+        prnhtml=bdhtml.substr(bdhtml.indexOf(sprnstr)+17);    
+        prnhtml=prnhtml.substring(0,prnhtml.indexOf(eprnstr));    
+        window.document.body.innerHTML=prnhtml; 
+        window.print();    
+	}
+&amp;lt;/script&amp;gt;
+&amp;lt;/head&amp;gt;
+
+&amp;lt;body&amp;gt;
+&amp;lt;!--startprint--&amp;gt;
+&amp;lt;h1&amp;gt;此处是要打印的页面(●&#39;◡&#39;●)&amp;lt;/h1&amp;gt;
+&amp;lt;!--endprint--&amp;gt;
+&amp;lt;button type=&quot;button&quot; onclick=&quot;doPrint()&quot;&amp;gt;打印&amp;lt;/button&amp;gt;
+&amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&quot;startprint--endprint-&quot;&gt;startprint 标记打印的开始处 endprint 标记打印的结束&lt;/h5&gt;
+
+</description>
+        <pubDate>Mon, 05 Sep 2016 16:00:08 +0800</pubDate>
+        <link>https://wtydreamt.github.io/posts/welcome-to-wty0905/</link>
+        <guid isPermaLink="true">https://wtydreamt.github.io/posts/welcome-to-wty0905/</guid>
+        
+        <category>Javascript</category>
         
         
         <category>posts</category>
@@ -315,150 +361,6 @@ $obj-&amp;gt;方法名(); 			//调用输出类中定义的方法
         <guid isPermaLink="true">https://wtydreamt.github.io/posts/welcome-to-wty1105/</guid>
         
         <category>php</category>
-        
-        
-        <category>posts</category>
-        
-      </item>
-    
-      <item>
-        <title>ajax原理及应用!</title>
-        <description>&lt;h5 id=&quot;ajax-&quot;&gt;ajax 简单应用&lt;/h5&gt;
-
-&lt;p&gt;Ajax的原理简单来说通过XmlHttpRequest对象来向服务器发异步请求，从服务器获得数据，然后用javascript来操作DOM而更新页面。这其中最关键的一步就是从服务器获得请求数据。要清楚这个过程和原理，我们必须对 XMLHttpRequest有所了解。&lt;/p&gt;
-
-&lt;p&gt;　XMLHttpRequest是ajax的核心机制，它是在IE5中首先引入的，是一种支持异步请求的技术。简单的说，也就是javascript可以及时向服务器提出请求和处理响应，而不阻塞用户。达到无刷新的效果。
-所以我们先从XMLHttpRequest讲起，来看看它的工作原理。
-首先，我们先来看看XMLHttpRequest这个对象的属性。
-它的属性有：
-onreadystatechange  每次状态改变所触发事件的事件处理程序。&lt;/p&gt;
-
-&lt;p&gt;responseText     从服务器进程返回数据的字符串形式。&lt;/p&gt;
-
-&lt;p&gt;responseXML    从服务器进程返回的DOM兼容的文档数据对象。&lt;/p&gt;
-
-&lt;p&gt;status           从服务器返回的数字代码，比如常见的404（未找到）和200（已就绪）&lt;/p&gt;
-
-&lt;p&gt;status Text       伴随状态码的字符串信息&lt;/p&gt;
-
-&lt;p&gt;readyState       对象状态值&lt;/p&gt;
-
-&lt;p&gt;0 (未初始化) 对象已建立，但是尚未初始化（尚未调用open方法）&lt;/p&gt;
-
-&lt;p&gt;1 (初始化) 对象已建立，尚未调用send方法&lt;/p&gt;
-
-&lt;p&gt;2 (发送数据) send方法已调用，但是当前的状态及http头未知&lt;/p&gt;
-
-&lt;p&gt;3 (数据传送中) 已接收部分数据，因为响应及http头不全，这时通
-过responseBody和responseText获取部分数据会出现错误，&lt;/p&gt;
-
-&lt;p&gt;4 (完成) 数据接收完毕,此时可以通过通过responseXml和responseText获取完整的回应数据&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;
-var ajax=new XMLHttpRequest();
-ajax.open(&#39;get或post请求&#39;,&#39;请求地址&#39;);
-ajax.send();
-ajax.onreadystatechange=function(){
-if(ajax.readyState==4&amp;amp;&amp;amp;ajax.status==200){
-ajax.responseText; //返回值
-}
-}	
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h4 id=&quot;js&quot;&gt;js中常用的系统函数&lt;/h4&gt;
-
-&lt;p&gt;Split(‘,’):把一个数组用逗号连接起来&lt;/p&gt;
-
-&lt;p&gt;pop()：该方法用于删除并返回数组元素中最后一个元素&lt;/p&gt;
-
-&lt;p&gt;shift()：该方法用于删除并返回数组的第一个元素&lt;/p&gt;
-
-&lt;p&gt;push()：该方法向数组末尾添加一个或多个元素，并返回添加后
-  的数组长度&lt;/p&gt;
-
-&lt;p&gt;unshift()：该方法是向数组开头添加一个或者多个元素，并返回
-  添加后的数组长度&lt;/p&gt;
-
-&lt;p&gt;reverse()：该方法用于颠倒数组元素的顺序&lt;/p&gt;
-
-&lt;p&gt;sort()：该方法用于将数组进行排序&lt;/p&gt;
-
-&lt;h4 id=&quot;date-&quot;&gt;时间日期对象 date 类&lt;/h4&gt;
-
-&lt;p&gt;方式一：var date=new Date()  //创建一个当前时间&lt;/p&gt;
-
-&lt;p&gt;方式二：var date=new Date(2014,8,10) 指定年月日创建时间 写8实际上是9月份系统默认多一个月&lt;/p&gt;
-
-&lt;p&gt;方式三：var date=new Date(“Jan 2,2008 10:21:22”)根据字符串创建对象&lt;/p&gt;
-
-&lt;p&gt;date()：返回系统当前的日期和时间&lt;/p&gt;
-
-&lt;p&gt;getDate()：从日期对象中返回一个月中的某一天&lt;/p&gt;
-
-&lt;p&gt;getDay()：从日期对象中返回一周中的某一天&lt;/p&gt;
-
-&lt;p&gt;getMonth()：从日期对象中返回月份&lt;/p&gt;
-
-&lt;p&gt;getYear()：从日期对象中返回年份&lt;/p&gt;
-
-&lt;p&gt;getHours()：从日期对象中返回小时&lt;/p&gt;
-
-&lt;p&gt;getMinutes()：从日期对象中返回分钟&lt;/p&gt;
-
-&lt;p&gt;getSeconds()：从日期对象中返回秒数&lt;/p&gt;
-
-&lt;p&gt;getTime()：返回从1970年1月1日至今的毫秒数&lt;/p&gt;
-
-&lt;p&gt;toLocaleString()根据本地时间格式，把日期对象转换为字符串&lt;/p&gt;
-
-&lt;h4 id=&quot;section&quot;&gt;基本找对象方法&lt;/h4&gt;
-&lt;p&gt;1、通过id找对象：document.getElementById(“元素id”)&lt;/p&gt;
-
-&lt;p&gt;2、通过name找对象：document.getElementsByName(“元素name”)&lt;/p&gt;
-
-&lt;p&gt;3、通过标签找对象：document.getElementsByTageName(“标签名”)&lt;/p&gt;
-
-&lt;p&gt;4、通过forms找对象：document.forms[0]找到html文档中第一个表单，[]里的下标也可以写成表单的name属性&lt;/p&gt;
-
-&lt;h4 id=&quot;javascriptstylecss&quot;&gt;javascript通过style属性来修改css&lt;/h4&gt;
-&lt;p&gt;通过id或Nam或标签找到对象后：用对象名.style.css属性名来操作修改css样式例如：点击按钮，让div显示或隐藏&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt;
-Function fun(){
-Document.getElementById(“main”).style.display=”none”
-}
-&lt;code&gt;&amp;lt;/script&amp;gt;&lt;/code&gt;
-&lt;code&gt;&amp;lt;div id=&#39;main&#39;&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;input type=&#39;button&#39; onclick=&#39;fun()&#39;&amp;gt;&lt;/code&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h4 id=&quot;history&quot;&gt;history对象的方法&lt;/h4&gt;
-&lt;pre&gt;&lt;code&gt;
-History.go(-1)：后退
-History.go(0)：刷新
-History.go(1)：前进
-History.back()：后退
-History.forward()：前进	
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h4 id=&quot;window&quot;&gt;灵活运用window对象的方法&lt;/h4&gt;
-&lt;p&gt;window.alert()：弹出一个带有确定按钮的对话框&lt;/p&gt;
-
-&lt;p&gt;window.confirm(确认信息)
-：弹出一个带有确认和取消按钮的对话框,返回bool类型true或false如果点确定，代表 true,否则false;&lt;/p&gt;
-
-&lt;p&gt;window.prompt(提示信息)：弹出一个带有输入框的对话框&lt;/p&gt;
-
-&lt;p&gt;window.open(url,’_blank’,style)：打开一个新的窗口&lt;/p&gt;
-
-&lt;p&gt;window.print() 打印&lt;/p&gt;
-
-&lt;p&gt;window.close()：关闭浏览器&lt;/p&gt;
-</description>
-        <pubDate>Tue, 03 Nov 2015 12:00:47 +0800</pubDate>
-        <link>https://wtydreamt.github.io/posts/welcome-to-wty029/</link>
-        <guid isPermaLink="true">https://wtydreamt.github.io/posts/welcome-to-wty029/</guid>
-        
-        <category>Javascript</category>
         
         
         <category>posts</category>
