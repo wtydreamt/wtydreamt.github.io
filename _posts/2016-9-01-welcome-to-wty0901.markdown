@@ -15,7 +15,7 @@ MemCache的数据存放在内存中同时意味着只要MemCache重启了，数�
 
 MemCache是一个自由、源码开放、高性能、分布式的分布式内存对象缓存系统，用于动态Web应用以减轻数据库的负载。它通过在内存中缓存数据和对象来减少读取数据库的次数，从而提高了网站访问的速度。MemCaChe是一个存储键值对的HashMap，在内存中对任意的数据（比如字符串、对象等）所使用的key-value存储，数据可以来自数据库调用、API调用，或者页面渲染的结果。
 
-![](/assets/images/memcache.png)
+![](/assets/images/memcache.jpg)
 
 MemCache虽然被称为"分布式缓存"，但是MemCache本身完全不具备分布式的功能。它的分布式是通过客户端的程序实现的。
 
@@ -32,26 +32,27 @@ MemCache虽然被称为"分布式缓存"，但是MemCache本身完全不具备�
 这种MemCache集群的方式也是从分区容错性的方面考虑的，假如Node2宕机了，那么Node2上面存储的数据都不可用了，此时由于集群中Node0和Node1还存在，下一次请求Node2中存储的Key值的时候，肯定是没有命中的，这时先从数据库中拿到要缓存的数据，然后路由算法模块根据Key值在Node0和Node1中选取一个节点，把对应的数据放进去，这样下一次就又可以走缓存了，这种集群的做法很好，但是缺点是成本比较大。
 
 
-命    令 	 作    用
-get 	     返回Key对应的Value值
+命    令 	     作    用
 
-add  	     无条件地设置一个Key值，没有就增加，有就覆盖 
+get 	         返回Key对应的Value值
 
-set  	 	 按照相应的Key值添加数据，如果Key已经存在则会操作失败
+add  	         无条件地设置一个Key值，没有就增加，有就覆盖 
 
-replace  	 按照相应的Key值替换数据，如果Key值不存在则会操作失败 
+set  	 	     按照相应的Key值添加数据，如果Key已经存在则会操作失败
 
-stats 		 返回MemCache通用统计信息（下面有详细解读）
-stats items  返回各个slab中item的数目和最老的item的年龄
-            （最后一次访问距离现在的秒数）
+replace  	     按照相应的Key值替换数据，如果Key值不存在则会操作失败 
 
-stats slabs  返回MemCache运行期间创建的每个slab的信息（下面有详细解读）
+stats 		     返回MemCache通用统计信息（下面有详细解读）
+stats items      返回各个slab中item的数目和最老的item的年龄
+                （最后一次访问距离现在的秒数）
 
-version 	 返回当前MemCache版本号
+stats slabs      返回MemCache运行期间创建的每个slab的信息（下面有详细解读）
 
-flush_all 	 清空所有键值，但不会删除items，所以此时MemCache依旧占用内存
+version 	     返回当前MemCache版本号
 
-quit 	      关闭连接
+flush_all 	     清空所有键值，但不会删除items，所以此时MemCache依旧占用内存
+
+quit 	         关闭连接
 
 ##### memcache 的过期数据惰性删除
 
