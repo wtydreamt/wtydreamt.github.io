@@ -1,0 +1,114 @@
+---
+bg: "railss.jpg"
+layout: post
+title:  "redis 安装!"
+crawlertitle: "How to use jekyll"
+summary: "redis！"
+date:   2015-11-16 15:00:08 +0700
+categories: posts
+tags: '服务器'
+author: redVi
+---
+##### redis
+
+1．下载安装
+
+下载地址：http://redis.io/download，下载最新文档版本。
+<pre><code>
+$ wget http://download.redis.io/releases/redis-2.8.17.tar.gz
+
+$ tar xzf redis-2.8.17.tar.gz
+
+$ cd redis-2.8.17
+
+$ make
+</code></pre>
+ make完后 redis-2.8.17目录下会出现编译后的redis服务程序redis-server,还有用于测试的客户端程序redis-cli,两个程序位于安装目录 src 目录下：
+ 下面启动redis服务.
+<pre><code>
+$ cd src
+$ ./redis-server  
+</code></pre>
+注意这种方式启动redis 使用的是默认配置。也可以通过启动参数告诉redis使用指定配置文件使用下面命令启动。
+<pre><code>
+$ cd src
+$ ./redis-server redis.conf
+</code></pre>
+ redis.conf是一个默认的配置文件。我们可以根据需要使用自己的配置文件。
+启动redis服务进程后，就可以使用测试客户端程序redis-cli和redis服务交互了。 比如：
+<pre><code>
+$ cd src
+$ ./redis-cli
+redis> set foo bar
+OK
+redis> get foo
+"bar"	
+</code></pre>
+
+##### PHP安装redis扩展
+
+<pre><code>
+$ wget https://github.com/phpredis/phpredis/archive/2.2.4.tar.gz
+$ cd phpredis-2.2.7                      # 进入 phpredis 目录
+$ /usr/local/php/bin/phpize              # php安装后的路径
+
+我的是  /usr/bin/phpize  然后直接回车
+出现一行  The php-devel  package  is required fot  use  of this command.
+然后 yum install php-devel -y 如果没有出现直接执行下一行命令
+
+$ ./configure --with-php-config=/usr/local/php/bin/php-config
+$ make && make install	
+</code></pre>
+修改php.ini文件
+<pre><code>
+vi /usr/local/php/lib/php.ini
+</code></pre>
+增加如下内容: 
+<pre><code>
+extension=redis.so
+</code></pre>
+
+##### php操作redis
+<pre><code>
+<?php
+    //连接本地的 Redis 服务
+   $redis = new Redis();
+   $redis->connect('127.0.0.1', 6379);
+   echo "Connection to server sucessfully";
+         //查看服务是否运行
+   echo "Server is running: " . $redis->ping();
+?>	
+</code></pre>
+
+Redis PHP String(字符串) 实例
+<pre><code>
+<?php
+   //连接本地的 Redis 服务
+   $redis = new Redis();
+   $redis->connect('127.0.0.1', 6379);
+   echo "Connection to server sucessfully";
+   //设置 redis 字符串数据
+   $redis->set("tutorial-name", "Redis tutorial");
+   // 获取存储的数据并输出
+   echo "Stored string in redis:: " . $redis->get("tutorial-name");
+?>
+</code></pre>
+
+Redis PHP List(列表) 实例
+
+<pre><code>
+<?php
+   //连接本地的 Redis 服务
+   $redis = new Redis();
+   $redis->connect('127.0.0.1', 6379);
+   echo "Connection to server sucessfully";
+   //存储数据到列表中
+   $redis->lpush("tutorial-list", "Redis");
+   $redis->lpush("tutorial-list", "Mongodb");
+   $redis->lpush("tutorial-list", "Mysql");
+   // 获取存储的数据并输出
+   $arList = $redis->lrange("tutorial-list", 0 ,5);
+   echo "Stored string in redis";
+   print_r($arList);
+?>
+</code></pre>
