@@ -1,0 +1,26 @@
+---
+bg: "railss.jpg"
+layout: post
+title:  "rsync 文件同步!"
+crawlertitle: "How to use jekyll"
+summary: "rsync！"
+date:   2015-11-14 15:00:08 +0700
+categories: posts
+tags: '服务器'
+author: redVi
+---
+##### rsync
+
+1．关闭防火墙和selinux
+<pre><code>
+systemctl stop firewalld.service #停止firewall  
+systemctl disable firewalld.service #禁止firewall开机启动
+</code></pre> 
+
+
+
+
+
+
+
+
