@@ -1,4 +1,122 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="shortcut icon" href="/assets/images/log.ico" type="image/x-icon"><link rel="icon" href="your_ico.ico" type="image/x-icon"><title> rsync 文件同步!</title><meta name="description" content="rsync"><link rel="canonical" href="https://wtydreamt.github.io/posts/welcome-to-wty1114/"><link rel="alternate" type="application/rss+xml" title="TingYu Wang" href="https://wtydreamt.github.io/feed.xml"><link href='https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|Roboto+Condensed:700&subset=latin' rel='stylesheet' type='text/css'><link rel="stylesheet" href="https://wtydreamt.github.io/assets/css/main.css"><meta property="og:url" content="https://wtydreamt.github.io/posts/welcome-to-wty1114/"><meta property="og:type" content="website"><meta property="og:title" content="rsync 文件同步!"><meta property="og:description" content="rsync！"><meta property="og:site_name" content="TingYu Wang"><meta name="twitter:card" content="summary"><meta name="twitter:url" content="https://wtydreamt.github.io/posts/welcome-to-wty1114/"><meta name="twitter:title" content="rsync 文件同步!"><meta name="twitter:description" content="rsync！"><meta property="og:image" content="https://wtydreamt.github.io/assets/images/railss.jpg"><meta name="twitter:image" content="https://wtydreamt.github.io/assets/images/railss.jpg"><body><div id="shadow"></div><header class="main-header content-wrapper"> <input type="checkbox" id="menu-checkbox" /><nav class="center-wrapper nav-main"> <a class="blog-logo" href="/">首页</a> <a class="blog-logo" href="/posts">博客目录</a> <a class="blog-logo" href="/about">关于我</a> <label for="menu-checkbox" class="toggle-button" data-open="☰" data-close="☰" onclick></label></nav></header><aside class="sidebar" role="note" style="background-image: url(https://wtydreamt.github.io/assets/images/railss.jpg)"><div class="cover"><div class="cover-text"><div class="heading"> <a href="/posts/#服务器">服务器</a></div><p> rsync！</div></div><div id="switcher"></div></aside><main class="content-wrapper"><article class="post"><h1 class="post-title">rsync 文件同步!</h1><p class="post-meta"> <time datetime="2015-11-14">14-11-2015</time> &nbsp;/&nbsp; <span>redVi</span><div class="post-content"><h5 id="rsync">rsync</h5><p>1．关闭防火墙和selinux<pre><code>
-systemctl stop firewalld.service #停止firewall  
+systemctl stop firewalld.service #停止firewall 
+ 
 systemctl disable firewalld.service #禁止firewall开机启动
+</code></pre><p>2.安装rsync服务<pre><code>
+wget https://rsync.samba.org/ftp/rsync/src/rsync-3.1.2.tar.gz
+
+cd rsync-*.*.*  
+
+./configure --prefix=/usr/local/rsync 
+
+make &amp;&amp; make install	
+</code></pre><p>3.配置rsync服务<pre><code>
+Vim /etc/rsyncd.conf
+#pid文件的存放位置  
+pid file = /var/run/rsync.pid  
+#日志文件位置，启动rsync后自动产生这个文件，无需提前创建  
+log file = /var/log/rsync.log  
+#支持max connections参数的锁文件  
+lock file=/var/run/rsync.lock  
+#用户认证配置文件，里面保存用户名称和密码  
+secrets file = /etc/rsync.pw  
+#rsync启动时欢迎信息页面文件位置  
+motd file = /etc/rsyncd.motd  
+transfer logging = yes  
+log format = %t %a %m %f %b  
+syslog facility = local3  
+#自定义名称  
+[data]  
+#设置需要同步的目录  
+path = /data/test/  
+#模块名称与[data]自定义名称相同  
+comment = data  
+exclude = blank.png ; spinner.gif ; downsimple.png ; rails.png ; WEB-INF/  
+#默认端口  
+port = 873  
+#设置rsync运行权限为root  
+uid = root  
+#设置rsync运行权限为root  
+gid = root  
+#设置超时时间  
+timeout = 600  
+#最大连接数  
+max connections = 200  
+#默认为true，修改为no，增加对目录文件软连接的备份  
+use chroot = no  
+#设置rsync服务端文件为读写权限  
+read only = no  
+#不显示rsync服务端资源列表  
+list = no  
+#允许进行数据同步的客户端IP地址  
+hosts allow = 192.168.1.3,192.168.1.4
+#增加test1目录  
+[test1]  
+path = /data/test1  
+list = yes  
+ignore errors  
+comment = ucweb-file system  
+secrets file = /etc/rsync.pw  
+exclude = blank.png ; spinner.gif ; downsimple.png ; rails.png ; WEB-INF/
+</code></pre><p>4.增加必要文件，账户密码信息，传送时显示页面信息<pre><code>
+vi /etc/rsync.pw 
+root:123456 
+chmod 600 /etc/rsync.pw
+   
+chown root:root /etc/rsync.pw	
+</code></pre><pre><code>
+vi /etc/rsyncd.motd
+###############################  
+#                             # 
+#      start rsync            #
+#                             #
+###############################  	
+</code></pre><p>5.启动服务<pre><code>
+ /usr/local/rsync/bin/rsync --daemon --config=/etc/rsyncd.conf 
+</code></pre><p>开机启动<pre><code>
+echo '/usr/local/rsync/bin/rsync --daemon --config=/etc/rsyncd.conf'&gt;&gt;/etc/rc.d/rc.local
+</code></pre><p>6.客户端配置 .新建客户端密码文件(客户端不带用户名) <pre><code>
+vi /etc/rsyncd.pw
+123456
+chmod 600 /etc/rsyncd.pw
+
+//data 模块    /testbak/    备份客户端地址
+rsync -vzrtopg  --progress --delete  root@192.168.5.189::data /testbak/
+
+rsync -vzrtopg --progress --delete  root@192.168.5.189::data /testbak/ --password-file=/etc/rsyncd.pw	
+</code></pre><p>7.定时备份执行 新建同步脚本<pre><code>
+mkdir –p /shell/rsync/
+vi rsync.sh  
+#!/bin/bash    
+rsync -vzrtopg  --progress --delete  root@192.168.5.189::data /testbak/     
+rsync -vzrtopg --progress --delete  root@192.168.5.189::data /testbak/ --password-file=/etc/rsyncd.pwd  
+  
+手动同步文件  
+ 
+cd /shell/rsync
+#./rsync.sh      
+自动同步:每隔五分钟同步一次  
+crontab -e  
+0,5 * * * * /rsync.sh 
+
+rsync服务器文件列表
+rsync -vzrtopg rsync://192.168.1.111/data
+本地cp
+rsync -vzrtopg  /testbak/ /usr/local/src/
+scp 
+本地-&gt;另一台服务器
+rsync -vzrtopg  /testbak/ root@192.168.1.201:/data/test/
+另一服务器-&gt;本地
+rsync -vzrtopg  root@192.168.1.201:/data/test/ /testbak/
+
+
+--process
+显示步骤
+--delete
+删除目标路径有而原路径没有的文件
+
+本地到rsync服务器
+rsync -avzropg --process --delete  /testbak/  root@192.168.1.111::data
+rsync服务器到本地
+rsync -avzrtopg --process --delete root@192.168.1.111::data  /testbak/ 	
 </code></pre><span class="link-to-post" class="link-to-post__next"> &nbsp&nbsp&nbsp<a href="/posts/welcome-to-wty1105/">◣ 上 • 面向对象!</a> &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp<a href="/posts/welcome-to-wty/">下 • 程序猿的一天! ◢ </a> </span></div><div class="ds-thread content-frame" data-thread-key="/posts/welcome-to-wty1114/" data-title="rsync 文件同步!" data-url="https://wtydreamt.github.io/posts/welcome-to-wty1114/"></div>  <script type="text/javascript"> var duoshuoQuery = {short_name:"mmm"}; (function() { var ds = document.createElement('script'); ds.type = 'text/javascript';ds.async = true; ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js'; ds.charset = 'UTF-8'; (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds); })(); </script> </article></main><footer class="blog-footer content-wrapper"><p>&copy; <span class="full-year"></span> TingYu Wang</footer><script src="/assets/js/scripts.js"></script>
