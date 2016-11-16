@@ -1,0 +1,37 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="shortcut icon" href="/assets/images/log.ico" type="image/x-icon"><link rel="icon" href="your_ico.ico" type="image/x-icon"><title> centos之lnmp !</title><meta name="description" content="#####"><link rel="canonical" href="https://wtydreamt.github.io/posts/welcome-to-wty1123/"><link rel="alternate" type="application/rss+xml" title="TingYu Wang" href="https://wtydreamt.github.io/feed.xml"><link href='https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|Roboto+Condensed:700&subset=latin' rel='stylesheet' type='text/css'><link rel="stylesheet" href="https://wtydreamt.github.io/assets/css/main.css"><meta property="og:url" content="https://wtydreamt.github.io/posts/welcome-to-wty1123/"><meta property="og:type" content="website"><meta property="og:title" content=" centos之lnmp !"><meta property="og:description" content="centos之lnmp ！"><meta property="og:site_name" content="TingYu Wang"><meta name="twitter:card" content="summary"><meta name="twitter:url" content="https://wtydreamt.github.io/posts/welcome-to-wty1123/"><meta name="twitter:title" content=" centos之lnmp !"><meta name="twitter:description" content="centos之lnmp ！"><meta property="og:image" content="https://wtydreamt.github.io/assets/images/railss.jpg"><meta name="twitter:image" content="https://wtydreamt.github.io/assets/images/railss.jpg"><body><div id="shadow"></div><header class="main-header content-wrapper"> <input type="checkbox" id="menu-checkbox" /><nav class="center-wrapper nav-main"> <a class="blog-logo" href="/">首页</a> <a class="blog-logo" href="/posts">博客目录</a> <a class="blog-logo" href="/about">关于我</a> <label for="menu-checkbox" class="toggle-button" data-open="☰" data-close="☰" onclick></label></nav></header><aside class="sidebar" role="note" style="background-image: url(https://wtydreamt.github.io/assets/images/railss.jpg)"><div class="cover"><div class="cover-text"><div class="heading"> <a href="/posts/#服务器">服务器</a></div><p> centos之lnmp ！</div></div><div id="switcher"></div></aside><main class="content-wrapper"><article class="post"><h1 class="post-title"> centos之lnmp !</h1><p class="post-meta"> <time datetime="2015-11-23">23-11-2015</time> &nbsp;/&nbsp; <span>redVi</span><div class="post-content"><p>#####<p>再安装之前大家可以先看一下lamp的安装过程。<p>1.安装nginx：<pre><code>yum install yum-priorities -y  
+wget http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm  
+rpm -ivh nginx-release-centos-7-0.el7.ngx.noarch.rpm  
+yum install nginx  
+
+systemctl start nginx.service #启动nginx  
+systemctl stop nginx.service #停止  
+systemctl restart nginx.service #重启  
+systemctl enable nginx.service #设置开机启动 
+</code></pre><p>2.更改nginx端口号（根据自己需求） cd /etc/nginx/conf.d/<br /> vim default.conf<br /> 把listen 80改成listen 81<pre><code>systemctl restart nginx.service #重启nginx 
+</code></pre><p>3.访问http://ip:81即可看到nginx首页<p>4.下一步安装php-fpm<pre><code>yum install php-fpm
+systemctl start php-fpm.service #启动php-fpm  
+systemctl enable php-fpm.service #设置开机启动
+</code></pre><p>5.更改nginx配置文件识别php vi /etc/nginx/conf.d/default.conf，把之前的#给去掉就可以了，顺手改一下fastcgi_param<pre><code> location ~ \.php$ {  
+    root           html;  
+    fastcgi_pass   127.0.0.1:9000;  
+    fastcgi_index  index.php;  
+    fastcgi_param  SCRIPT_FILENAME  /usr/share/nginx/html/$fastcgi_script_name;  
+    include        fastcgi_params;  
+}  	   	      
+</code></pre><p>6.<p>在 /usr/share/nginx/html中新建一个test.PHP<br /> <?php echo 123;?><p>访问http://ip:81/test.php即可看到php页面<p>7.负载配置<pre><code>upstream site{  
+        server 172.16.170.138;  
+        server 172.16.170.139;  
+}  
+server {  
+    listen       80;  
+    server_name  localhost;  
+  
+    #charset koi8-r;  
+    #access_log  /var/log/nginx/log/host.access.log  main;  
+  
+    location / {  
+        root   /usr/share/nginx/html;  
+        index  index.html index.htm;  
+        proxy_pass http://site;  
+    }
+</code></pre><span class="link-to-post" class="link-to-post__next"> &nbsp&nbsp&nbsp<a href="/posts/welcome-to-wtys1122/">◣ 上 • Linux下 ssh 扩展的应用 !</a> &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp<a href="/posts/welcome-to-wtys1123/">下 • centos7之lamp环境搭建 ! ◢ </a> </span></div><div class="ds-thread content-frame" data-thread-key="/posts/welcome-to-wty1123/" data-title=" centos之lnmp !" data-url="https://wtydreamt.github.io/posts/welcome-to-wty1123/"></div>  <script type="text/javascript"> var duoshuoQuery = {short_name:"mmm"}; (function() { var ds = document.createElement('script'); ds.type = 'text/javascript';ds.async = true; ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js'; ds.charset = 'UTF-8'; (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds); })(); </script> </article></main><footer class="blog-footer content-wrapper"><p>&copy; <span class="full-year"></span> TingYu Wang</footer><script src="/assets/js/scripts.js"></script>

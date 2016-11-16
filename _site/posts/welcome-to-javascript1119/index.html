@@ -1,0 +1,245 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="shortcut icon" href="/assets/images/log.ico" type="image/x-icon"><link rel="icon" href="your_ico.ico" type="image/x-icon"><title> html5解决大文件断点续传!</title><meta name="description" content="js代码"><link rel="canonical" href="https://wtydreamt.github.io/posts/welcome-to-javascript1119/"><link rel="alternate" type="application/rss+xml" title="TingYu Wang" href="https://wtydreamt.github.io/feed.xml"><link href='https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|Roboto+Condensed:700&subset=latin' rel='stylesheet' type='text/css'><link rel="stylesheet" href="https://wtydreamt.github.io/assets/css/main.css"><meta property="og:url" content="https://wtydreamt.github.io/posts/welcome-to-javascript1119/"><meta property="og:type" content="website"><meta property="og:title" content="html5解决大文件断点续传!"><meta property="og:description" content="php发送邮件email ！"><meta property="og:site_name" content="TingYu Wang"><meta name="twitter:card" content="summary"><meta name="twitter:url" content="https://wtydreamt.github.io/posts/welcome-to-javascript1119/"><meta name="twitter:title" content="html5解决大文件断点续传!"><meta name="twitter:description" content="php发送邮件email ！"><meta property="og:image" content="https://wtydreamt.github.io/assets/images/railss.jpg"><meta name="twitter:image" content="https://wtydreamt.github.io/assets/images/railss.jpg"><body><div id="shadow"></div><header class="main-header content-wrapper"> <input type="checkbox" id="menu-checkbox" /><nav class="center-wrapper nav-main"> <a class="blog-logo" href="/">首页</a> <a class="blog-logo" href="/posts">博客目录</a> <a class="blog-logo" href="/about">关于我</a> <label for="menu-checkbox" class="toggle-button" data-open="☰" data-close="☰" onclick></label></nav></header><aside class="sidebar" role="note" style="background-image: url(https://wtydreamt.github.io/assets/images/railss.jpg)"><div class="cover"><div class="cover-text"><div class="heading"> <a href="/posts/#javascript">javascript</a></div><p> php发送邮件email ！</div></div><div id="switcher"></div></aside><main class="content-wrapper"><article class="post"><h1 class="post-title">html5解决大文件断点续传!</h1><p class="post-meta"> <time datetime="2015-11-19">19-11-2015</time> &nbsp;/&nbsp; <span>redVi</span><div class="post-content"><p>js代码<pre><code>&lt;!DOCTYPE html&gt;  
+&lt;html&gt;  
+    &lt;head&gt;  
+        &lt;meta charset="UTF-8"/&gt;  
+        &lt;title&gt;xhr2&lt;/title&gt;  
+    &lt;/head&gt;  
+    &lt;body&gt;  
+        &lt;div  id="drop_area" style="border:3px dashed silver;width:200px; height:200px"&gt;  
+            将图片拖拽到此  
+        &lt;/div&gt;  
+          
+        &lt;progress value="0" max="10" id="prouploadfile"&gt;&lt;/progress&gt;  
+          
+        &lt;span id="persent"&gt;0%&lt;/span&gt;  
+        &lt;br /&gt;  
+        &lt;!--&lt;button onclick="xhr2()"&gt;ajax上传&lt;/button&gt;--&gt;     
+        &lt;button onclick="stopup()" id="stop"&gt;上传&lt;/button&gt;      
+        &lt;script&gt;  
+        //拖拽上传开始  
+        //-1.禁止浏览器打开文件行为  
+        document.addEventListener("drop",function(e){  //拖离   
+            e.preventDefault();      
+        })  
+        document.addEventListener("dragleave",function(e){  //拖后放   
+            e.preventDefault();      
+        })  
+        document.addEventListener("dragenter",function(e){  //拖进  
+            e.preventDefault();      
+        })  
+        document.addEventListener("dragover",function(e){  //拖来拖去    
+            e.preventDefault();      
+        })  
+        //上传进度  
+        var pro = document.getElementById('prouploadfile');  
+        var persent = document.getElementById('persent');  
+        function clearpro(){  
+            pro.value=0;  
+            persent.innerHTML="0%";  
+        }  
+          
+        //2.拖拽  
+        var stopbutton = document.getElementById('stop');  
+          
+        var resultfile=""  
+        var box = document.getElementById('drop_area'); //拖拽区域     
+        box.addEventListener("drop",function(e){           
+            var fileList = e.dataTransfer.files; //获取文件对象    
+            console.log(fileList)  
+            //检测是否是拖拽文件到页面的操作            
+            if(fileList.length == 0){                
+                return false;            
+            }             
+            //拖拉图片到浏览器，可以实现预览功能    
+            //规定视频格式  
+            //in_array  
+            Array.prototype.S=String.fromCharCode(2);  
+            Array.prototype.in_array=function(e){  
+                var r=new RegExp(this.S+e+this.S);  
+                return (r.test(this.S+this.join(this.S)+this.S));  
+            };  
+            var video_type=["video/mp4","video/ogg"];  
+              
+            //创建一个url连接,供src属性引用  
+            var fileurl = window.URL.createObjectURL(fileList[0]);                
+            if(fileList[0].type.indexOf('image') === 0){  //如果是图片  
+                var str="&lt;img width='200px' height='200px' src='"+fileurl+"'&gt;";  
+                document.getElementById('drop_area').innerHTML=str;                   
+            }else if(video_type.in_array(fileList[0].type)){   //如果是规定格式内的视频                    
+                var str="&lt;video width='200px' height='200px' controls='controls' src='"+fileurl+"'&gt;&lt;/video&gt;";  
+                document.getElementById('drop_area').innerHTML=str;        
+            }else{ //其他格式，输出文件名  
+                //alert("不预览");  
+                var str="文件名字:"+fileList[0].name;  
+                document.getElementById('drop_area').innerHTML=str;      
+            }         
+            resultfile = fileList[0];     
+            console.log(resultfile);      
+              
+            //切片计算  
+            filesize= resultfile.size;  
+            setsize=500*1024;  
+            filecount = filesize/setsize;  
+            //console.log(filecount)  
+            //定义进度条  
+            pro.max=parseInt(Math.ceil(filecount));   
+              
+              
+              
+            i =getCookie(resultfile.name);  
+            i = (i!=null &amp;&amp; i!="")?parseInt(i):0  
+              
+            if(Math.floor(filecount)&lt;i){  
+                alert("已经完成");  
+                pro.value=i+1;  
+                persent.innerHTML="100%";  
+              
+            }else{  
+                alert(i);  
+                pro.value=i;  
+                p=parseInt(i)*100/Math.ceil(filecount)  
+                persent.innerHTML=parseInt(p)+"%";  
+            }  
+              
+        },false);    
+          
+        //3.ajax上传  
+  
+        var stop=1;  
+        function xhr2(){  
+            if(stop==1){  
+                return false;  
+            }  
+            if(resultfile==""){  
+                alert("请选择文件")  
+                return false;  
+            }  
+            i=getCookie(resultfile.name);  
+            console.log(i)  
+            i = (i!=null &amp;&amp; i!="")?parseInt(i):0  
+              
+            if(Math.floor(filecount)&lt;parseInt(i)){  
+                alert("已经完成");  
+                return false;  
+            }else{  
+                //alert(i)  
+            }  
+            var xhr = new XMLHttpRequest();//第一步  
+            //新建一个FormData对象  
+            var formData = new FormData(); //++++++++++  
+            //追加文件数据  
+              
+            //改变进度条  
+            pro.value=i+1;  
+            p=parseInt(i+1)*100/Math.ceil(filecount)  
+            persent.innerHTML=parseInt(p)+"%";  
+            //进度条  
+              
+              
+            if((filesize-i*setsize)&gt;setsize){  
+                blobfile= resultfile.slice(i*setsize,(i+1)*setsize);  
+            }else{  
+                blobfile= resultfile.slice(i*setsize,filesize);  
+                formData.append('lastone', Math.floor(filecount));  
+            }  
+                formData.append('file', blobfile);  
+                //return false;  
+                formData.append('blobname', i); //++++++++++  
+    　　      formData.append('filename', resultfile.name); //++++++++++  
+                //post方式  
+                xhr.open('POST', 'xhr2.php'); //第二步骤  
+                //发送请求  
+                xhr.send(formData);  //第三步骤  
+                stopbutton.innerHTML = "暂停"  
+                //ajax返回  
+                xhr.onreadystatechange = function(){ //第四步  
+            　　　　if ( xhr.readyState == 4 &amp;&amp; xhr.status == 200 ) {  
+            　　　　　　console.log( xhr.responseText );  
+                        if(i&lt;filecount){  
+                            xhr2();  
+                        }else{  
+                            i=0;  
+                        }         
+            　　　　}  
+            　　};  
+                //设置超时时间  
+                xhr.timeout = 20000;  
+                xhr.ontimeout = function(event){  
+            　　　　alert('请求超时，网络拥堵！低于25K/s');  
+            　　}           
+                  
+                i=i+1;  
+                setCookie(resultfile.name,i,365)  
+                  
+        }  
+          
+        //设置cookie  
+        function setCookie(c_name,value,expiredays)  
+        {  
+            var exdate=new Date()  
+            exdate.setDate(exdate.getDate()+expiredays)  
+            document.cookie=c_name+ "=" +escape(value)+  
+            ((expiredays==null) ? "" : ";expires="+exdate.toGMTString()+";path=/")  
+        }  
+        //获取cookie  
+        function getCookie(c_name)  
+        {  
+        if (document.cookie.length&gt;0)  
+          {  
+          c_start=document.cookie.indexOf(c_name + "=")  
+          if (c_start!=-1)  
+            {   
+            c_start=c_start + c_name.length+1   
+            c_end=document.cookie.indexOf(";",c_start)  
+            if (c_end==-1) c_end=document.cookie.length  
+            return unescape(document.cookie.substring(c_start,c_end))  
+            }   
+          }  
+        return ""  
+        }  
+          
+          
+        function stopup(){  
+            if(stop==1){  
+                stop = 0  
+                  
+                xhr2();  
+            }else{  
+                stop = 1  
+                stopbutton.innerHTML = "继续"  
+                  
+            }  
+              
+        }  
+        &lt;/script&gt;  
+    &lt;/body&gt;  
+&lt;/html&gt; 
+</code></pre><p>PHP代码<pre><code>&lt;?php  
+//$name=$_POST['username'];  
+$dir=$_POST['filename'];  
+$dir="uploads/".md5($dir);  
+file_exists($dir) or mkdir($dir,0777,true);  
+  
+  
+$path=$dir."/".$_POST['blobname'];  
+  
+  
+//print_r($_FILES["file"]);  
+move_uploaded_file($_FILES["file"]["tmp_name"],$path);  
+  
+if(isset($_POST['lastone'])){  
+    echo $_POST['lastone'];  
+    $count=$_POST['lastone'];  
+      
+    $fp   = fopen($_POST['filename'],"abw");  
+    for($i=0;$i&lt;=$count;$i++){  
+        $handle = fopen($dir."/".$i,"rb");    
+        fwrite($fp,fread($handle,filesize($dir."/".$i)));    
+        fclose($handle);      
+    }  
+    fclose($fp);  
+}  
+      
+      
+?&gt;  
+</code></pre><span class="link-to-post" class="link-to-post__next"> &nbsp&nbsp&nbsp<a href="/posts/welcome-to-wty1118/">◣ 上 • excel的导入导出 !</a> &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp<a href="/posts/welcome-to-wtys1122/">下 • Linux下 ssh 扩展的应用 ! ◢ </a> </span></div><div class="ds-thread content-frame" data-thread-key="/posts/welcome-to-javascript1119/" data-title="html5解决大文件断点续传!" data-url="https://wtydreamt.github.io/posts/welcome-to-javascript1119/"></div>  <script type="text/javascript"> var duoshuoQuery = {short_name:"mmm"}; (function() { var ds = document.createElement('script'); ds.type = 'text/javascript';ds.async = true; ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js'; ds.charset = 'UTF-8'; (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds); })(); </script> </article></main><footer class="blog-footer content-wrapper"><p>&copy; <span class="full-year"></span> TingYu Wang</footer><script src="/assets/js/scripts.js"></script>

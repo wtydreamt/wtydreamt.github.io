@@ -1,0 +1,67 @@
+---
+bg: "railss.jpg"
+layout: post
+title:  "laravel 框架中邮件发送类!"
+crawlertitle: "How to use jekyll"
+summary: "laravel 框架中邮件发送类!"
+date:   2016-2-2 12:00:47 +0700
+categories: posts
+tags: '小记'
+author: redVi
+---
+
+配置config文件下的文件（mail.php）
+
+	<?php
+
+	return [
+
+
+	    'driver' => env('MAIL_DRIVER', 'smtp'),
+
+
+	    'host' => 'smtp.163.com',
+
+	    'port' => 25,
+
+	    'from' => ['address' => "wtydreaml@163.com", 'name' => "不哭"],
+
+	    'encryption' => env('MAIL_ENCRYPTION', 'tls'),
+
+	    'username' => "wtydreaml@163.com",
+
+	    'password' => "wty******",     //授权密码
+
+	    'sendmail' => '/usr/sbin/sendmail -bs',
+
+	    'pretend' => false,
+
+	];
+
+控制器中
+
+	<?php
+
+	namespace App\Http\Controllers;
+
+	use Illuminate\Http\Request;
+	use Mail;  //引入邮箱类
+	use DB;
+	use App\Http\Requests;
+	use App\Http\Controllers\Controller;
+	header("content-type:text/html;charset=utf8");
+	class MailController extends Controller
+	{
+
+	    public function mail(Request $request)
+	    {
+	        $arr=$request->input();
+	        				   //邮件内容
+	            Mail::raw($arr['content'], function ($message) use ($arr)
+	            {
+	               $message->subject($arr['title']); //邮件标题
+	               $message->to($arr['getname']);    //接受人邮箱
+	            });
+
+	    }
+	}

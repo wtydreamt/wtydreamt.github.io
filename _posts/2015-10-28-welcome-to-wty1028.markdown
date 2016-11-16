@@ -6,7 +6,7 @@ crawlertitle: "How to use jekyll"
 summary: "小白谈sql注入！"
 date:   2016-10-28 16:00:47 +0700
 categories: posts
-tags: 'msyql'
+tags: 'mysql'
 author: redVi
 ---
 ##### 关于mysql sql注入简单预防

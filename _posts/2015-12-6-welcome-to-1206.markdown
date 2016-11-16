@@ -1,0 +1,275 @@
+---
+bg: "railss.jpg"
+layout: post
+title:  "app接口总结 !"
+crawlertitle: "How to use jekyll"
+summary: "php开发App接口！"
+date:   2015-12-6 12:00:47 +0700
+categories: posts
+tags: 'php'
+author: redVi
+---
+
+一：app接口简介
+
+那么首先app通信接口需要有三部分
+
+1、接口地址（它的作用就是为了让客户端发送请求的）
+
+2、接口文件（处理一些逻辑业务）
+
+3、接口数据
+
+二：客户端通信
+
+当用户点击一个功能的时候就会去访问一个接口地址，这个接口就会返回一些xml或json的数据
+
+三：xml 格式的数据和json格式的数据的区别
+
+1、从可读性方面来说xml格式的数据更加的清晰而json格式的数据看起来相对就比较乱了
+
+2、从生成数据方面json格式的数据是比较简单的它只用一个函数:json_encode()
+就可以实现了。而xml格式的数据就比较麻
+
+3、从数据传输速度方面来说json格式的数据比较快
+
+四：app接口做的那些事
+
+从数据库或缓存中获取数据，然后通过接口数据返回给客户端
+
+通过接口提交数据给服务器，然后服务器入库处理，或做其他处理
+
+五：json方式封装通信接口
+
+创建接口文件Response.PHP
+
+	<?php
+	class Response{
+	    /*
+	    *按json方式输出数据
+	    *@param integer $code 状态码
+	    *@param string $message 提示信息
+	    *@param array $data 数据
+	    */
+	        public static function json($code,$message='',$data=array())
+	        {
+	            if(!is_numeric($code)){
+	                return "";
+	            }
+	            $result = array(
+	                'code'=>$code,
+	                'message'=>$message,
+	                'data'=>$data
+	            );
+	            echo json_encode($result);
+	        }
+	}
+
+接下来测试我们接口
+
+	<?php
+    require_once('./Response.php');
+    $arr=array(
+            'name'=>"wty",
+            'age' =>19
+        );
+    Response::json('200',"数据返回成功",$arr);
+
+测试成功返回如下格式的数据
+
+	{"code":"200","message":"\u6570\u636e\u8fd4\u56de\u6210\u529f","data":{"name":"wty","age":19}}
+
+六：xml方式封装通信接口 
+
+首先我们了解一下如何生成xml格式的数据
+
+我们可以使用系统类也可以用字符组装
+
+系统类：DomDocument 、 XMLWriter、 SimpleXML
+
+简单介绍一个系统类：
+
+	$xml = new SimpleXMLElement('<?xml version="1.0" encoding="utf-8" ?><xmm></xmm>');
+	$db="mysql:host=localhost;dbname=july";
+	$user="root";
+	$pdw="root";
+	$pdo = new PDO($db,$user,$pdw);
+	$pdo->query("set names utf8");	
+
+		$sql="select * from biao";
+		$res=$pdo->query($sql);
+		
+		//print_r($row);die;
+		$i=0;
+		while($row=$res->fetch(PDO::FETCH_ASSOC))
+		{
+			$xml->WTY[$i]="";
+			$xml->WTY[$i]['id']=$row['id'];
+			$xml->WTY[$i]->tile=$row['tile'];
+			$xml->WTY[$i]->url=$row['url'];
+			$i++;
+		}
+		$xml->asXML('mes.xml'); //生成xml文件
+		$rxml=simplexml_load_file('mes.xml'); //获取到xml的文件信息
+
+我们做xml的通信接口用字符组装的方式来实现
+
+	    /*
+	    *按json方式输出数据
+	    *@param integer $code 状态码
+	    *@param string $message 提示信息
+	    *@param array $data 数据
+	    */
+	public static function xml($code,$message='',$data=array()){
+	            if(!is_numeric($code)){
+	                return "";
+	            }
+	            $result = array(
+	                'code'=>$code,
+	                'message'=>$message,
+	                'data'=>$data
+	            );  
+	    header("Content-Type:text/xml");
+	    $xml="<?xml version='1.0' encoding='utf-8'?>";
+	    $xml.="<wty>";
+	    $xml.=self::xmlEncdoe($result);
+	    $xml.="</wty>";    
+	    echo $xml;
+	}
+	    public static function xmlEncdoe($data){
+	        $xml=$attr="";
+	        foreach($data as $key=>$value){
+	            if(is_numeric($key))
+	            {
+	                $attr=" id='{$key}'";
+	                $key="item";
+	            }
+	            $xml.="<{$key}{$attr}>";
+	            $xml.=is_array($value)?self::xmlEncdoe($value):$value;
+	            $xml.="</".$key.">";
+	        }
+	        return $xml;
+	    }
+	}
+	//测试下
+	    $arr=array(
+	            'name'=>"wty",
+	            'age' =>19,
+	            'hao' =>array(1,2,3)
+	        );
+	    Response::xml('200',"数据返回成功",$arr);
+
+输出如下格式的数据
+
+	<wty>
+	<code>200</code>
+	<message>数据返回成功</message>
+	<data>
+	<name>wty</name>
+	<age>19</age>
+	<hao>
+	<item id="0">1</item>
+	<item id="1">2</item>
+	<item id="2">3</item>
+	</hao></data>
+	</wty>	    
+
+xml和json格式数据的接口都分装好后那我们把它们两个结合起来
+
+	<?php
+	class Response{
+	const JSON="json";
+	public static  function show($code,$message='',$data=array(),$type=self::JSON)
+	{
+	    if(!is_numeric($code))
+	    {
+	        return "";
+	    }
+	    $type=isset($_GET['format'])?$_GET['format']:self::JSON;
+	    $result = array(
+	                'code'=>$code,
+	                'message'=>$message,
+	                'data'=>$data
+	            );
+	    if($type=="json")
+	    {
+	        self::json($code,$message,$data);
+	        exit;
+	    }
+	    elseif($type=="array")
+	    {
+	        var_dump($result);
+	    }
+	    elseif($type=="xml")
+	    {
+	        self::xml($code,$message,$data);
+	        exit;       
+	    }
+	}
+
+	public static function json($code,$message='',$data=array())
+	        {
+	            if(!is_numeric($code)){
+	                return "";
+	            }
+	            $result = array(
+	                'code'=>$code,
+	                'message'=>$message,
+	                'data'=>$data
+	            );
+	            echo json_encode($result);
+	        }
+
+
+	public static function xml($code,$message='',$data=array()){
+	            if(!is_numeric($code)){
+	                return "";
+	            }
+	            $result = array(
+	                'code'=>$code,
+	                'message'=>$message,
+	                'data'=>$data
+	            );  
+	    header("Content-Type:text/xml");
+	    $xml="<?xml version='1.0' encoding='utf-8'?>";
+	    $xml.="<wty>";
+	    $xml.=self::xmlEncdoe($result);
+	    $xml.="</wty>";    
+	    echo $xml;
+	}
+	public static function xmlEncdoe($data){
+	        $xml=$attr="";
+	        foreach($data as $key=>$value){
+	            if(is_numeric($key))
+	            {
+	                $attr=" id='{$key}'";
+	                $key="item";
+	            }
+	            $xml.="<{$key}{$attr}>";
+	            $xml.=is_array($value)?self::xmlEncdoe($value):$value;
+	            $xml.="</".$key.">";
+	        }
+	        return $xml;
+	    }
+	}
+
+测试test.php
+
+	<?php
+	require_once('./Response.php');
+	$arr=array(
+	            'name'=>"wty",
+	            'age' =>19,
+	            'hao' =>array(1,2,3)
+	        );
+	Response::show('200',"数据返回成功",$arr);
+
+测试时访问test.php?format=xml
+
+返回xml格式的数据
+
+访问test.php?format=json
+
+返回jsonl格式的数据
+
+默认返回json格式数据

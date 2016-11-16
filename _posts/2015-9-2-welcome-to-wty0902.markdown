@@ -6,7 +6,7 @@ crawlertitle: "How to use jekyll"
 summary: "初识php！"
 date:   2015-10-29 12:00:47 +0700
 categories: posts
-tags: 'msyql'
+tags: 'mysql'
 author: redVi
 ---
 ##### PHP高级特性八之mysqli函数库的使用

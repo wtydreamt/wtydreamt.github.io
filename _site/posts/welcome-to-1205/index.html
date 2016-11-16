@@ -1,0 +1,123 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="shortcut icon" href="/assets/images/log.ico" type="image/x-icon"><link rel="icon" href="your_ico.ico" type="image/x-icon"><title> php开发App接口!</title><meta name="description" content="接口是什么："><link rel="canonical" href="https://wtydreamt.github.io/posts/welcome-to-1205/"><link rel="alternate" type="application/rss+xml" title="TingYu Wang" href="https://wtydreamt.github.io/feed.xml"><link href='https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|Roboto+Condensed:700&subset=latin' rel='stylesheet' type='text/css'><link rel="stylesheet" href="https://wtydreamt.github.io/assets/css/main.css"><meta property="og:url" content="https://wtydreamt.github.io/posts/welcome-to-1205/"><meta property="og:type" content="website"><meta property="og:title" content="php开发App接口!"><meta property="og:description" content="php开发App接口！"><meta property="og:site_name" content="TingYu Wang"><meta name="twitter:card" content="summary"><meta name="twitter:url" content="https://wtydreamt.github.io/posts/welcome-to-1205/"><meta name="twitter:title" content="php开发App接口!"><meta name="twitter:description" content="php开发App接口！"><meta property="og:image" content="https://wtydreamt.github.io/assets/images/railss.jpg"><meta name="twitter:image" content="https://wtydreamt.github.io/assets/images/railss.jpg"><body><div id="shadow"></div><header class="main-header content-wrapper"> <input type="checkbox" id="menu-checkbox" /><nav class="center-wrapper nav-main"> <a class="blog-logo" href="/">首页</a> <a class="blog-logo" href="/posts">博客目录</a> <a class="blog-logo" href="/about">关于我</a> <label for="menu-checkbox" class="toggle-button" data-open="☰" data-close="☰" onclick></label></nav></header><aside class="sidebar" role="note" style="background-image: url(https://wtydreamt.github.io/assets/images/railss.jpg)"><div class="cover"><div class="cover-text"><div class="heading"> <a href="/posts/#php">php</a></div><p> php开发App接口！</div></div><div id="switcher"></div></aside><main class="content-wrapper"><article class="post"><h1 class="post-title">php开发App接口!</h1><p class="post-meta"> <time datetime="2015-12-05">05-12-2015</time> &nbsp;/&nbsp; <span>redVi</span><div class="post-content"><p>接口是什么：<p>接口泛指实体把自己提供给外界的一种抽象化物（可以为另一实体），用以由内部操作分离出外部沟通方法，使其能被修改内部而不影响外界其他实体与其交互的方式。<p>人类与电脑等信息机器或人类与程序之间的接口称为用户界面。电脑等信息机器硬件组件间的接口叫硬件接口。电脑等信息机器软件组件间的接口叫软件接口。<p>在计算机中，接口是计算机系统中两个独立的部件进行信息交换的共享边界。这种交换可以发生在计算机软、硬件，外部设备或进行操作的人之间，也可以是它们的结合。<p>以上是百度百科对接口的解释<p>在我理解看来 一个应用相当与一个接口 接口就是不同应用或者同一应用的不同模块 在进行数据交互时候 A应用打开一个缺口 让B应用来调取A应用的内部数据 这个缺口就可以称之为接口<p>那么不同应用它的开发语言可能是不一样的 例如后台可能是JAVA语言 前台可能是JS语言 移动端可能是 Android 或者 IOS 他们的数据类型格式差别是非常大的 他们需要一种统一的数据格式来进行交互 现在最流行也是最常用的两种数据交互格式有 json 和 xml<p>接下来我们来看看json数据格式<pre><code>JSON(JavaScript Object Notation) 是一种轻量级的数据交换格式。
+
+{
+    "programmers": [{
+        "firstName": "Brett",
+        "lastName": "McLaughlin",
+        "email": "aaaa"
+    }, {
+        "firstName": "Jason",
+        "lastName": "Hunter",
+        "email": "bbbb"
+    }, {
+        "firstName": "Elliotte",
+        "lastName": "Harold",
+        "email": "cccc"
+    }],
+    "authors": [{
+        "firstName": "Isaac",
+        "lastName": "Asimov",
+        "genre": "sciencefiction"
+    }, {
+        "firstName": "Tad",
+        "lastName": "Williams",
+	    "genre": "fantasy"
+    }, {
+        "firstName": "Frank",
+        "lastName": "Peretti",
+        "genre": "christianfiction"
+    }],
+    "musicians": [{
+        "firstName": "Eric",
+        "lastName": "Clapton",
+        "instrument": "guitar"
+    }, {
+        "firstName": "Sergei",
+        "lastName": "Rachmaninoff",
+        "instrument": "piano"
+    }]
+}
+</code></pre><p>然后是xml<pre><code>XML (Extensible Markup Language) 中文学名：可扩展标记语言
+
+&lt;?xml version="1.0" encoding="UTF-8"  ?&gt;
+&lt;note&gt;
+    &lt;to&gt;George&lt;/to&gt;
+    &lt;from&gt;John&lt;/from&gt;
+    &lt;heading&gt;Reminder&lt;/heading&gt;
+    &lt;body&gt;Don't forget the meeting!&lt;/body&gt;
+&lt;/note&gt;
+</code></pre><p>这样的格式就是XML的<p>通过以上对比我们可以比较出两者优劣<p>XML的优缺点<p>&lt;1&gt;.XML的优点<p>　　A.格式统一，符合标准；<p>　　B.容易与其他系统进行远程交互，数据共享比较方便。<p>&lt;2&gt;.XML的缺点<p>　　A.XML文件庞大，文件格式复杂，传输占带宽；<p>　　B.服务器端和客户端都需要花费大量代码来解析XML，导致服务器端和客户端代码变得异常复杂且不易维护；<p>　　C.客户端不同浏览器之间解析XML的方式不一致，需要重复编写很多代码；<p>　　D.服务器端和客户端解析XML花费较多的资源和时间。<p>JSON的优缺点<p>&lt;1&gt;.JSON的优点：<p>　　A.数据格式比较简单，易于读写，格式都是压缩的，占用带宽小；<p>　　B.易于解析，客户端JavaScript可以简单的通过eval()进行JSON数据的读取；<p>　　C.支持多种语言，包括ActionScript, C, C#, ColdFusion, Java, JavaScript, Perl, PHP, Python, Ruby等服务器端语言，便于服务器端的解析；<p>　　D.在PHP世界，已经有PHP-JSON和JSON-PHP出现了，偏于PHP序列化后的程序直接调用，PHP服务器端的对象、数组等能直接生成JSON格式，便于客户端的访问提取； 　　E.因为JSON格式能直接为服务器端代码使用，大大简化了服务器端和客户端的代码开发量，且完成任务不变，并且易于维护。<p>&lt;2&gt;.JSON的缺点<p>　　A.没有XML格式这么推广的深入人心和喜用广泛，没有XML那么通用性；<p>　　B.JSON格式目前在Web Service中推广还属于初级阶段。<p>XML和JSON的优缺点对比<p>(1).可读性方面。<p>JSON和XML的数据可读性基本相同，JSON和XML的可读性可谓不相上下，一边是建议的语法，一边是规范的标签形式，XML可读性较好些。<p>(2).可扩展性方面。<p>XML天生有很好的扩展性，JSON当然也有，没有什么是XML能扩展，JSON不能的。<p>(3).编码难度方面。<p>XML有丰富的编码工具，比如Dom4j、JDom等，JSON也有json.org提供的工具，但是JSON的编码明显比XML容易许多，即使不借助工具也能写出JSON的代码，可是要写好XML就不太容易了。<p>(4).解码难度方面。<p>XML的解析得考虑子节点父节点，让人头昏眼花，而JSON的解析难度几乎为0。这一点XML输的真是没话说。<p>(5).流行度方面。<p>XML已经被业界广泛的使用，而JSON才刚刚开始，但是在Ajax这个特定的领域，未来的发展一定是XML让位于JSON。到时Ajax应该变成Ajaj(Asynchronous Javascript and JSON)了。<p>(6).解析手段方面。<p>JSON和XML同样拥有丰富的解析手段。<p>(7).数据体积方面。<p>JSON相对于XML来讲，数据的体积小，传递的速度更快些。<p>(8).数据交互方面。<p>JSON与JavaScript的交互更加方便，更容易解析处理，更好的数据交互。<p>(9).数据描述方面。<p>JSON对数据的描述性比XML较差。<p>(10).传输速度方面。<p>JSON的速度要远远快于XML。<p>XML与JSON数据格式比较<p>(1).关于轻量级和重量级<p>轻量级和重量级是相对来说的，那么XML相对于JSON的重量级体现在哪呢?应该体现在解析上，XML目前设计了两种解析方式：DOM和 SAX。<p>&lt;1&gt;.DOM<p>DOM是把一个数据交换格式XML看成一个DOM对象，需要把XML文件整个读入内存，这一点上JSON和XML的原理是一样的，但是XML要考虑父节点和子节点，这一点上JSON的解析难度要小很多，因为JSON构建于两种结构：key/value，键值对的集合;值的有序集合，可理解为数组；<p>&lt;2&gt;.SAX<p>SAX不需要整个读入文档就可以对解析出的内容进行处理，是一种逐步解析的方法。程序也可以随时终止解析。这样，一个大的文档就可以逐步的、一点一点的展现出来，所以SAX适合于大规模的解析。这一点，JSON目前是做不到得。 所以，JSON和XML的轻/重量级的区别在于：<p>JSON只提供整体解析方案，而这种方法只在解析较少的数据时才能起到良好的效果；<p>XML提供了对大规模数据的逐步解析方案，这种方案很适合于对大量数据的处理。<p>(2).关于数据格式编码及解析难度<p>&lt;1&gt;.在编码方面。<p>虽然XML和JSON都有各自的编码工具，但是JSON的编码要比XML简单，即使不借助工具，也可以写出JSON代码，但要写出好的XML代码就有点困难;与XML一样，JSON也是基于文本的，且它们都使用Unicode编码，且其与数据交换格式XML一样具有可读性。<p>主观上来看，JSON更为清晰且冗余更少些。JSON网站提供了对JSON语法的严格描述，只是描述较简短。从总体来看，XML比较适合于标记文档，而JSON却更适于进行数据交换处理。 &lt;2&gt;.在解析方面。<p>在普通的web应用领域，开发者经常为XML的解析伤脑筋，无论是服务器端生成或处理XML，还是客户端用 JavaScript 解析XML，都常常导致复杂的代码，极低的开发效率。<p>实际上，对于大多数Web应用来说，他们根本不需要复杂的XML来传输数据，XML宣称的扩展性在此就很少具有优势,许多Ajax应用甚至直接返回HTML片段来构建动态Web页面。和返回XML并解析它相比，返回HTML片段大大降低了系统的复杂性，但同时缺少了一定的灵活性。同XML或 HTML片段相比，数据交换格式JSON 提供了更好的简单性和灵活性。在Web Serivice应用中，至少就目前来说XML仍有不可动摇的地位。<p>基于上面的分析 我们要开发接口的时候 兼容性一定要同时兼容xml和json 两种数据格式<p>那么php最常用的数据格式是array()<p>如何将数组转化成json呢<pre><code>public static function jsonEncode($code, $message = '', $data = '')
+    {
+        if(!is_numeric( $code )) {
+            return '';
+        }
+
+        $result = array(
+                'code' =&gt; $code,
+                'message' =&gt; $message,
+                'data' =&gt; $data,
+            );
+
+        header("Content-type:text/json;chaset=utf-8");
+
+        return json_encode($result);
+
+    }
+</code></pre><p>这里我们来把方法直接归属为类 就是static方法<p>这样我们不用实例化对象就可以调用他的方法<p>还有一般接口一定会有一些错误信息或者错误码code<p>我们也以形参的方式加入到这个方法里来 最后将header有改为json 用一个php自带函数 json_encode()来将数组转换为json格式的数据<p>那么json转换成功之后我们再来转换一下xml格式的数据<p>xml格式可能相对复杂<pre><code>public static function xmlEncode($code, $message, $data = array())
+    {
+        if(!is_numeric( $code )) {
+            return '';
+        }
+
+        $result = array(
+                'code' =&gt; $code,
+                'message' =&gt; $message,
+                'data' =&gt; $data,
+            );
+
+        header("Content-type:text/xml;chaset=utf-8");
+        $xml = "&lt;?xml version='1.0' encoding='utf-8'  ?&gt;\n";
+        $xml .= "&lt;root&gt;\n";
+        $xml .= self::xmlToEncode($result);
+        $xml .=    "&lt;/root&gt;\n";
+
+        return $xml;
+
+    }
+
+public static function xmlToEncode( $data )
+{
+    if(empty($data)) {
+        return '';
+    }
+
+    $xml = $attr = '';
+
+    foreach ($data as $key =&gt; $value) {
+
+        if(is_numeric( $key )) {   
+            $attr = "id='{$key}'";
+            $key = "item";
+        }
+
+        $xml .= "&lt;{$key} {$attr}&gt;";
+        $xml .= is_array($value) ? self::xmlToEncode($value) : $value ;
+        $xml .= "&lt;/{$key}&gt;\n";
+
+    }
+
+    return $xml;
+}	    
+</code></pre><p>这里用到了一个递归函数 就是函数本身调用自己 将多维数组递归转换为xml标签 来进行数据展示<p>最后我们把类公开一个调用的方法 所有请求都从这个方法里去调用 只要输入一个数据类型 我们就调用相对应的转换数据的方法<pre><code>public static function show($code, $message = '', $data = '', $type = 'json', $callback = '') 
+    {
+
+        if($type == 'json') {
+            echo    self::jsonEncode($code,$message,$data);
+        } elseif($type == 'xml') {
+            echo    self::xmlEncode($code,$message,$data);
+        } elseif($type == 'jsonp') {
+            echo    $callback.'('.self::jsonEncode($code,$message,$data).')';
+        }
+
+    }
+</code></pre><p>这样再将这四个方法封装为一个Responce类 这样我们简单的接口就写好了 在进行业务逻辑处理的时候我们直接调用这些方法就可以更简便的完成我们的工作 ！ <span class="link-to-post" class="link-to-post__next"> &nbsp&nbsp&nbsp<a href="/posts/welcome-to-1204/">◣ 上 • MySQL分区的实现方式 !</a> &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp<a href="/posts/welcome-to-1206/">下 • app接口总结 ! ◢ </a> </span></div><div class="ds-thread content-frame" data-thread-key="/posts/welcome-to-1205/" data-title="php开发App接口!" data-url="https://wtydreamt.github.io/posts/welcome-to-1205/"></div>  <script type="text/javascript"> var duoshuoQuery = {short_name:"mmm"}; (function() { var ds = document.createElement('script'); ds.type = 'text/javascript';ds.async = true; ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js'; ds.charset = 'UTF-8'; (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds); })(); </script> </article></main><footer class="blog-footer content-wrapper"><p>&copy; <span class="full-year"></span> TingYu Wang</footer><script src="/assets/js/scripts.js"></script>

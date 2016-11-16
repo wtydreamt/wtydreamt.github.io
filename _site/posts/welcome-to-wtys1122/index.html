@@ -1,0 +1,99 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="shortcut icon" href="/assets/images/log.ico" type="image/x-icon"><link rel="icon" href="your_ico.ico" type="image/x-icon"><title> Linux下 ssh 扩展的应用 !</title><meta name="description" content="ssh操作服务器"><link rel="canonical" href="https://wtydreamt.github.io/posts/welcome-to-wtys1122/"><link rel="alternate" type="application/rss+xml" title="TingYu Wang" href="https://wtydreamt.github.io/feed.xml"><link href='https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|Roboto+Condensed:700&subset=latin' rel='stylesheet' type='text/css'><link rel="stylesheet" href="https://wtydreamt.github.io/assets/css/main.css"><meta property="og:url" content="https://wtydreamt.github.io/posts/welcome-to-wtys1122/"><meta property="og:type" content="website"><meta property="og:title" content=" Linux下 ssh 扩展的应用 !"><meta property="og:description" content="Keepalived！"><meta property="og:site_name" content="TingYu Wang"><meta name="twitter:card" content="summary"><meta name="twitter:url" content="https://wtydreamt.github.io/posts/welcome-to-wtys1122/"><meta name="twitter:title" content=" Linux下 ssh 扩展的应用 !"><meta name="twitter:description" content="Keepalived！"><meta property="og:image" content="https://wtydreamt.github.io/assets/images/railss.jpg"><meta name="twitter:image" content="https://wtydreamt.github.io/assets/images/railss.jpg"><body><div id="shadow"></div><header class="main-header content-wrapper"> <input type="checkbox" id="menu-checkbox" /><nav class="center-wrapper nav-main"> <a class="blog-logo" href="/">首页</a> <a class="blog-logo" href="/posts">博客目录</a> <a class="blog-logo" href="/about">关于我</a> <label for="menu-checkbox" class="toggle-button" data-open="☰" data-close="☰" onclick></label></nav></header><aside class="sidebar" role="note" style="background-image: url(https://wtydreamt.github.io/assets/images/railss.jpg)"><div class="cover"><div class="cover-text"><div class="heading"> <a href="/posts/#服务器">服务器</a></div><p> Keepalived！</div></div><div id="switcher"></div></aside><main class="content-wrapper"><article class="post"><h1 class="post-title"> Linux下 ssh 扩展的应用 !</h1><p class="post-meta"> <time datetime="2015-11-22">22-11-2015</time> &nbsp;/&nbsp; <span>redVi</span><div class="post-content"><h5 id="ssh">ssh操作服务器</h5><p>首先安装ssh2扩展<p>下载地址 wget http://www.libssh2.org/download/libssh2-1.4.2.tar.gz<p>http://pecl.php.net/get/ssh2-0.13.tgz Version(0.13)<p>先安装 libssh2 在安装 SS2<pre><code>
+# tar -zxvf libssh2-1.4.2.tar.gz
+# cd libssh2-1.4.2
+# ./configure --prefix=/usr/local/libssh2
+# make &amp;&amp; make install
+</code></pre><p>以上为安装libssh2，这里需要记住libssh2的安装目录，因为在安装ssh2的时候还会用到。<p>SSH安装<pre><code>
+# tar -zxvf ssh2-0.12.tgz
+# cd ssh2-0.12
+# phpize
+# ./configure --prefix=/usr/local/ssh2 --with-ssh2=/usr/local/libssh2 --with-php-config=/usr/local/php/bin/php-config
+# make &amp;&amp; make install	
+</code></pre><p>修改php.ini文件加入<p>extension=ssh2.so<p>接下来用代码实现ssh2连接操作服务器 创建info.php文件<pre><code>
+   header("content-type:text/html; charset=utf-8");  
+    $host='192.168.1.121';//被控制的linux的ip  
+      
+    $user='root';//用户名  
+      
+    $passwd='root';//密码  
+      
+    // 链接远程服务器  
+      
+    $connection = ssh2_connect($host, 22);  
+      
+    if (!$connection) die('connection to '.$host.':22 failed');  
+      
+    echo 'connection OK<br />';  
+      
+    // 获取验证方式并打印  
+      
+    $auth_methods = ssh2_auth_none($connection, $user);  
+      
+    print_r( $auth_methods);  
+      
+    if (in_array('password', $auth_methods ))  
+    {  
+      
+        // 通过password方式登录远程服务器  
+      
+        if (ssh2_auth_password($connection, $user, $passwd))  
+      
+        {  
+          echo $user.' login OK<br />';
+      		if(empty($_GET['status']))
+      		{
+	          $pdd="systemctl status nginx";
+            $stream = ssh2_exec($connection, $pdd); // 执行php
+      		}
+      		else
+      		{
+ 				     if($_GET['status']==1)
+            {
+              $pdd="systemctl stop nginx";
+              ssh2_exec($connection, $pdd); // 执行php
+              $stream = ssh2_exec($connection, "systemctl status nginx"); // 执行php
+            }
+            if($_GET['status']==2)
+            {
+              $pdd="systemctl start nginx";
+              ssh2_exec($connection, $pdd); // 执行php
+              $stream = ssh2_exec($connection, "systemctl status nginx"); // 执行php
+            }
+            if($_GET['status']==3)
+            {
+              $pdd="systemctl restart nginx";
+              ssh2_exec($connection, $pdd); // 执行php
+              $stream = ssh2_exec($connection, "systemctl status nginx"); // 执行php
+            }            
+      		}
+              
+      
+              
+      
+            stream_set_blocking($stream, true); // 获取执行pwd后的内容  
+      
+          if ($stream === FALSE) die("pwd failed");  
+      		$statuss=stream_get_contents($stream);
+          //print_r($statuss);
+            if(strstr($statuss,"running"))
+            {
+            	echo "<a href="info.php?status=1">停止</a>";
+              echo "<a href="info.php?status=3">重启</a>";
+            }
+            else
+            {
+            	echo "<a href="info.php?status=2">开启</a>";
+            }
+      
+        }  
+      
+        else  
+      
+        {  
+      
+            die( $user.' login Failed<br />');  
+      
+        }  
+      
+    }  	
+</code></pre><span class="link-to-post" class="link-to-post__next"> &nbsp&nbsp&nbsp<a href="/posts/welcome-to-javascript1119/">◣ 上 • html5解决大文件断点续传!</a> &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp<a href="/posts/welcome-to-wty1123/">下 • centos之lnmp ! ◢ </a> </span></div><div class="ds-thread content-frame" data-thread-key="/posts/welcome-to-wtys1122/" data-title=" Linux下 ssh 扩展的应用 !" data-url="https://wtydreamt.github.io/posts/welcome-to-wtys1122/"></div>  <script type="text/javascript"> var duoshuoQuery = {short_name:"mmm"}; (function() { var ds = document.createElement('script'); ds.type = 'text/javascript';ds.async = true; ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js'; ds.charset = 'UTF-8'; (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds); })(); </script> </article></main><footer class="blog-footer content-wrapper"><p>&copy; <span class="full-year"></span> TingYu Wang</footer><script src="/assets/js/scripts.js"></script>

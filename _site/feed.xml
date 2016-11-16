@@ -6,8 +6,8 @@
 </description>
     <link>https://wtydreamt.github.io/</link>
     <atom:link href="https://wtydreamt.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 16 Nov 2016 11:50:45 +0800</pubDate>
-    <lastBuildDate>Wed, 16 Nov 2016 11:50:45 +0800</lastBuildDate>
+    <pubDate>Wed, 16 Nov 2016 16:18:47 +0800</pubDate>
+    <lastBuildDate>Wed, 16 Nov 2016 16:18:47 +0800</lastBuildDate>
     <generator>Jekyll v3.0.0</generator>
     
       <item>
@@ -135,7 +135,7 @@ mysql_close($con);
         <link>https://wtydreamt.github.io/posts/welcome-to-wty1028/</link>
         <guid isPermaLink="true">https://wtydreamt.github.io/posts/welcome-to-wty1028/</guid>
         
-        <category>msyql</category>
+        <category>mysql</category>
         
         
         <category>posts</category>
@@ -369,19 +369,70 @@ jekyll serve
       </item>
     
       <item>
-        <title>程序猿的一天!</title>
-        <description>&lt;h5 id=&quot;section&quot;&gt;只是这有霾的都市&lt;/h5&gt;
+        <title>laravel 框架中邮件发送类!</title>
+        <description>&lt;p&gt;配置config文件下的文件（mail.php）&lt;/p&gt;
 
-&lt;p&gt;天本已经大亮了，只是在这有霾的都市，阳光还没撒到地面就被细微的颗粒收了去，迷雾中泛着点光的色彩，透露出徒有虚表的美感。路上的车辆在雾大时还会开启双闪，以防不测，一闪一灭，好似生命的呼吸，向人们告示，雾霾并没有夺走这个城市的生命。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;?php
 
-&lt;p&gt;&lt;img src=&quot;/assets/images/beijin.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+return [
 
+
+    &#39;driver&#39; =&amp;gt; env(&#39;MAIL_DRIVER&#39;, &#39;smtp&#39;),
+
+
+    &#39;host&#39; =&amp;gt; &#39;smtp.163.com&#39;,
+
+    &#39;port&#39; =&amp;gt; 25,
+
+    &#39;from&#39; =&amp;gt; [&#39;address&#39; =&amp;gt; &quot;wtydreaml@163.com&quot;, &#39;name&#39; =&amp;gt; &quot;不哭&quot;],
+
+    &#39;encryption&#39; =&amp;gt; env(&#39;MAIL_ENCRYPTION&#39;, &#39;tls&#39;),
+
+    &#39;username&#39; =&amp;gt; &quot;wtydreaml@163.com&quot;,
+
+    &#39;password&#39; =&amp;gt; &quot;wty******&quot;,     //授权密码
+
+    &#39;sendmail&#39; =&amp;gt; &#39;/usr/sbin/sendmail -bs&#39;,
+
+    &#39;pretend&#39; =&amp;gt; false,
+
+];
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;控制器中&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Mail;  //引入邮箱类
+use DB;
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+header(&quot;content-type:text/html;charset=utf8&quot;);
+class MailController extends Controller
+{
+
+    public function mail(Request $request)
+    {
+        $arr=$request-&amp;gt;input();
+        				   //邮件内容
+            Mail::raw($arr[&#39;content&#39;], function ($message) use ($arr)
+            {
+               $message-&amp;gt;subject($arr[&#39;title&#39;]); //邮件标题
+               $message-&amp;gt;to($arr[&#39;getname&#39;]);    //接受人邮箱
+            });
+
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
 </description>
-        <pubDate>Mon, 11 Jan 2016 09:09:47 +0800</pubDate>
-        <link>https://wtydreamt.github.io/posts/welcome-to-wty/</link>
-        <guid isPermaLink="true">https://wtydreamt.github.io/posts/welcome-to-wty/</guid>
+        <pubDate>Tue, 02 Feb 2016 13:00:47 +0800</pubDate>
+        <link>https://wtydreamt.github.io/posts/welcome-to-0202/</link>
+        <guid isPermaLink="true">https://wtydreamt.github.io/posts/welcome-to-0202/</guid>
         
-        <category>随记</category>
+        <category>小记</category>
         
         
         <category>posts</category>

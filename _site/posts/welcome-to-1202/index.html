@@ -1,0 +1,145 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="shortcut icon" href="/assets/images/log.ico" type="image/x-icon"><link rel="icon" href="your_ico.ico" type="image/x-icon"><title> PHP四种常见排序算法 !</title><meta name="description" content="一、冒泡排序："><link rel="canonical" href="https://wtydreamt.github.io/posts/welcome-to-1202/"><link rel="alternate" type="application/rss+xml" title="TingYu Wang" href="https://wtydreamt.github.io/feed.xml"><link href='https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|Roboto+Condensed:700&subset=latin' rel='stylesheet' type='text/css'><link rel="stylesheet" href="https://wtydreamt.github.io/assets/css/main.css"><meta property="og:url" content="https://wtydreamt.github.io/posts/welcome-to-1202/"><meta property="og:type" content="website"><meta property="og:title" content="PHP四种常见排序算法 !"><meta property="og:description" content="PHP四种常见排序算法 ！"><meta property="og:site_name" content="TingYu Wang"><meta name="twitter:card" content="summary"><meta name="twitter:url" content="https://wtydreamt.github.io/posts/welcome-to-1202/"><meta name="twitter:title" content="PHP四种常见排序算法 !"><meta name="twitter:description" content="PHP四种常见排序算法 ！"><meta property="og:image" content="https://wtydreamt.github.io/assets/images/railss.jpg"><meta name="twitter:image" content="https://wtydreamt.github.io/assets/images/railss.jpg"><body><div id="shadow"></div><header class="main-header content-wrapper"> <input type="checkbox" id="menu-checkbox" /><nav class="center-wrapper nav-main"> <a class="blog-logo" href="/">首页</a> <a class="blog-logo" href="/posts">博客目录</a> <a class="blog-logo" href="/about">关于我</a> <label for="menu-checkbox" class="toggle-button" data-open="☰" data-close="☰" onclick></label></nav></header><aside class="sidebar" role="note" style="background-image: url(https://wtydreamt.github.io/assets/images/railss.jpg)"><div class="cover"><div class="cover-text"><div class="heading"> <a href="/posts/#php">php</a></div><p> PHP四种常见排序算法 ！</div></div><div id="switcher"></div></aside><main class="content-wrapper"><article class="post"><h1 class="post-title">PHP四种常见排序算法 !</h1><p class="post-meta"> <time datetime="2015-12-02">02-12-2015</time> &nbsp;/&nbsp; <span>redVi</span><div class="post-content"><p>一、冒泡排序：<pre><code>/** 
+ * [bubbleSort 冒泡排序] 
+ * @param  [array] $arr [待排序数组] 
+ * @return [array]      [排序后数组] 
+ */  
+function bubbleSort($arr)  
+{  
+    //计算数组长度  
+    $length = count($arr);  
+    //循环次数为数组长度  
+    for ($m=1; $m &lt; $length; $m++)   
+    {   
+        //循环与该位置之后的数字比较  
+        for ($n=0; $n &lt; $length-$m; $n++)   
+        {   
+            //如果当前数字比后一个数字大  
+            if($arr[$n] &gt; $arr[$n+1])  
+            {  
+                //将下一个数字写入缓存变量中  
+                $tmp = $arr[$n+1];  
+                //将当前数字(也就是较大的数字)后移一位  
+                $arr[$n+1] = $arr[$n];  
+                //将缓存的数字(也就是较小的数字)前移一位  
+                $arr[$n] = $tmp;  
+            }  
+        }  
+    }  
+    return $arr;  
+}  
+  
+$arr = array(45,12,48,14,99,22,75,36);  
+print_r(bubbleSort($arr));  
+</code></pre><p>二、选择排序：<pre><code>/** 
+ * [selectSort 选择排序] 
+ * @param  [array] $arr [待排序数组] 
+ * @return [array]      [排序后数组] 
+ */  
+function selectSort($arr) {  
+//实现思路 双重循环完成，外层控制轮数，当前的最小值。内层 控制的比较次数  
+    //$i 当前最小值的位置， 需要参与比较的元素  
+    for($i=0, $len=count($arr); $i&lt;$len-1; $i++) {  
+        //先假设最小的值的位置  
+        $p = $i;  
+        //$j 当前都需要和哪些元素比较，$i 后边的。  
+        for($j=$i+1; $j&lt;$len; $j++) {  
+            //$arr[$p] 是 当前已知的最小值  
+            if($arr[$p] &gt; $arr[$j]) {  
+                //比较，发现更小的,记录下最小值的位置；并且在下次比较时，  
+                // 应该采用已知的最小值进行比较。  
+                $p = $j;  
+            }  
+        }  
+        //已经确定了当前的最小值的位置，保存到$p中。  
+        //如果发现 最小值的位置与当前假设的位置$i不同，则位置互换即可  
+        if($p != $i) {  
+            $tmp = $arr[$p];  
+            $arr[$p] = $arr[$i];  
+            $arr[$i] = $tmp;  
+        }  
+    }  
+    //返回最终结果  
+    return $arr;  
+}  
+  
+  
+  
+$arr = array(45,12,48,14,99,22,75,36);  
+print_r(selectSort($arr)); 
+</code></pre><p>3、插入排序：<pre><code>/** 
+ * [insertSort 插入排序] 
+ * @param  [array] $arr [待排序数组] 
+ * @return [array]      [排序后数组] 
+ */  
+function insertSort($arr) {  
+    //区分 哪部分是已经排序好的  
+    //哪部分是没有排序的  
+    //找到其中一个需要排序的元素  
+    //这个元素 就是从第二个元素开始，到最后一个元素都是这个需要排序的元素  
+    //利用循环就可以标志出来  
+    //i循环控制 每次需要插入的元素，一旦需要插入的元素控制好了，  
+    //间接已经将数组分成了2部分，下标小于当前的（左边的），是排序好的序列  
+    for($i=1, $len=count($arr); $i&lt;$len; $i++) {  
+        //获得当前需要比较的元素值。  
+        $tmp = $arr[$i];  
+        //内层循环控制 比较 并 插入  
+        for($j=$i-1;$j&gt;=0;$j--) {  
+            //$arr[$i];//需要插入的元素; $arr[$j];//需要比较的元素  
+            if($tmp &lt; $arr[$j]) {  
+                //发现插入的元素要小，交换位置  
+                //将后边的元素与前面的元素互换  
+                $arr[$j+1] = $arr[$j];  
+                //将前面的数设置为 当前需要交换的数  
+                $arr[$j] = $tmp;  
+            } else {  
+                //如果碰到不需要移动的元素  
+                //由于是已经排序好是数组，则前面的就不需要再次比较了。  
+                break;  
+            }  
+        }  
+    }  
+    //将这个元素 插入到已经排序好的序列内。  
+    //返回  
+    return $arr;  
+}  
+  
+$arr = array(45,12,48,14,99,22,75,36);  
+print_r(insertSort($arr));  
+</code></pre><p>4、快速排序：<pre><code>/** 
+ * [quickSort 快速排序] 
+ * @param  [type] $arr [待排序数组] 
+ * @return [type]      [排序后数组] 
+ */  
+function quickSort($arr) {  
+    //先判断是否需要继续进行  
+    $length = count($arr);  
+    if($length &lt;= 1) {  
+        return $arr;  
+    }  
+    //如果没有返回，说明数组内的元素个数 多余1个，需要排序  
+    //选择一个标尺  
+    //选择第一个元素  
+    $base_num = $arr[0];  
+    //遍历 除了标尺外的所有元素，按照大小关系放入两个数组内  
+    //初始化两个数组  
+    $left_array = array();//小于标尺的  
+    $right_array = array();//大于标尺的  
+    for($i=1; $i&lt;$length; $i++) {  
+        if($base_num &gt; $arr[$i]) {  
+            //放入左边数组  
+            $left_array[] = $arr[$i];  
+        } else {  
+            //放入右边  
+            $right_array[] = $arr[$i];  
+        }  
+    }  
+    //再分别对 左边 和 右边的数组进行相同的排序处理方式  
+    //递归调用这个函数,并记录结果  
+    $left_array = quickSort($left_array);  
+    $right_array = quickSort($right_array);  
+    //合并左边 标尺 右边  
+    return array_merge($left_array, array($base_num), $right_array);  
+}  
+$arr = array(45,12,48,14,99,22,75,36);  
+print_r(quickSort($arr)); 
+</code></pre><span class="link-to-post" class="link-to-post__next"> &nbsp&nbsp&nbsp<a href="/posts/welcome-to-1127/">◣ 上 • mysql 主从复制配置 !</a> &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp<a href="/posts/welcome-to-1204/">下 • MySQL分区的实现方式 ! ◢ </a> </span></div><div class="ds-thread content-frame" data-thread-key="/posts/welcome-to-1202/" data-title="PHP四种常见排序算法 !" data-url="https://wtydreamt.github.io/posts/welcome-to-1202/"></div>  <script type="text/javascript"> var duoshuoQuery = {short_name:"mmm"}; (function() { var ds = document.createElement('script'); ds.type = 'text/javascript';ds.async = true; ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js'; ds.charset = 'UTF-8'; (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds); })(); </script> </article></main><footer class="blog-footer content-wrapper"><p>&copy; <span class="full-year"></span> TingYu Wang</footer><script src="/assets/js/scripts.js"></script>

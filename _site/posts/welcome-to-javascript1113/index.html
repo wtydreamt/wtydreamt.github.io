@@ -1,0 +1,73 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="shortcut icon" href="/assets/images/log.ico" type="image/x-icon"><link rel="icon" href="your_ico.ico" type="image/x-icon"><title> JavaScript实现拖拽预览，AJAX小文件上传 !</title><meta name="description" content="#####"><link rel="canonical" href="https://wtydreamt.github.io/posts/welcome-to-javascript1113/"><link rel="alternate" type="application/rss+xml" title="TingYu Wang" href="https://wtydreamt.github.io/feed.xml"><link href='https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|Roboto+Condensed:700&subset=latin' rel='stylesheet' type='text/css'><link rel="stylesheet" href="https://wtydreamt.github.io/assets/css/main.css"><meta property="og:url" content="https://wtydreamt.github.io/posts/welcome-to-javascript1113/"><meta property="og:type" content="website"><meta property="og:title" content="JavaScript实现拖拽预览，AJAX小文件上传 !"><meta property="og:description" content="php发送邮件email ！"><meta property="og:site_name" content="TingYu Wang"><meta name="twitter:card" content="summary"><meta name="twitter:url" content="https://wtydreamt.github.io/posts/welcome-to-javascript1113/"><meta name="twitter:title" content="JavaScript实现拖拽预览，AJAX小文件上传 !"><meta name="twitter:description" content="php发送邮件email ！"><meta property="og:image" content="https://wtydreamt.github.io/assets/images/railss.jpg"><meta name="twitter:image" content="https://wtydreamt.github.io/assets/images/railss.jpg"><body><div id="shadow"></div><header class="main-header content-wrapper"> <input type="checkbox" id="menu-checkbox" /><nav class="center-wrapper nav-main"> <a class="blog-logo" href="/">首页</a> <a class="blog-logo" href="/posts">博客目录</a> <a class="blog-logo" href="/about">关于我</a> <label for="menu-checkbox" class="toggle-button" data-open="☰" data-close="☰" onclick></label></nav></header><aside class="sidebar" role="note" style="background-image: url(https://wtydreamt.github.io/assets/images/railss.jpg)"><div class="cover"><div class="cover-text"><div class="heading"> <a href="/posts/#javascript">javascript</a></div><p> php发送邮件email ！</div></div><div id="switcher"></div></aside><main class="content-wrapper"><article class="post"><h1 class="post-title">JavaScript实现拖拽预览，AJAX小文件上传 !</h1><p class="post-meta"> <time datetime="2015-11-13">13-11-2015</time> &nbsp;/&nbsp; <span>redVi</span><div class="post-content"><p>#####<p>本地上传，提前预览（图片，视频）<p>1.html中div标签预览显示，button标签触发上传事件。<pre><code>&lt;div  id="drop_area" style="border:3px dashed silver;width:200px; height:200px"&gt;将图片拖拽到此&lt;/div&gt;  
+&lt;button onclick="xhr2()"&gt;ajax上传&lt;/button&gt; 
+</code></pre><p>2.禁止浏览器打开文件行为<pre><code>    document.addEventListener("drop",function(e){  //拖离   
+    e.preventDefault();      
+})  
+document.addEventListener("dragleave",function(e){  //拖后放   
+    e.preventDefault();      
+})  
+document.addEventListener("dragenter",function(e){  //拖进  
+    e.preventDefault();      
+})  
+document.addEventListener("dragover",function(e){  //拖来拖去    
+    e.preventDefault();      
+})  	   	      
+</code></pre><p>3.拖拽,预览文件<pre><code>var box = document.getElementById('drop_area'); //拖拽区域     
+box.addEventListener("drop",function(e){           
+    var fileList = e.dataTransfer.files; //获取文件对象    
+    //检测是否是拖拽文件到页面的操作            
+    if(fileList.length == 0){                
+        return false;            
+    }             
+    //拖拉图片到浏览器，可以实现预览功能    
+    //规定视频格式  
+    Array.prototype.S=String.fromCharCode(2);  
+    Array.prototype.in_array=function(e){  
+        var r=new RegExp(this.S+e+this.S);  
+        return (r.test(this.S+this.join(this.S)+this.S));  
+    };  
+    var video_type=["video/mp4","video/ogg"];  
+      
+    //创建一个url连接,供src属性引用  
+    var fileurl = window.URL.createObjectURL(fileList[0]);                
+    if(fileList[0].type.indexOf('image') === 0){  //如果是图片  
+        var str="&lt;img width='200px' height='200px' src='"+fileurl+"'&gt;";  
+        document.getElementById('drop_area').innerHTML=str;                   
+    }else if(video_type.in_array(fileList[0].type)){   //如果是规定格式内的视频                    
+        var str="&lt;video width='200px' height='200px' controls='controls' src='"+fileurl+"'&gt;&lt;/video&gt;";  
+        document.getElementById('drop_area').innerHTML=str;        
+    }else{ //其他格式，输出文件名  
+        //alert("不预览");  
+        var str="文件名字:"+fileList[0].name;  
+        document.getElementById('drop_area').innerHTML=str;      
+    }         
+    resultfile = fileList[0];             
+},false); 
+</code></pre><p>4.ajax上传<pre><code>function xhr2(){  
+    var xhr = new XMLHttpRequest();//第一步  
+    //新建一个FormData对象  
+    var formData = new FormData(); //++++++++++  
+    //追加文件数据  
+    formData.append('file', resultfile);  
+    //post方式  
+    xhr.open('POST', 'xhr2.php'); //第二步骤  
+    //发送请求  
+    xhr.send(formData);  //第三步骤  
+    //ajax返回  
+    xhr.onreadystatechange = function(){ //第四步  
+　　　　if ( xhr.readyState == 4 &amp;&amp; xhr.status == 200 ) {  
+　　　　　　console.log( xhr.responseText );        
+　　　　}  
+　　};  
+    //设置超时时间  
+    xhr.timeout = 10000;  
+    xhr.ontimeout = function(event){  
+　　　　alert('请求超时！');  
+　　}           
+}   
+</code></pre><p>5.php保存文件<pre><code>&lt;?php  
+    print_r($_FILES["file"]);  
+    $name = $_FILES["file"]["name"]; //中文可能乱码使用iconv函数  
+    move_uploaded_file($_FILES["file"]["tmp_name"],iconv("UTF-8","gb2312",$name));  
+?&gt;      
+</code></pre><span class="link-to-post" class="link-to-post__next"> &nbsp&nbsp&nbsp<a href="/posts/welcome-to-wty1113/">◣ 上 • curl模拟post请求提交 !</a> &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp<a href="/posts/welcome-to-wtys1114/">下 • apache和nginx开启https ! ◢ </a> </span></div><div class="ds-thread content-frame" data-thread-key="/posts/welcome-to-javascript1113/" data-title="JavaScript实现拖拽预览，AJAX小文件上传 !" data-url="https://wtydreamt.github.io/posts/welcome-to-javascript1113/"></div>  <script type="text/javascript"> var duoshuoQuery = {short_name:"mmm"}; (function() { var ds = document.createElement('script'); ds.type = 'text/javascript';ds.async = true; ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js'; ds.charset = 'UTF-8'; (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds); })(); </script> </article></main><footer class="blog-footer content-wrapper"><p>&copy; <span class="full-year"></span> TingYu Wang</footer><script src="/assets/js/scripts.js"></script>

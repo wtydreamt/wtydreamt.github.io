@@ -1,0 +1,85 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="shortcut icon" href="/assets/images/log.ico" type="image/x-icon"><link rel="icon" href="your_ico.ico" type="image/x-icon"><title> mysql 主从复制配置 !</title><meta name="description" content="主从复制配置"><link rel="canonical" href="https://wtydreamt.github.io/posts/welcome-to-1127/"><link rel="alternate" type="application/rss+xml" title="TingYu Wang" href="https://wtydreamt.github.io/feed.xml"><link href='https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|Roboto+Condensed:700&subset=latin' rel='stylesheet' type='text/css'><link rel="stylesheet" href="https://wtydreamt.github.io/assets/css/main.css"><meta property="og:url" content="https://wtydreamt.github.io/posts/welcome-to-1127/"><meta property="og:type" content="website"><meta property="og:title" content="mysql 主从复制配置 !"><meta property="og:description" content="mysql 主从复制配置 ！"><meta property="og:site_name" content="TingYu Wang"><meta name="twitter:card" content="summary"><meta name="twitter:url" content="https://wtydreamt.github.io/posts/welcome-to-1127/"><meta name="twitter:title" content="mysql 主从复制配置 !"><meta name="twitter:description" content="mysql 主从复制配置 ！"><meta property="og:image" content="https://wtydreamt.github.io/assets/images/railss.jpg"><meta name="twitter:image" content="https://wtydreamt.github.io/assets/images/railss.jpg"><body><div id="shadow"></div><header class="main-header content-wrapper"> <input type="checkbox" id="menu-checkbox" /><nav class="center-wrapper nav-main"> <a class="blog-logo" href="/">首页</a> <a class="blog-logo" href="/posts">博客目录</a> <a class="blog-logo" href="/about">关于我</a> <label for="menu-checkbox" class="toggle-button" data-open="☰" data-close="☰" onclick></label></nav></header><aside class="sidebar" role="note" style="background-image: url(https://wtydreamt.github.io/assets/images/railss.jpg)"><div class="cover"><div class="cover-text"><div class="heading"> <a href="/posts/#服务器">服务器</a></div><p> mysql 主从复制配置 ！</div></div><div id="switcher"></div></aside><main class="content-wrapper"><article class="post"><h1 class="post-title">mysql 主从复制配置 !</h1><p class="post-meta"> <time datetime="2015-11-27">27-11-2015</time> &nbsp;/&nbsp; <span>redVi</span><div class="post-content"><p>主从复制配置<p>步骤如下：<p>主服务器：从服务器ip地址分别为<pre><code>192.168.145.222、192.168.145.226 
+</code></pre><p>1、修改主服务器master:<pre><code>vi /etc/my.cnf  
+[mysqld]  
+    log-bin=mysql-bin   #[必须]启用二进制日志  
+    server-id=222      #[必须]服务器唯一ID，默认是1，一般取IP最后一段 
+</code></pre><p>2、修改从服务器slave:<pre><code>vi /etc/my.cnf  
+[mysqld]  
+     log-bin=mysql-bin   #[不是必须]启用二进制日志  
+     server-id=226      #[必须]服务器唯一ID，默认是1，一般取IP最后一段
+</code></pre><p>3、重启两台服务器的MySQL<pre><code>systemctl restart mariadb
+</code></pre><p>4、在主服务器上建立帐户并授权slave:<pre><code>mysql  
+mysql&gt;GRANT REPLICATION SLAVE ON *.* to 'mysync'@'%' identified by 'q123456'; //一般不用root帐号，“%”表示所有客户端都可能连，只要帐号，密码正确，此处可用具体客户端IP代替，如192.168.145.226，加强安全。
+</code></pre><p>5、登录主服务器的mysql，查询master的状态<pre><code>mysql&gt;show master status;  
+ +------------------+----------+--------------+------------------+  
+ | File             | Position | Binlog_Do_DB | Binlog_Ignore_DB |  
+ +------------------+----------+--------------+------------------+  
+ | mysql-bin.000004 |      308 |              |                  |  
+ +------------------+----------+--------------+------------------+  
+ 1 row in set (0.00 sec) 
+</code></pre><p>注：执行完此步骤后不要再操作主服务器MYSQL，防止主服务器状态值变化<p>6、配置从服务器Slave：<p>注意mysql-bin.000004和308是第五步中的File和Position<pre><code>mysql&gt;change master to master_host='192.168.145.222',master_user='mysync',master_password='q123456',master_log_file='mysql-bin.000004',master_log_pos=308; //注意mysql-bin.000004和308是第五步中的File和  
+mysql&gt;start slave; //启动从服务器复制功能 
+</code></pre><p>7、检查从服务器复制功能状态：<pre><code>mysql&gt; show slave status\G  
+************************** 1. row ***************************  
+  
+            Slave_IO_State: Waiting for master to send event  
+            Master_Host: 192.168.2.222  //主服务器地址  
+            Master_User: mysync   //授权帐户名，尽量避免使用root  
+            Master_Port: 3306    //数据库端口，部分版本没有此行  
+            Connect_Retry: 60  
+            Master_Log_File: mysql-bin.000004  
+            Read_Master_Log_Pos: 600     //#同步读取二进制日志的位置，大于等于Exec_Master_Log_Pos  
+            Relay_Log_File: ddte-relay-bin.000003  
+            Relay_Log_Pos: 251  
+            Relay_Master_Log_File: mysql-bin.000004  
+            Slave_IO_Running: Yes    //此状态必须YES  
+            Slave_SQL_Running: Yes     //此状态必须YES  
+                  ......     
+</code></pre><p>注：Slave_IO及Slave_SQL进程必须正常运行，即YES状态，否则都是错误的状态(如：其中一个NO均属错误)。<p>以上操作过程，主从服务器配置完成。<p>9、主从服务器测试：<p>主服务器Mysql，建立数据库，并在这个库中建表插入一条数据：<pre><code>mysql&gt; create database hi_db;  
+  Query OK, 1 row affected (0.00 sec)  
+  
+  mysql&gt; use hi_db;  
+  Database changed  
+  
+  mysql&gt;  create table hi_tb(id int(3),name char(10));  
+  Query OK, 0 rows affected (0.00 sec)  
+   
+  mysql&gt; insert into hi_tb values(001,'bobu');  
+  Query OK, 1 row affected (0.00 sec)  
+  
+  mysql&gt; show databases;  
+   +--------------------+  
+   | Database           |  
+   +--------------------+  
+   | information_schema |  
+   | hi_db                |  
+   | mysql                |  
+   | test                 |  
+   +--------------------+  
+   4 rows in set (0.00 sec)  
+  
+从服务器Mysql查询：  
+  
+   mysql&gt; show databases;  
+  
+   +--------------------+  
+   | Database               |  
+   +--------------------+  
+   | information_schema |  
+   | hi_db                 |       //I'M here，大家看到了吧  
+   | mysql                 |  
+   | test          |  
+  
+   +--------------------+  
+   4 rows in set (0.00 sec)  
+  
+   mysql&gt; use hi_db  
+   Database changed  
+   mysql&gt; select * from hi_tb;           //查看主服务器上新增的具体数据  
+   +------+------+  
+   | id   | name |  
+   +------+------+  
+   |    1 | bobu |  
+   +------+------+  
+   1 row in set (0.00 sec)           
+</code></pre><span class="link-to-post" class="link-to-post__next"> &nbsp&nbsp&nbsp<a href="/posts/welcome-to-wtys1123/">◣ 上 • centos7之lamp环境搭建 !</a> &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp<a href="/posts/welcome-to-1202/">下 • PHP四种常见排序算法 ! ◢ </a> </span></div><div class="ds-thread content-frame" data-thread-key="/posts/welcome-to-1127/" data-title="mysql 主从复制配置 !" data-url="https://wtydreamt.github.io/posts/welcome-to-1127/"></div>  <script type="text/javascript"> var duoshuoQuery = {short_name:"mmm"}; (function() { var ds = document.createElement('script'); ds.type = 'text/javascript';ds.async = true; ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js'; ds.charset = 'UTF-8'; (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds); })(); </script> </article></main><footer class="blog-footer content-wrapper"><p>&copy; <span class="full-year"></span> TingYu Wang</footer><script src="/assets/js/scripts.js"></script>

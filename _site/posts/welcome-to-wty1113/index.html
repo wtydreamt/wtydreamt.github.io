@@ -1,0 +1,76 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="shortcut icon" href="/assets/images/log.ico" type="image/x-icon"><link rel="icon" href="your_ico.ico" type="image/x-icon"><title> curl模拟post请求提交 !</title><meta name="description" content="header('content-type:text/html;charset=utf-8'); function curlPost($url,$data,$method){ $ch = curl_init(); //1.初始化 curl_setopt($ch, CURLOPT_URL, ..."><link rel="canonical" href="https://wtydreamt.github.io/posts/welcome-to-wty1113/"><link rel="alternate" type="application/rss+xml" title="TingYu Wang" href="https://wtydreamt.github.io/feed.xml"><link href='https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|Roboto+Condensed:700&subset=latin' rel='stylesheet' type='text/css'><link rel="stylesheet" href="https://wtydreamt.github.io/assets/css/main.css"><meta property="og:url" content="https://wtydreamt.github.io/posts/welcome-to-wty1113/"><meta property="og:type" content="website"><meta property="og:title" content=" curl模拟post请求提交 !"><meta property="og:description" content="curl模拟post请求提交 ！"><meta property="og:site_name" content="TingYu Wang"><meta name="twitter:card" content="summary"><meta name="twitter:url" content="https://wtydreamt.github.io/posts/welcome-to-wty1113/"><meta name="twitter:title" content=" curl模拟post请求提交 !"><meta name="twitter:description" content="curl模拟post请求提交 ！"><meta property="og:image" content="https://wtydreamt.github.io/assets/images/railss.jpg"><meta name="twitter:image" content="https://wtydreamt.github.io/assets/images/railss.jpg"><body><div id="shadow"></div><header class="main-header content-wrapper"> <input type="checkbox" id="menu-checkbox" /><nav class="center-wrapper nav-main"> <a class="blog-logo" href="/">首页</a> <a class="blog-logo" href="/posts">博客目录</a> <a class="blog-logo" href="/about">关于我</a> <label for="menu-checkbox" class="toggle-button" data-open="☰" data-close="☰" onclick></label></nav></header><aside class="sidebar" role="note" style="background-image: url(https://wtydreamt.github.io/assets/images/railss.jpg)"><div class="cover"><div class="cover-text"><div class="heading"> <a href="/posts/#php">php</a></div><p> curl模拟post请求提交 ！</div></div><div id="switcher"></div></aside><main class="content-wrapper"><article class="post"><h1 class="post-title"> curl模拟post请求提交 !</h1><p class="post-meta"> <time datetime="2015-11-13">13-11-2015</time> &nbsp;/&nbsp; <span>redVi</span><div class="post-content"><pre><code>header('content-type:text/html;charset=utf-8');  
+function curlPost($url,$data,$method){  
+    $ch = curl_init();   //1.初始化  
+    curl_setopt($ch, CURLOPT_URL, $url); //2.请求地址  
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);//3.请求方式  
+    //4.参数如下  
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);//https  
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);  
+    curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (compatible; MSIE 5.01; Windows NT 5.0)');//模拟浏览器  
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);  
+    curl_setopt($ch, CURLOPT_AUTOREFERER, 1);  
+        curl_setopt($ch, CURLOPT_HTTPHEADER,array('Accept-Encoding: gzip, deflate'));//gzip解压内容  
+        curl_setopt($ch, CURLOPT_ENCODING, 'gzip,deflate');  
+      
+    if($method=="POST"){//5.post方式的时候添加数据  
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);  
+    }  
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);  
+    $tmpInfo = curl_exec($ch);//6.执行  
+  
+    if (curl_errno($ch)) {//7.如果出错  
+        return curl_error($ch);  
+    }  
+    curl_close($ch);//8.关闭  
+    return $tmpInfo;  
+}  
+$data=array('name' =&gt; '1234');  
+$url="http://www.sohu.com/";  
+  
+$method="GET";  
+$file=curlPost($url,$data,$method);  
+$file=mb_convert_encoding($file,'UTF-8','GBK');  
+echo $file;
+</code></pre><p>当cookie认证登陆的时候<pre><code>&lt;?php  
+    $cookie_file = tempnam('./temp','cookie');  
+    function weixinPost($url,$data,$method,$setcooke=false,$cookie_file=false){  
+        $ch = curl_init();   //1.初始化  
+        curl_setopt($ch, CURLOPT_URL, $url); //2.请求地址  
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);//3.请求方式  
+        //4.参数如下      
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);  
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);  
+        curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (compatible; MSIE 5.01; Windows NT 5.0)');  
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);  
+        curl_setopt($ch, CURLOPT_AUTOREFERER, 1);  
+          
+        if($method=="POST"){//5.post方式的时候添加数据     
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);  
+        }  
+        if($setcooke==true){  
+            curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie_file);  
+        }else{  
+            curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie_file);  
+        }  
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);  
+        $tmpInfo = curl_exec($ch);//6.执行  
+  
+        if (curl_errno($ch)) {//7.如果出错  
+            return curl_error($ch);  
+        }  
+        curl_close($ch);//8.关闭  
+        return $tmpInfo;  
+    }  
+    $data=array('username' =&gt; '***','password'=&gt;'***');  
+    $url="http://www.xinxinj.com/login.php";  
+    $method="POST";  
+    $file=weixinPost($url,$data,$method,true,$cookie_file);  
+    echo $file;  
+          
+    $url="http://www.xinxinj.com/admin.php";  
+    $method="GET";  
+    $file=weixinPost($url,$data,$method,false,$cookie_file);  
+    echo $file;  
+          
+?&gt;  
+</code></pre><span class="link-to-post" class="link-to-post__next"> &nbsp&nbsp&nbsp<a href="/posts/welcome-to-email1113/">◣ 上 • php发送邮件email !</a> &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp<a href="/posts/welcome-to-javascript1113/">下 • JavaScript实现拖拽预览，AJAX小文件上传 ! ◢ </a> </span></div><div class="ds-thread content-frame" data-thread-key="/posts/welcome-to-wty1113/" data-title=" curl模拟post请求提交 !" data-url="https://wtydreamt.github.io/posts/welcome-to-wty1113/"></div>  <script type="text/javascript"> var duoshuoQuery = {short_name:"mmm"}; (function() { var ds = document.createElement('script'); ds.type = 'text/javascript';ds.async = true; ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js'; ds.charset = 'UTF-8'; (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds); })(); </script> </article></main><footer class="blog-footer content-wrapper"><p>&copy; <span class="full-year"></span> TingYu Wang</footer><script src="/assets/js/scripts.js"></script>

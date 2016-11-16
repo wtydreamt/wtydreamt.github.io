@@ -1,0 +1,34 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="shortcut icon" href="/assets/images/log.ico" type="image/x-icon"><link rel="icon" href="your_ico.ico" type="image/x-icon"><title> php 中文转拼音 !</title><meta name="description" content="function getFirstCharter($str){ if(empty($str)){return '';} $fchar=ord($str{0}); if($fchar&gt;=ord('A')&amp;&amp;$fchar&lt;=ord('z')) return strtolo..."><link rel="canonical" href="https://wtydreamt.github.io/posts/welcome-to-1208/"><link rel="alternate" type="application/rss+xml" title="TingYu Wang" href="https://wtydreamt.github.io/feed.xml"><link href='https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|Roboto+Condensed:700&subset=latin' rel='stylesheet' type='text/css'><link rel="stylesheet" href="https://wtydreamt.github.io/assets/css/main.css"><meta property="og:url" content="https://wtydreamt.github.io/posts/welcome-to-1208/"><meta property="og:type" content="website"><meta property="og:title" content="php 中文转拼音 !"><meta property="og:description" content="php 中文转拼音 ！"><meta property="og:site_name" content="TingYu Wang"><meta name="twitter:card" content="summary"><meta name="twitter:url" content="https://wtydreamt.github.io/posts/welcome-to-1208/"><meta name="twitter:title" content="php 中文转拼音 !"><meta name="twitter:description" content="php 中文转拼音 ！"><meta property="og:image" content="https://wtydreamt.github.io/assets/images/railss.jpg"><meta name="twitter:image" content="https://wtydreamt.github.io/assets/images/railss.jpg"><body><div id="shadow"></div><header class="main-header content-wrapper"> <input type="checkbox" id="menu-checkbox" /><nav class="center-wrapper nav-main"> <a class="blog-logo" href="/">首页</a> <a class="blog-logo" href="/posts">博客目录</a> <a class="blog-logo" href="/about">关于我</a> <label for="menu-checkbox" class="toggle-button" data-open="☰" data-close="☰" onclick></label></nav></header><aside class="sidebar" role="note" style="background-image: url(https://wtydreamt.github.io/assets/images/railss.jpg)"><div class="cover"><div class="cover-text"><div class="heading"> <a href="/posts/#php">php</a></div><p> php 中文转拼音 ！</div></div><div id="switcher"></div></aside><main class="content-wrapper"><article class="post"><h1 class="post-title">php 中文转拼音 !</h1><p class="post-meta"> <time datetime="2015-12-08">08-12-2015</time> &nbsp;/&nbsp; <span>redVi</span><div class="post-content"><pre><code>function getFirstCharter($str){
+    if(empty($str)){return '';}
+    $fchar=ord($str{0});
+    if($fchar&gt;=ord('A')&amp;&amp;$fchar&lt;=ord('z')) return strtolower($str{0});
+    $s1=iconv('UTF-8','gb2312',$str);
+    $s2=iconv('gb2312','UTF-8',$s1);
+    $s=$s2==$str?$s1:$str;
+    $asc=ord($s{0})*256+ord($s{1})-65536;
+    if($asc&gt;=-20319&amp;&amp;$asc&lt;=-20284) return 'a';
+    if($asc&gt;=-20283&amp;&amp;$asc&lt;=-19776) return 'b';
+    if($asc&gt;=-19775&amp;&amp;$asc&lt;=-19219) return 'c';
+    if($asc&gt;=-19218&amp;&amp;$asc&lt;=-18711) return 'd';
+    if($asc&gt;=-18710&amp;&amp;$asc&lt;=-18527) return 'e';
+    if($asc&gt;=-18526&amp;&amp;$asc&lt;=-18240) return 'f';
+    if($asc&gt;=-18239&amp;&amp;$asc&lt;=-17923) return 'g';
+    if($asc&gt;=-17922&amp;&amp;$asc&lt;=-17418) return 'h';
+    if($asc&gt;=-17417&amp;&amp;$asc&lt;=-16475) return 'j';
+    if($asc&gt;=-16474&amp;&amp;$asc&lt;=-16213) return 'k';
+    if($asc&gt;=-16212&amp;&amp;$asc&lt;=-15641) return 'l';
+    if($asc&gt;=-15640&amp;&amp;$asc&lt;=-15166) return 'm';
+    if($asc&gt;=-15165&amp;&amp;$asc&lt;=-14923) return 'n';
+    if($asc&gt;=-14922&amp;&amp;$asc&lt;=-14915) return 'o';
+    if($asc&gt;=-14914&amp;&amp;$asc&lt;=-14631) return 'p';
+    if($asc&gt;=-14630&amp;&amp;$asc&lt;=-14150) return 'q';
+    if($asc&gt;=-14149&amp;&amp;$asc&lt;=-14091) return 'r';
+    if($asc&gt;=-14090&amp;&amp;$asc&lt;=-13319) return 's';
+    if($asc&gt;=-13318&amp;&amp;$asc&lt;=-12839) return 't';
+    if($asc&gt;=-12838&amp;&amp;$asc&lt;=-12557) return 'w';
+    if($asc&gt;=-12556&amp;&amp;$asc&lt;=-11848) return 'x';
+    if($asc&gt;=-11847&amp;&amp;$asc&lt;=-11056) return 'y';
+    if($asc&gt;=-11055&amp;&amp;$asc&lt;=-10247) return 'z';
+    return null;
+}
+</code></pre><span class="link-to-post" class="link-to-post__next"> &nbsp&nbsp&nbsp<a href="/posts/welcome-to-1207/">◣ 上 • php 一维数组变多维 !</a> &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp<a href="/posts/welcome-to-wty/">下 • 程序猿的一天! ◢ </a> </span></div><div class="ds-thread content-frame" data-thread-key="/posts/welcome-to-1208/" data-title="php 中文转拼音 !" data-url="https://wtydreamt.github.io/posts/welcome-to-1208/"></div>  <script type="text/javascript"> var duoshuoQuery = {short_name:"mmm"}; (function() { var ds = document.createElement('script'); ds.type = 'text/javascript';ds.async = true; ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js'; ds.charset = 'UTF-8'; (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds); })(); </script> </article></main><footer class="blog-footer content-wrapper"><p>&copy; <span class="full-year"></span> TingYu Wang</footer><script src="/assets/js/scripts.js"></script>

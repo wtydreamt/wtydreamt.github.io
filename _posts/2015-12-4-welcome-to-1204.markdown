@@ -1,0 +1,80 @@
+---
+bg: "railss.jpg"
+layout: post
+title:  "MySQL分区的实现方式 !"
+crawlertitle: "How to use jekyll"
+summary: "MySQL分区的实现方式 ！"
+date:   2015-12-4 13:00:08 +0700
+categories: posts
+tags: 'mysql'
+author: redVi
+---
+
+为什么要分区？
+
+在日常的开发中，我们经常会遇到大表，即数据量达到数百万条乃至数千万条的情况。这样的表过于庞大，以至于在进行查询、修改的时候耗时太长，性能低下，所以我们需要使用分区。
+
+分区与分表的区别
+
+分区与分表有着不同的地方，主要有以下几点：
+
+1、分表是将大表分为若干个独立的小表。而分区则是将数据分段划分后在多个位置存放，其实还是一张表。
+
+2、分表需创建多个表，并且需要按照一定的规则写入、读取指定的表。而分区只需要一个表名即可。
+
+
+当然，在实际中，我们可以采用分表、分区相结合来提高数据库的工作效率。
+
+
+下面介绍一下分区的方式：
+
+1、RANGE分区
+
+这种模式允许将数据划分为不同的范围，例如可以通过年份来划分，例如：
+
+	create table test(   
+	id int,   
+	year int  
+	)engine = myisam  
+	partition by range(year)(   
+	partition t0 values less than (1990),  #年份小于1990年的  
+	partition t1 values less than (2000),  #年份小于2000年大于1990年的  
+	partition t2 values less than (2010),  #年份小于2010年大于2000年的  
+	partition t3 values less than maxvalue ); #年份大于2010年的  
+
+2、LIST分区
+
+这种模允许系统通过预定义的列表的值来对数据进行划分，例如：
+
+    create table test(   
+    id int,   
+    area int  
+    )engine = myisam  
+    partition by list(area)(   
+    partition heilongjiang values in (1,2), #将area为1 2 的分入heilongjiang区  
+    partition beijing values in (3,4), #将area为3 4 的分入beijing区  
+    partition shanxi values in (5,6), #将area为 4 6 的分入shanxi区  
+    partition hebei values in (7,8) #将area为7 8 的分入hebei区  
+    ); 
+
+3、HASH分区
+
+这种模式允许系统通过对表的一列或多列Hash进行计算，最后通过这个Hash码不同数值对应的数据区域进行分区。例如可以通过对一个表的主键进行分区。
+
+	create table test(   
+	id int,  
+	name varchar(30)   
+	)engine=myisam  
+	partition by hash(id)  
+	partitions 10; #分几个区  
+
+4、KEY分区
+
+与HASH分区类似
+
+	create table test(   
+	id int,  
+	name varchar(30)  
+	)engine = myisam  
+	partition by linear key(id)  
+	partitions 3; #分几个区 

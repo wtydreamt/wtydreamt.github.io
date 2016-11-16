@@ -1,0 +1,44 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="shortcut icon" href="/assets/images/log.ico" type="image/x-icon"><link rel="icon" href="your_ico.ico" type="image/x-icon"><title> centos7之lamp环境搭建 !</title><meta name="description" content="#####"><link rel="canonical" href="https://wtydreamt.github.io/posts/welcome-to-wtys1123/"><link rel="alternate" type="application/rss+xml" title="TingYu Wang" href="https://wtydreamt.github.io/feed.xml"><link href='https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|Roboto+Condensed:700&subset=latin' rel='stylesheet' type='text/css'><link rel="stylesheet" href="https://wtydreamt.github.io/assets/css/main.css"><meta property="og:url" content="https://wtydreamt.github.io/posts/welcome-to-wtys1123/"><meta property="og:type" content="website"><meta property="og:title" content=" centos7之lamp环境搭建 !"><meta property="og:description" content="centos7之lamp！"><meta property="og:site_name" content="TingYu Wang"><meta name="twitter:card" content="summary"><meta name="twitter:url" content="https://wtydreamt.github.io/posts/welcome-to-wtys1123/"><meta name="twitter:title" content=" centos7之lamp环境搭建 !"><meta name="twitter:description" content="centos7之lamp！"><meta property="og:image" content="https://wtydreamt.github.io/assets/images/railss.jpg"><meta name="twitter:image" content="https://wtydreamt.github.io/assets/images/railss.jpg"><body><div id="shadow"></div><header class="main-header content-wrapper"> <input type="checkbox" id="menu-checkbox" /><nav class="center-wrapper nav-main"> <a class="blog-logo" href="/">首页</a> <a class="blog-logo" href="/posts">博客目录</a> <a class="blog-logo" href="/about">关于我</a> <label for="menu-checkbox" class="toggle-button" data-open="☰" data-close="☰" onclick></label></nav></header><aside class="sidebar" role="note" style="background-image: url(https://wtydreamt.github.io/assets/images/railss.jpg)"><div class="cover"><div class="cover-text"><div class="heading"> <a href="/posts/#服务器">服务器</a></div><p> centos7之lamp！</div></div><div id="switcher"></div></aside><main class="content-wrapper"><article class="post"><h1 class="post-title"> centos7之lamp环境搭建 !</h1><p class="post-meta"> <time datetime="2015-11-23">23-11-2015</time> &nbsp;/&nbsp; <span>redVi</span><div class="post-content"><p>#####<p>CentOS 7.0默认使用的是firewall作为防火墙。<p>1、关闭firewall：<pre><code>systemctl stop firewalld.service #停止firewall
+  
+systemctl disable firewalld.service #禁止firewall开机启动
+</code></pre><p>2、关闭SELINUX vi /etc/selinux/config<br /><pre><code>#SELINUX=enforcing #注释掉  
+SELINUX=disabled #增加  
+:wq! #保存退出  
+setenforce 0 #使配置立即生效 
+</code></pre><p>3.安装apache<pre><code>yum install httpd #根据提示，输入Y安装即可成功安装 
+
+systemctl start httpd.service #启动apache  
+
+systemctl stop httpd.service #停止apache  
+
+systemctl restart httpd.service #重启apache  
+
+systemctl enable httpd.service #设置apache开机启动  
+</code></pre><p>4.安装mariadb（mysql）<pre><code>yum install mariadb mariadb-server #询问是否要安装，输入Y即可自动安装,直到安装完成  
+
+systemctl start mariadb.service #启动MariaDB  
+
+systemctl stop mariadb.service #停止MariaDB  
+
+systemctl restart mariadb.service #重启MariaDB  
+
+systemctl enable mariadb.service #设置开机启动  
+
+
+修改mysql密码：set password for 'root'@'localhost'=password('root'); 
+
+mysql授权远程连接（navicat等）： grant all on *.* to root identified by 'root'; 
+</code></pre><p>5、安装PHP以及组件，使PHP支持 MariaDB yum install php php-mysql php-gd libjpeg* php-ldap php-odbc php-pear php-xml php-xmlrpc php-mbstring php-bcmath php-mhash<pre><code>#这里选择以上安装包进行安装，根据提示输入Y回车  
+
+systemctl restart mariadb.service #重启MariaDB 
+
+systemctl restart httpd.service #重启apache
+</code></pre><p>测试篇 cd /var/www/html<pre><code>vi index.php #输入下面内容
+
+&lt;?php
+
+phpinfo();
+
+?&gt; 
+:wq! #保存退出
+</code></pre><p>在客户端浏览器输入服务器IP地址，可以看到如下图所示相关的配置信息！ <span class="link-to-post" class="link-to-post__next"> &nbsp&nbsp&nbsp<a href="/posts/welcome-to-wty1123/">◣ 上 • centos之lnmp !</a> &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp<a href="/posts/welcome-to-1127/">下 • mysql 主从复制配置 ! ◢ </a> </span></div><div class="ds-thread content-frame" data-thread-key="/posts/welcome-to-wtys1123/" data-title=" centos7之lamp环境搭建 !" data-url="https://wtydreamt.github.io/posts/welcome-to-wtys1123/"></div>  <script type="text/javascript"> var duoshuoQuery = {short_name:"mmm"}; (function() { var ds = document.createElement('script'); ds.type = 'text/javascript';ds.async = true; ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js'; ds.charset = 'UTF-8'; (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds); })(); </script> </article></main><footer class="blog-footer content-wrapper"><p>&copy; <span class="full-year"></span> TingYu Wang</footer><script src="/assets/js/scripts.js"></script>
