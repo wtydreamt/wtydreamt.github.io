@@ -1,0 +1,77 @@
+---
+bg: "railss.jpg"
+layout: post
+title:  "js 轮播图!"
+crawlertitle: "How to use jekyll"
+summary: "js 轮播图!"
+date:   2015-11-18 12:00:47 +0700
+categories: posts
+tags: 'Javascript'
+author: redVi
+---
+
+	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+	<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+		<title>Document</title>
+	    <script>  
+	        window.onload=function(){  
+	            //获取到卷轴  
+	            var wrap=document.getElementById('wrap');  
+	              
+	            //使用定时器每个若干秒修改一次卷轴位置  
+	            setInterval(function(){  
+	                //如果当前left值已经展现到最后一张，则回到第一张图片  
+	                if(wrap.offsetLeft<=-2400){  
+	                    wrap.style.left='-600px';    //避免第一张,没有过度效果,直接从第二张图开始  
+	                }else{  
+	                wrap.style.left=wrap.offsetLeft-600+'px'  
+	            }  
+	                },2000);  
+	      
+	              
+	        }  
+	    </script> 
+		<style>     
+        *{  
+            margin: 0;  
+            padding: 0;  
+            box-sizing: border-box;  
+        }  
+            #viewPort{  
+                margin: 0 auto;       
+                width: 600px;  
+                height: 400px;  
+                border: 3px solid darkorange;  
+                overflow: hidden;    /* 图片溢出隐藏*/  
+                position: relative;  /*相对定位*/  
+                  
+              
+            }  
+            #wrap{  
+                width:3000px;   
+                height:400px;  
+                position: absolute;  
+                transition: all 1s;  /*过度效果*/  
+                  
+                -ms-transform: all 1s;   /*让IE兼容*/  
+            }  
+            img{  
+                float: left;  
+            }  
+        </style>  	    
+	</head>
+	<body>
+        <div id="viewPort">  
+            <div id="wrap">  
+                <!--要展现的图片-->  
+                <img src="imagse/1.jpg" alt="美女1" class="img"/>  
+                <img src="imagse/1.jpg" alt="美女1" class="img"/>  <!--插入两张图，避免浏览器兼容性-->  
+                <img src="imagse/2.jpg" alt="美女1" class="img"/>  
+                <img src="imagse/3.jpg" alt="美女1" class="img"/>  
+                <img src="imagse/4.jpg" alt="美女1" class="img"/>  
+            </div>  
+        </div>		
+	</body>
+	</html>

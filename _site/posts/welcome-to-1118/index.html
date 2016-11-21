@@ -1,0 +1,66 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="shortcut icon" href="/assets/images/log.ico" type="image/x-icon"><link rel="icon" href="your_ico.ico" type="image/x-icon"><title> js 轮播图!</title><meta name="description" content="&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;&lt;html xmlns="http://www.w3...."><link rel="canonical" href="https://wtydreamt.github.io/posts/welcome-to-1118/"><link rel="alternate" type="application/rss+xml" title="TingYu Wang" href="https://wtydreamt.github.io/feed.xml"><link href='https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|Roboto+Condensed:700&subset=latin' rel='stylesheet' type='text/css'><link rel="stylesheet" href="https://wtydreamt.github.io/assets/css/main.css"><meta property="og:url" content="https://wtydreamt.github.io/posts/welcome-to-1118/"><meta property="og:type" content="website"><meta property="og:title" content="js 轮播图!"><meta property="og:description" content="js 轮播图!"><meta property="og:site_name" content="TingYu Wang"><meta name="twitter:card" content="summary"><meta name="twitter:url" content="https://wtydreamt.github.io/posts/welcome-to-1118/"><meta name="twitter:title" content="js 轮播图!"><meta name="twitter:description" content="js 轮播图!"><meta property="og:image" content="https://wtydreamt.github.io/assets/images/railss.jpg"><meta name="twitter:image" content="https://wtydreamt.github.io/assets/images/railss.jpg"><body><div id="shadow"></div><header class="main-header content-wrapper"> <input type="checkbox" id="menu-checkbox" /><nav class="center-wrapper nav-main"> <a class="blog-logo" href="/">首页</a> <a class="blog-logo" href="/posts">博客目录</a> <a class="blog-logo" href="/about">关于我</a> <label for="menu-checkbox" class="toggle-button" data-open="☰" data-close="☰" onclick></label></nav></header><aside class="sidebar" role="note" style="background-image: url(https://wtydreamt.github.io/assets/images/railss.jpg)"><div class="cover"><div class="cover-text"><div class="heading"> <a href="/posts/#javascript">javascript</a></div><p> js 轮播图!</div></div><div id="switcher"></div></aside><main class="content-wrapper"><article class="post"><h1 class="post-title">js 轮播图!</h1><p class="post-meta"> <time datetime="2015-11-18">18-11-2015</time> &nbsp;/&nbsp; <span>redVi</span><div class="post-content"><pre><code>&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"&gt;
+&lt;head&gt;
+	&lt;meta http-equiv="Content-Type" content="text/html;charset=UTF-8"&gt;
+	&lt;title&gt;Document&lt;/title&gt;
+    &lt;script&gt;  
+        window.onload=function(){  
+            //获取到卷轴  
+            var wrap=document.getElementById('wrap');  
+              
+            //使用定时器每个若干秒修改一次卷轴位置  
+            setInterval(function(){  
+                //如果当前left值已经展现到最后一张，则回到第一张图片  
+                if(wrap.offsetLeft&lt;=-2400){  
+                    wrap.style.left='-600px';    //避免第一张,没有过度效果,直接从第二张图开始  
+                }else{  
+                wrap.style.left=wrap.offsetLeft-600+'px'  
+            }  
+                },2000);  
+      
+              
+        }  
+    &lt;/script&gt; 
+	&lt;style&gt;     
+    *{  
+        margin: 0;  
+        padding: 0;  
+        box-sizing: border-box;  
+    }  
+        #viewPort{  
+            margin: 0 auto;       
+            width: 600px;  
+            height: 400px;  
+            border: 3px solid darkorange;  
+            overflow: hidden;    /* 图片溢出隐藏*/  
+            position: relative;  /*相对定位*/  
+              
+          
+        }  
+        #wrap{  
+            width:3000px;   
+            height:400px;  
+            position: absolute;  
+            transition: all 1s;  /*过度效果*/  
+              
+            -ms-transform: all 1s;   /*让IE兼容*/  
+        }  
+        img{  
+            float: left;  
+        }  
+    &lt;/style&gt;  	    
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div id="viewPort"&gt;  
+        &lt;div id="wrap"&gt;  
+            &lt;!--要展现的图片--&gt;  
+            &lt;img src="imagse/1.jpg" alt="美女1" class="img"/&gt;  
+            &lt;img src="imagse/1.jpg" alt="美女1" class="img"/&gt;  &lt;!--插入两张图，避免浏览器兼容性--&gt;  
+            &lt;img src="imagse/2.jpg" alt="美女1" class="img"/&gt;  
+            &lt;img src="imagse/3.jpg" alt="美女1" class="img"/&gt;  
+            &lt;img src="imagse/4.jpg" alt="美女1" class="img"/&gt;  
+        &lt;/div&gt;  
+    &lt;/div&gt;		
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><span class="link-to-post" class="link-to-post__next"> &nbsp&nbsp&nbsp<a href="/posts/welcome-to-wty1118/">◣ 上 • excel的导入导出 !</a> &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp<a href="/posts/welcome-to-javascript1119/">下 • html5解决大文件断点续传! ◢ </a> </span></div><div class="ds-thread content-frame" data-thread-key="/posts/welcome-to-1118/" data-title="js 轮播图!" data-url="https://wtydreamt.github.io/posts/welcome-to-1118/"></div>  <script type="text/javascript"> var duoshuoQuery = {short_name:"mmm"}; (function() { var ds = document.createElement('script'); ds.type = 'text/javascript';ds.async = true; ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js'; ds.charset = 'UTF-8'; (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds); })(); </script> </article></main><footer class="blog-footer content-wrapper"><p>&copy; <span class="full-year"></span> TingYu Wang</footer><script src="/assets/js/scripts.js"></script>
