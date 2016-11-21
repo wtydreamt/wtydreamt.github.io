@@ -1,0 +1,81 @@
+---
+bg: "railss.jpg"
+layout: post
+title:  "让元素跟随鼠标移动!"
+crawlertitle: "How to use jekyll"
+summary: "---JavaScript---!"
+date:   2015-11-16 12:00:47 +0700
+categories: posts
+tags: 'Javascript'
+author: redVi
+---
+
+	<head>
+	<meta charset="UTF-8">
+	<style>
+		    .block{
+	      width:100px;
+	      height:100px;
+	      border:1px red solid;
+	      position:absolute;
+	     
+	    }
+	</style>
+	<style id="ls">
+		.block{display:none}
+	</style>
+	<script src="jquery-1.9.1.min.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function(){
+			//每当用户把鼠标移动一个像素，就会发生一个 mousemove 事件。这会耗费系统资源去处理所有这些 mousemove 事件。因此请审慎地使用该事件	
+	  $(document).mousemove(function(e){ 
+	  	//pageX获取鼠标指针的位置
+	    $("span").text("X: " + e.pageX + ", Y: " + e.pageY);
+
+	    du(e.pageX,e.pageY);
+	  });
+	});
+	function du(x,y)
+	{
+		var l=".block{left:"+x+"px;top:"+y+"px;display:block}";
+		$("#ls").text(l);
+		//$("#ls").text(l);
+	}
+	</script>
+	<div class="block">hello</div>
+	</head>
+	<body>
+	<p>鼠标指针位于： <span></span></p>
+	</body>
+	</html>
+
+获取鼠标点击事件
+
+	<!DOCTYPE html>
+	<html id="tests">
+	<head lang="en">
+	    <meta charset="UTF-8">
+	    <title></title>
+	    <script type="text/javascript">
+	       window.onload = function(){
+	           //去掉默认的contextmenu事件，否则会和右键事件同时出现。
+	           document.oncontextmenu = function(e){
+	               e.preventDefault();
+	           };
+	           document.getElementById("tests").onmousedown = function(e){
+	               if(e.button ==2){
+	                   alert("你点了右键");
+	               }else if(e.button ==0){
+	                   alert("你点了左键");
+	               }else if(e.button ==1){
+	                   alert("你点了滚轮");
+	               }
+	           }
+	       }
+	    </script>
+	</head>
+	<body>
+	 
+	<div style="width: 400px;height:400px;margin:auto;border:1px solid pink" id="test"></div>
+	</body>
+	</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="shortcut icon" href="/assets/images/log.ico" type="image/x-icon"><link rel="icon" href="your_ico.ico" type="image/x-icon"><title> 让元素跟随鼠标移动!</title><meta name="description" content="&lt;head&gt;&lt;meta charset="UTF-8"&gt;&lt;style&gt; .block{ width:100px; height:100px; border:1px red solid; position:absolute; ..."><link rel="canonical" href="https://wtydreamt.github.io/posts/welcome-to-1616/"><link rel="alternate" type="application/rss+xml" title="TingYu Wang" href="https://wtydreamt.github.io/feed.xml"><link href='https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|Roboto+Condensed:700&subset=latin' rel='stylesheet' type='text/css'><link rel="stylesheet" href="https://wtydreamt.github.io/assets/css/main.css"><meta property="og:url" content="https://wtydreamt.github.io/posts/welcome-to-1616/"><meta property="og:type" content="website"><meta property="og:title" content="让元素跟随鼠标移动!"><meta property="og:description" content="---JavaScript---!"><meta property="og:site_name" content="TingYu Wang"><meta name="twitter:card" content="summary"><meta name="twitter:url" content="https://wtydreamt.github.io/posts/welcome-to-1616/"><meta name="twitter:title" content="让元素跟随鼠标移动!"><meta name="twitter:description" content="---JavaScript---!"><meta property="og:image" content="https://wtydreamt.github.io/assets/images/railss.jpg"><meta name="twitter:image" content="https://wtydreamt.github.io/assets/images/railss.jpg"><body><div id="shadow"></div><header class="main-header content-wrapper"> <input type="checkbox" id="menu-checkbox" /><nav class="center-wrapper nav-main"> <a class="blog-logo" href="/">首页</a> <a class="blog-logo" href="/posts">博客目录</a> <a class="blog-logo" href="/about">关于我</a> <label for="menu-checkbox" class="toggle-button" data-open="☰" data-close="☰" onclick></label></nav></header><aside class="sidebar" role="note" style="background-image: url(https://wtydreamt.github.io/assets/images/railss.jpg)"><div class="cover"><div class="cover-text"><div class="heading"> <a href="/posts/#javascript">javascript</a></div><p> ---JavaScript---!</div></div><div id="switcher"></div></aside><main class="content-wrapper"><article class="post"><h1 class="post-title">让元素跟随鼠标移动!</h1><p class="post-meta"> <time datetime="2015-11-16">16-11-2015</time> &nbsp;/&nbsp; <span>redVi</span><div class="post-content"><pre><code>&lt;head&gt;
+&lt;meta charset="UTF-8"&gt;
+&lt;style&gt;
+	    .block{
+      width:100px;
+      height:100px;
+      border:1px red solid;
+      position:absolute;
+     
+    }
+&lt;/style&gt;
+&lt;style id="ls"&gt;
+	.block{display:none}
+&lt;/style&gt;
+&lt;script src="jquery-1.9.1.min.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript"&gt;
+$(document).ready(function(){
+		//每当用户把鼠标移动一个像素，就会发生一个 mousemove 事件。这会耗费系统资源去处理所有这些 mousemove 事件。因此请审慎地使用该事件	
+  $(document).mousemove(function(e){ 
+  	//pageX获取鼠标指针的位置
+    $("span").text("X: " + e.pageX + ", Y: " + e.pageY);
+
+    du(e.pageX,e.pageY);
+  });
+});
+function du(x,y)
+{
+	var l=".block{left:"+x+"px;top:"+y+"px;display:block}";
+	$("#ls").text(l);
+	//$("#ls").text(l);
+}
+&lt;/script&gt;
+&lt;div class="block"&gt;hello&lt;/div&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;p&gt;鼠标指针位于： &lt;span&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>获取鼠标点击事件<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html id="tests"&gt;
+&lt;head lang="en"&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;&lt;/title&gt;
+    &lt;script type="text/javascript"&gt;
+       window.onload = function(){
+           //去掉默认的contextmenu事件，否则会和右键事件同时出现。
+           document.oncontextmenu = function(e){
+               e.preventDefault();
+           };
+           document.getElementById("tests").onmousedown = function(e){
+               if(e.button ==2){
+                   alert("你点了右键");
+               }else if(e.button ==0){
+                   alert("你点了左键");
+               }else if(e.button ==1){
+                   alert("你点了滚轮");
+               }
+           }
+       }
+    &lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+ 
+&lt;div style="width: 400px;height:400px;margin:auto;border:1px solid pink" id="test"&gt;&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><span class="link-to-post" class="link-to-post__next"> &nbsp&nbsp&nbsp<a href="/posts/welcome-to-wty1114/">◣ 上 • rsync 文件同步!</a> &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp<a href="/posts/welcome-to-1117/">下 • js烟花特效! ◢ </a> </span></div><div class="ds-thread content-frame" data-thread-key="/posts/welcome-to-1616/" data-title="让元素跟随鼠标移动!" data-url="https://wtydreamt.github.io/posts/welcome-to-1616/"></div>  <script type="text/javascript"> var duoshuoQuery = {short_name:"mmm"}; (function() { var ds = document.createElement('script'); ds.type = 'text/javascript';ds.async = true; ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js'; ds.charset = 'UTF-8'; (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds); })(); </script> </article></main><footer class="blog-footer content-wrapper"><p>&copy; <span class="full-year"></span> TingYu Wang</footer><script src="/assets/js/scripts.js"></script>
