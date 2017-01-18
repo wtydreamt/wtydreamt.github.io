@@ -1,0 +1,383 @@
+---
+bg: "railss.jpg"
+layout: post
+title:  "php 面试心德"
+crawlertitle: "How to use jekyll"
+summary: "php"
+date:   2015-12-29 12:00:47 +0700
+categories: posts
+tags: 'php'
+author: redVi
+---
+
+####PHP基础
+
+	1：变量的传值与引用。
+	2：变量的类型转换和判断类型方法。
+	3：php运算符优先级，一般是写出运算符的运算结果。
+	4：PHP中函数传参，闭包，判断输出的echo，print是不是函数等。
+	5：PHP数组，数组函数，数组遍历，预定义数组（面试必出）。
+	6：PHP面向对象，魔术方法，封装、继承、多态。设计模式，
+	   包括（单利、工厂、迭代器、装饰、命令、策略）。
+	7：正则表达式，每个标号含义，邮箱、网址、标签匹配，正则函数（面试必出）。
+	8：PHP异常处理（级别，错误日志，控制错误输出）。
+	9：PHP时间函数，日期计算函数。
+	10：文件系统，记录日志、目录、文件的遍历、上传、多方法
+	   得到文件扩展名、文件引用方式、引用函数区别。（面试必出）。
+	11：会话控制，主要说原理。session与cookie在分布式应用中
+	   出现问题的解决方案。
+	12：PHP模板引擎，常用模板引擎特点，MVC好与不好的地方。
+	13：PHP安全处理，过滤函数。
+	14：XML的使用。
+	15：PHP字符串的处理，包括转义（安全）、编码、截取、定位
+	   、与数组间的转换、处理函数等。（面试必出）。
+	16：Socket编程，各种协议，head头，curl参数含义。
+	17：网络状态码含义，常用（204，304, 404, 504，502）。
+	18：Apache配置文件，PHP配置文件，各个含义字段的含义。
+	19：网络各种攻击的名词含义（SQL攻击、XSS、CSRF、DDos），防止措施。
+	20：url的处理函数，得到url指定的部分。
+
+####Mysql基础
+
+	1：基础sql语句书写（一般让写关联和子查询语句）
+	2：索引的创建，优缺点，最左原则
+	3：存储引擎，常用的几个，优缺点，差别，原理（面试必出）
+	4：sql注入的处理方法
+	5：mysql处理函数（PHP中封装的）
+	6：PDO的使用方法，为什么使用
+	7：mysql的优化，表拆分等
+	8：事务处理，sql语句的处理效率等
+	9：数据表字段的类型，同类型间的区别，改如何选取，int(10)与int(11)的区别等。
+	10：数据库索引使用的那种数据结构，画出数据结构
+
+####Linux
+
+	1：常用命令的使用，vim编辑器的使用。
+	2：进程，cpu等信息的查看命令。
+	3：文件内查看命令（主要涉及统计信息）。
+	4：Shell的使用，命令操作。
+
+####NoSql
+
+	1：Redis的应用场景，结合微博业务说出他的具体应用。
+	2：Redis与MC支持数据的不同点，两者都支持哪些数据结
+	   构的存储，写越多越好。
+	3：Redis持久化存储的原理，与Mysql的应用区别。怎样保
+	   持持久化数据与内存数据同步的关系（Redis同步机制）
+	4：Redis与MC在并发状态下的性能比较。
+	5：MC的内存管理机制，当一个数据需要存储的时候怎样分配内存空间
+	6：Redis的内存管理机制，与MC有哪些不同点。
+
+####版本控制
+
+	1：git的使用命令，例如：写出版本回退命令。
+	2：git与svn的区别。
+	3：如何进行多分支开发，包括多人开发协同，分段测试，上线。
+
+![](/assets/images/621032-20160301121241205-53185324.png)
+
+####php部分我是按照面试常问的问题总结的，下面的问题在面试中出场率很高。问题比较基础
+
+	作用：Keep-Alive：使客户端到服务器端的连接持续有效，当出现对服务器的后继请求时，Keep-Alive功能避免了建立或者重新建立连接。Web服务器，基本上都支持HTTP Keep-Alive。
+
+	缺点：对于提供静态内容的网站来说，这个功能通常很有用。但是，对于负担较重的网站来说，
+	虽然为客户保留打开的连 接有一定的好处，但它同样影响了性能，因为在处理暂停期间，本来
+	可以释放的资源仍旧被占用。当Web服务器和应用服务器在同一台机器上运行时，
+	Keep- Alive功能对资源利用的影响尤其突出。
+
+	解决：Keep-Alive: timeout=5, max=100
+	timeout：过期时间5秒（对应httpd.conf里的参数是：KeepAliveTimeout），
+	max是最多一百次请求，强制断掉连接。就是在timeout时间内又有新的连接过来，
+	同时max会自动减1，直到为0，强制断掉。
+
+####一、数组操作的基本函数
+
+	1 array_values($arr);       //获得数组的值
+	2 array_keys($arr);         //获得数组的键名
+	3 array_flip($arr);         //数组中的值与键名互换（如果有重复前面的会被后面的覆盖）
+	4 array_search('PHP',$arr); //检索给定的值，加true则是严格类型检查
+	5 array_reverse($arr);      //将数组中的元素翻转
+	6 in_array("apple", $arr);  //在数组中检索apple
+	7 array_key_exists("apple", $arr); // 检索给定的键名是否存在数组中
+	8 array_count_values($arr);        // 统计数组中所有值出现的次数
+
+####二、数组的分段和填充 
+
+1 array_slice($arr, 0, 3);    //将数组中的一段取出，此函数忽略键名（数组的分段）
+2 array_splice($arr, 0, 3，array("black","maroon"));    //将数组中的一段取出，返回的序列从原数组中删除
+3 array_chunk($arr, 3, TRUE);   //将一个数组分割成多个，TRUE为保留原数组的键名（分割多个数组）
+
+####四、数组与栈，列队
+
+	1 array_push($arr, "apple", "pear");    //将一个或多个元素压入数组栈的末尾（入栈），返回入栈元素的个数
+	2 array_pop($arr);      // 将数组栈的最后一个元素弹出（出栈）
+	3 array_shift($arr);    //数组中第一个元素移出并返回（长度减1，其他元素向前移动一位，
+							数字键名改为从零计数，文字键名不变）
+	4 array_unshift($arr,"a",array(1,2));  //在数组的开头插入一个或多个元素
+
+####六、数组的排序
+
+	1 sort($arr);       //由小到大，忽略键名       
+	2 rsort($arr);      //由大到小，忽略键名
+	3 asort($arr);     //由小到大，保留键名       
+	4 arsort($arr);    // 由大到小，保留键名
+	5 ksort($arr);     //按照键名正序排序           
+	6 krsort($arr);   // 按照键名逆序排序
+
+####七、数组的计算
+
+	1 array_sum($arr);   //对数组内部的所有元素做求和运算（数组元素的求和）
+	2 array_merge($arr1, $arr2); //合并两个或多个（相同字符串键名，后面覆盖前面，相同的数字键名，后面的附加到后面）
+	3  
+	4 array_diff($arr1, $arr2);           //返回差集结果数组   array_diff_assoc($arr1, $arr2, $arr3);  //
+	                                      返回差集结果数组，键名也做比较
+	5 array_intersect($arr1, $arr2);      //返回交集结果数组    array_intersect_assoc($arr1, $arr2);   
+	                                      //返回交集结果数组，键名也做比较 
+
+####八、其他的数组函数
+
+	1 array_unique($arr);   //移除数组中重复的值，新的数组中会保留原始的键名
+	2 shuffle($arr);             // 将数组的顺序打乱
+
+####PHP中几个输出函数echo，print()，print_r()，sprintf()，var_dump()的区别
+
+	1：echo：是语句不是函数，没有返回值，可输出多个变量值，不需要圆括号。
+	   不能输出数组和对象，只能打印简单类型(如int,string)。
+
+	2：print：是语句不是函数，有返回值 1 ，只能输出一个变量，不需要圆括
+	   号。不能输出数组和对象，只能打印简单类型(如int,string)。
+
+	3：print_r：是函数，可以打印复合类型，例如：stirng、int、float、
+	   array、object等，输出array时会用结构表示，而且可以通过print_r($str,true)
+	   来使print_r不输出而返回print_r处理后的值
+
+	4：printf：是函数，把文字格式化以后输出（参看C语言）
+
+	5：sprintf：是函数，跟printf相似，但不打印，而是返回格式化后的文字
+	  （该函数把格式化的字符串写写入一个变量中，而不是输出来），其    他的与printf一样。
+
+####例如：  
+
+	1 $str = "Hello";    
+	2 $number = 123; 
+	3 $txt = sprintf("%s world. Day number %u",$str,$number)；
+	4 //输出： Hello world. Day number 123 
+
+####不用新变量直接交换现有两个变量的值
+
+        1： 
+	        list($a, $b) = array($b, $a);
+	    2： 
+	        $a = $a . $b;
+	        $b = strlen( $b );
+	        $b = substr( $a, 0, (strlen($a) – $b ) );
+	        $a = substr( $a, strlen($b) );
+	    
+	    3:(必须用一个两个字符串都都不能出现的字符做为分隔符)
+	        $a = $b.','.$a ;
+	        $a = explode(',', $a);
+	        $b = $a[1];
+	        $a = $a[0];
+	    
+	    4：这个是当两个数都是数字的时候:
+	        $a = $a + $b;
+	        $b = $a – $b;
+	        $a = $a – $b;
+	    
+	    5：借助数组
+	        $a = array($a,$b);
+	        $b = $a[0];
+	        $a = $a[1];
+
+####写个函数来解决多线程同时读写一个文件的问题。
+
+	   <?php
+       $fp = fopen("/tmp/lock.txt","w+");
+	       if(flock($fp, LOCK_EX)){// 进行排它型锁定
+	           fwrite($fp,"Write something here\n");
+	           flock($fp, LOCK_UN);// 释放锁定
+	       }else{
+	           echo "Couldn't lock the file !";
+	       }
+	       fclose($fp);
+	   ?>
+
+####禁掉cookie的session使用方案，设置session过期的方法，对应函数：
+通过 url 传值，把session id附加到url上（缺点：整个站点中不能有纯静态页面，
+因为纯静态页面session id 将无法继续传到下一页面）
+通过隐藏表单，把session id 放到表单的隐藏文本框中同表单一块提交过去
+（缺点：不适用<a>标签这种直接跳转的非表单的情况）
+直接配置php.ini文件,将php.ini文件里的session.use_trans_sid= 0设为1,（好像在win上不支持）
+用文件、数据库等形式保存Session ID，在跨页过程中手动调用
+
+	 第一种  setcookie() 直接用setcookie设置session id的生命周期。
+	     $lifetime=60; //保存1分钟 
+	     session_start(); 
+	     setcookie(session_name(), session_id(), time()+$lifetime, "/");
+	 第二种  session_set_cookie_params()    
+	     $lifetime=60;//保存1分钟
+	     session_set_cookie_params($lifetime);
+	     session_start();
+	     session_regenerate_id(true);
+	     其中session_regenerate_id();方法用于改变当前session_id的值，并保留session中数组的值。参数默认为 false,如果设置为true则改变session_id的值，并清空当前session数组。
+
+
+####strlen()与mb_strlen的作用与区别
+
+	在PHP中，strlen与mb_strlen是求字符串长度的函数
+	PHP内置的字符串长度函数strlen无法正确处理中文字符串，它得到的只是字符串所占的字节数。
+	对于GB2312的中文编码，strlen得到的值是汉字个数的2倍，而对于UTF-8编码的中文，
+	就是3倍（在 UTF-8编码下，一个汉字占3个字节）。
+	 
+	采用mb_strlen函数可以较好地解决这个问题。mb_strlen的用法和strlen类似，
+	只不过它有第二个可选参数用于指定字符编码。例如得到UTF-8的字符串$str长度，
+	可以用 mb_strlen($str,'UTF-8')。如果省略第二个参数，则会使用PHP的内部编码。
+	内部编码可以通过 mb_internal_encoding()函数得到。
+
+	需要注意的是，mb_strlen并不是PHP核心函数，
+	使用前需要确保在php.ini中加载了php_mbstring.dll，即确保“extension=php_mbstring.dll”这一行存在并且没有被注释掉，否则会出现未定义函 数的问题。
+	 
+	写一个函数，尽可能高效的从一个标准url中取出扩展名
+	$arr = parse_url('http://www.sina.com.cn/abc/de/fg.php?id=1');
+	 
+	$result = pathinfo($arr['path']);var_dump($arr);
+	 
+	var_dump($result['extension']);
+
+
+####php.ini 中safe mod关闭 影响哪些函数和参数，至少写6个？
+
+	move_uploaded_file()                  exec()
+	system()                              passthru()
+	popen()                               fopen()
+	mkdir()                               rmdir()
+	rename()                              unlink()
+	copy()                                chgrp()
+	chown()                               chmod()
+	touch()                               symlink()
+	link()                                parse_ini_file()
+	set_time_limit()                      max_execution_time mail()
+
+####isset() 、empty()与is_null的区别
+
+	1、当变量未定义时，is_null() 和“参数本身”是不允许作为参数判断的，会报Notice警告错误；
+
+	2、empty , isset首先都会检查变量是否存在，然后对变量值进行检测。而is_null 和 “参数本身”只是直接检查变量值，是否为null，因此如果变量未定义就会出现错误！
+
+	3、isset()：仅当null和未定义，返回false；
+
+	4、empty()：""、0、"0"、NULL、FALSE、array(),未定义，均返回true；
+
+	5、is_null()：仅判断是否为null，未定义报警告；
+
+	6、变量本身作为参数，与empty()一致，但接受未定义变量时，报警告；
+
+####求两个文件的相对路径
+
+	  getpath('/a/b/c/d/e.php', '/a/d/12/34/c.php');
+	   
+	 public function getpath($a, $b)
+	 {
+	      $aarr = explode('/', $a);
+	      $barr = explode('/', $b);
+	      $count = count($barr) - 2;
+	     $pathinfo = '';
+	      for($i = 1; $i <= $count; $i++){
+	          if($aarr[$i] == $barr[$i]){
+	               $pathinfo .= '../';
+	          }else{
+	               $pathinfo .= $barr[$i] . '/';
+	          }
+	      }
+	      echo $pathinfo;
+	 }
+
+####MVC的优缺点
+
+	1、 MVC的优点 
+	      　　（1） 可以为一个模型在运行时同时建立和使用多个视图。
+	      			变化-传播机制可以确保所有相关的视图及时得到模型数据变化，
+	      			从而使所有关联的视图和控制器做到行为同步。 
+	      　　（2） 视图与控制器的可接插性，允许更换视图和控制器对象，
+			        而且可以根据需求动态的打开或关闭、
+			        甚至在运行期间进行对象替换。 
+	      　　（3） 模型的可移植性。因为模型是独立于视图的，所以可以把一个
+			        模型独立地移植到新的平台工作。需要做的只是在新平
+			        台上对视图和控制器进行新的修改。 
+	      　　（4） 潜在的框架结构。可以基于此模型建立应用程序框架，
+	                不仅仅是用在设计界面的设计中。 
+	2、 MVC的不足之处 
+	      　　（1） 增加了系统结构和实现的复杂性。对于简单的界面，
+			        严格遵循MVC，使模型、视图与控制器分离，会增加结构的复杂性，
+			        并可能产生过多的更新操作，降低运行效率。 
+	      　　（2） 视图与控制器间的过于紧密的连接。视图与控制器是相互分离，
+	                但确实联系紧密的部件，视图没有控制器的存在，其应用是很有限的，
+	                反之亦然，这样就妨碍了他们的独立重用。 
+	      　　（3） 视图对模型数据的低效率访问。依据模型操作接口的不同，
+			        视图可能需要多次调用才能获得足够的显示数据。
+			        对未变化数据的不必要的频繁访问，也将损害操作性能。 
+	      　　（4） 目前，一般高级的界面工具或构造器不支持MVC模式。
+	                改造这些工具以适应MVC需要和建立分离的部件的代价是很高的，
+	                从而造成使用MVC的困难。 
+ 
+ 
+ ####session与cookie的联系和区别（运行机制），session共享问题解决方案：
+
+	区别与联系：
+	    使用session_start()调用session，
+	    服务器端在生成session文件的同时生成session ID哈希值和默认值为PHPSESSID的session name，
+	    并向客户端发送变量为PHPSESSID(session name)(默认)值为一个128位的哈希值。
+	    服务器端将通过该cookie与客户端进行交互，
+	    session变量的值经php内部系列化后保存在服务器 机器上的文本文件中，
+	    和客户端的变量名默认情况下为PHPSESSID的coolie进行对应交互，
+	    即服务器自动发送了http 头:header(‘Set-Cookie: session_name()=session_id(); path=/’);
+	    即setcookie(session_name(),session_id());当从该页跳转到的新页面并调用 session_start()后,PHP将检查与给定ID相关联的服务器端存贮的session数据，如果没找到则新建一个数据集。
+
+	共享方案：
+	1：使用数据库保存session， 使用数据库来保存session，
+	   就算服务器宕机了也没事，session照样在。
+
+	问题：程序需要定制；每次请求都进行数据库读写开销不小，
+	      另外数据库是一个单点，可以做数据库的hash来解 决这个问题。       
+
+	2：使用 memcached来保存session， 这种方式跟数据库类似，
+	   内存存取性能比数据库好很多。
+
+	问题：程序需要定制，增加 了工作量；
+	存入memcached中的数据都需要序列化，效率较低，断电或者重启电脑容易丢失数据；
+
+	3： 通过加密的cookie，在A服务器上登录，
+	在用户的浏览器上添加加密的cookie，当用户访问B服务器时，检查有无Session，如果没有，就检验 Cookie是否有效，Cookie有效的话就在B服务器上重建session。简单，高效， 服务器的压力减小了，因为session数据不存在服务器磁盘上。根本就不会出现session读取不到的问题。
+
+	问题：网络请求占用很多。每次请求时，客户端都要通过cookie发送session数据给服务器，
+	session中数据不能太多，浏览器对cookie 的大
+
+	小存在限制。不适合高访问量的情况，因为高访问量的情况下。
+
+ 
+####正则表达式
+
+	匹配中文字符的正则表达式： [\u4e00-\u9fa5] 
+	匹配双字节字符(包括汉字在内)：[^\x00-\xff] 
+	匹配空行的正则表达式：\n[\s| ]*\r 
+	匹配HTML标记的正则表达式：/<(.*)>.*<\/\1>|<(.*) \/>/ 
+	匹配首尾空格的正则表达式：(^\s*)|(\s*$) 
+	匹配Email地址的正则表达式：\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)* 
+	匹配网址URL的正则表达式：^[a-zA-z]+://(\\w+(-\\w+)*)(\\.(\\w+(-\\w+)*))*(\\?\\S*)?$ 
+	匹配帐号是否合法(字母开头，允许5-16字节，允许字母数字下划线)：^[a-zA-Z][a-zA-Z0-9_]{4,15}$ 
+	匹配国内电话号码：(\d{3}-|\d{4}-)?(\d{8}|\d{7})? 
+	匹配腾讯QQ号：^[1-9]*[1-9][0-9]*$ 
+
+####Memcache和Redis区别
+
+    Redis中，并不是所有的数据都一直存储在内存中的，这是和Memcached相比一个最大的区别。
+    Redis在很多方面具备数据库的特征，或者说就是一个数据库系统，
+    而Memcached只是简单的K/V缓存。
+    他们的扩展都需要做集群；实现方式：master-slave、Hash。
+    在100k以上的数据中，Memcached性能要高于Redis。
+    如果要说内存使用效率，使用简单的key-value存储的话，Memcached的内存利用率更高，
+    而如果Redis采用hash结构来做key-value存储，由于其组合式的压缩，其内存利用率会高于Memcached。
+    当然，这和你的应用场景和数据特性有关。
+    如果你对数据持久化和数据同步有所要求，那么推荐你选择Redis，因为这两个特性Memcached都不具备。
+    即使你只是希望在升级或者重启系统后缓存数据不会丢失，选择Redis也是明智的。
+    Redis和Memcache在写入性能上面差别不大，读取性能上面尤其是批量读取性能上面Memcache更强

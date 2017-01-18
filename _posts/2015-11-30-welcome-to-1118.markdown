@@ -1,0 +1,43 @@
+---
+bg: "railss.jpg"
+layout: post
+title:  "监控一段时间没输入可用于简单的输入完成"
+crawlertitle: "How to use jekyll"
+summary: "监控一段时间没输入可用于简单的输入完成"
+date:   2015-11-30 12:00:47 +0700
+categories: posts
+tags: 'jquery'
+author: redVi
+---
+
+	<!DOCTYPE html>
+	<html>
+	<head>
+	<script src="http://apps.bdimg.com/libs/jquery/1.6.4/jquery.js"></script>
+	<script>
+	  var lastTime;
+	  $(function(){
+	  $('#text1').keyup(function (e) {
+	    lastTime = e.timeStamp;
+	      setTimeout(function () {
+	        if (lastTime - e.timeStamp == 0) {
+	                      alert("1秒内没再输入，可以发送查询");
+	        }
+	      }, 1000);
+	        });
+	    })
+	</script>
+	</head>
+	<body>
+	<input id="text1" type="text"  value="" />
+	</body>
+	</html>
+
+####原理
+
+	就是这样一段精简的代码。其原理可简述如下：
+
+	用户每一次按下键盘，都记录当前的时间，然后再1秒后再判断一下时间。
+
+	lastTime由于是全局变量，所以当用户在输入的时候，lastTime是一直在变化的，所以一秒后再用lastTime-e.timeStamp，只有最后按下的e.timeStamp那一次才会为0。
+	
