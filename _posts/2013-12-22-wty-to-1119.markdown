@@ -1,0 +1,123 @@
+---
+bg: "railss.jpg"
+layout: post
+title:  "php实体基类"
+crawlertitle: "How to use jekyll"
+summary: "php"
+date:   2015-12-29 12:00:47 +0700
+categories: posts
+tags: 'php'
+author: redVi
+---
+
+####PHP  base
+
+	class BaseModel
+	    {
+	        private $tableName;
+	        private $fields=array();
+	        function __construct()
+	        {
+	            $this->tableName=rtrim(get_class($this),'M');
+	        }
+	        function __get($n)
+	        {
+	            return($this->$n);
+	        }
+	        function __set($n, $value)
+	        {
+	            $this->$n = $value;
+	            $this->fields[$n]=$value;
+	        }
+
+	        function Add()
+	        {
+	            $f='';
+	            $f1='';
+	            $arrKeys=array_keys($this->fields);
+	            foreach($arrKeys as $row)
+	            {
+	                $f.=$row.',';
+	                $f1.=':'.$row.',';
+	            }
+	            $f=rtrim($f,',');
+	            $f1=rtrim($f1,',');
+	            $sql='insert into '.$this->tableName.'('.$f.') values('.$f1.')';
+	            //echo $sql;
+	            global $dbh;
+	            return $dbh->edit($sql,$this->fields);
+	        }
+
+	        function Update($sql_where,$params=array())
+	        {
+	            $f='';
+	            $f1='';
+	            $arrKeys=array_keys($this->fields);        
+	            foreach($arrKeys as $row)
+	            {
+	                $f.=$row.'=:'.$row.',';
+	            }
+	            $f=rtrim($f,',');
+	            $sql='update '.$this->tableName.' set '.$f.' where '.$sql_where;
+	            
+	            $arrKeys1=array_keys($params);
+	            foreach($arrKeys1 as $row)
+	            {
+	                $this->fields[$row]=$params[$row];
+	            }
+	            
+	            global $dbh;
+	            return $dbh->Edit($sql,$this->fields);
+	        }
+	        
+	        function Delete($sql_where,$params=array())
+	        {
+	            $sql='delete from '.$this->tableName.' where '.$sql_where;
+	            //echo $sql;
+	            
+	            global $dbh;
+	            return $dbh->Edit($sql,$params);
+	        }
+
+	    }
+
+####实体层
+
+	class proM extends BaseModel
+	{
+	    private $proName;
+	    private $proDetail;
+	    private $proPic;
+	    private $proPic1;
+	    private $proAttr;
+	    private $proTaxis;
+	    private $proIsHome;
+	    private $proIsTJ;
+	    private $proIsCTJ;
+	    private $proIsDel;
+	    private $proAddTime;
+	    private $proisHot;
+	    private $proisPorClass;
+	    private $proisYN;
+	    private $proGL;
+	    private $proSeoT;
+	    private $proSeoK;
+	    private $proSeoD;
+	    private $proBH;
+	    private $FK_proClass;
+	    private $proModel;
+	    private $proPrice;
+	    private $proDiscount;
+	    private $proHit;
+	    private $proURL;
+	    private $proisKdWords;
+	    private $proisKdDone;
+	    private $proFL;
+	}	
+
+####
+
+	$m=new proM();
+	$m->proName='代码';
+	$m->proDetail='php开发';
+	$m->Update('proID=:proID',array(proID=>1));
